@@ -29,7 +29,7 @@ export const WebSocketForm = ({
 
 		return () => {
 			if (ws.current) {
-				ws.current.removeEventListener('message', (event: any) => {
+				ws.current.removeEventListener('message', (event: WebSocketMessageEvent) => {
 					console.log(event)
 				})
 				ws.current = undefined
@@ -41,6 +41,13 @@ export const WebSocketForm = ({
 		setValue(e.target.value)
 	}
 
+	const onSubmitError = (message: string | ErrorEvent) => {
+		if (errorCallback) {
+			errorCallback()
+		}
+		console.error(message)
+	}
+
 	const tryToSendValue = (ws: WebSocket, wsData: TWSData) => {
 
 		try {
@@ -49,8 +56,7 @@ export const WebSocketForm = ({
 			setValue('')
 			successCallback(wsData)
 		} catch (error) {
-			// TODO add error handling
-			console.log(error) // catch error
+			onSubmitError(error)
 		}
 	}
 
@@ -67,10 +73,7 @@ export const WebSocketForm = ({
 			if (ws.current) {
 				tryToSendValue(ws.current, wsData);
 			} else {
-				if (errorCallback) {
-					errorCallback()
-				}
-				console.error('websocket is not initialized')
+				onSubmitError('websocket is not initialized')
 			}
 		} else {
 			alert('input cannot be empty')
