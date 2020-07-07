@@ -1,10 +1,12 @@
 export type TUserMessageDto = {
 	name: string
-	timePostedTimestamp: number // ms
+	timestamp: number // ms
 	message: string
 }
 
 export type TWSData = {
-	type: 'register' | 'message'
+	id: string,
+	type: 'register' | 'message' | 'join'
 	value: string,
+	timestamp: number,
 }

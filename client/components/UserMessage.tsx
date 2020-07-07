@@ -8,10 +8,10 @@ import { format } from 'date-fns'
 
 export const UserMessage = ({
 	name,
-	timePostedTimestamp,
+	timestamp,
 	message
 }: TUserMessageDto) => {
-	const timePretty = format(timePostedTimestamp, 'HH:MM')
+	const timePretty = format(timestamp, 'HH:MM')
 
 	return (
 		<Spacer right={THEME.sizes.tabChatRightSpacingCompensation}>

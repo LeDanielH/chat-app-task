@@ -9,12 +9,12 @@ export const MessagesList = () => {
 		<List>
 			{DUMMY_POSTS.map((post: TUserMessageDto) => (
 				<ListItem
-					key={`${post.name}-${post.timePostedTimestamp}`}
+					key={`${post.name}-${post.timestamp}`}
 					withBottomSpacing
 				>
 					<UserMessage
 						name={post.name}
-						timePostedTimestamp={post.timePostedTimestamp}
+						timestamp={post.timestamp}
 						message={post.message}
 					/>
 				</ListItem>
