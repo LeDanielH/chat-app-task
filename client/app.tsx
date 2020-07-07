@@ -9,7 +9,7 @@ import { APP_ROOT_ID } from './constants'
 
 store.subscribe(
 	_throttle(() => {
-		const { messages, users } = store.getState();
+		const { messages = [], users = [] } = store.getState();
 		ReduxPersist.saveState({
 			messages,
 			users,
