@@ -1,8 +1,15 @@
 import type { WebSocket } from './deps.ts'
 
+export enum TWSActionEnum {
+	message = 'message',
+	register = 'register',
+	join = 'join',
+	leave = 'leave',
+}
+
 export type TWSData = {
-	id: string,
-	type: 'register' | 'message' | 'join'
+	id: string, // users and its messages will be matched by id
+	type: TWSActionEnum,
 	value: string,
 	timestamp: number,
 }
