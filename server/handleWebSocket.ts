@@ -1,6 +1,6 @@
-import { isWebSocketCloseEvent, WebSocket, dateFns } from './deps.ts'
-import { broadCastEvents } from './broadCastEvents.ts'
-import { TConnection, TWSData } from "./types.ts";
+import {dateFns, isWebSocketCloseEvent, WebSocket} from './deps.ts'
+import {broadCastEvents} from './broadCastEvents.ts'
+import {TConnection, TWSActionEnum, TWSData} from "./types.ts";
 
 export const handleWebSocket = (connections: Array<TConnection>) => async(ws: WebSocket) => {
 	console.log('websocket connection established')
@@ -11,17 +11,29 @@ export const handleWebSocket = (connections: Array<TConnection>) => async(ws: We
 			const data: TWSData = JSON.parse(event)
 			const timestamp = dateFns.getTime(Date.now());
 
-			if(data.type === 'register') {
-				connections.push({
+			if(data.type === TWSActionEnum.register) {
+				const registeredUserConnection: TConnection = {
 					id: `${timestamp}`, // TODO replace with uuid
 					value: data.value,
 					ws,
 					timestamp,
-				})
-				ws.send(`${data.value} you are registered`)
+				}
+
+				connections.push(registeredUserConnection)
+
+				const registeredUserData: TWSData = {
+					id: `${timestamp}`, // TODO replace with uuid,
+					type: data.type,
+					value: data.value,
+					timestamp,
+				}
+
+				const registeredUserString = JSON.stringify(registeredUserData);
+				ws.send(registeredUserString) // registered
+
 				const userJoinedData: TWSData = {
 					id: `${timestamp}`, // TODO replace with uuid
-					type: 'join',
+					type: TWSActionEnum.join,
 					value: data.value,
 					timestamp,
 				}
