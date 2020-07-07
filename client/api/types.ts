@@ -3,3 +3,8 @@ export type TUserMessageDto = {
 	timePostedTimestamp: number // ms
 	message: string
 }
+
+export type TWSData = {
+	type: 'register' | 'message'
+	value: string,
+}

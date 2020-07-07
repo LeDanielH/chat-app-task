@@ -1,11 +1,13 @@
 import React, { FormEvent, useEffect, useState, useRef } from 'react'
 import { Heading, InputStyled } from './styled'
+import type { TWSData } from '../api/types'
 
 type TWebSocketForm = {
-	inputName: string
+	inputName: TWSData['type'],
 	placeholder: string
 	successCallback: (value: string) => void
-	errorCallback?: () => void
+	errorCallback?: () => void,
+	dataToSend: WebSocketMessageEvent
 }
 export const WebSocketForm = ({
 	inputName,
@@ -13,7 +15,7 @@ export const WebSocketForm = ({
 	successCallback,
 	errorCallback
 }: TWebSocketForm) => {
-	const [message, setMessage] = useState<string>('')
+	const [value, setValue] = useState<string>('')
 	const ws = useRef<WebSocket>()
 
 	useEffect(() => {
@@ -36,16 +38,22 @@ export const WebSocketForm = ({
 	}, [ws])
 
 	const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setMessage(e.target.value)
+		setValue(e.target.value)
 	}
 
 	const onSubmit = (e: FormEvent<HTMLFormElement>) => {
-		if (message.length > 0) {
-			const messageTrimmed = message.trim()
+		if (value.length > 0) {
+			const valueTrimmed = value.trim()
+			const wsData: TWSData = {
+				type: inputName,
+				value: valueTrimmed,
+			}
+
 			if (ws.current) {
-				ws.current.send(messageTrimmed)
-				setMessage('')
-				successCallback(messageTrimmed)
+				const wsDataString = JSON.stringify(wsData)
+				ws.current.send(wsDataString)
+				setValue('')
+				successCallback(valueTrimmed)
 			} else {
 				if (errorCallback) {
 					errorCallback()
@@ -69,7 +77,7 @@ export const WebSocketForm = ({
 				id={inputName}
 				onChange={handleOnChange}
 				placeholder={placeholder}
-				value={message}
+				value={value}
 			/>
 		</form>
 	)
