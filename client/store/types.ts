@@ -1,14 +1,17 @@
-import { ThunkDispatch } from 'redux-thunk'
+import { TWSData } from '../api/types'
 
-export type Action =
-	| { type: 'DOWNLOAD_CONFIG' }
-	| { type: 'DOWNLOAD_CONFIG_PENDING' }
-	| { type: 'DOWNLOAD_CONFIG_FULFILLED' }
-	| { type: 'DOWNLOAD_CONFIG_REJECTED' }
+export type TMessageUpdatePayload = { data: TWSData, index: number }
 
-export interface AppState {
-	isFetching?: boolean
-	error?: string
+export type TAction =
+	| { type: 'USER_JOINED', payload: TWSData }
+	| { type: 'USER_REGISTERED', payload: TWSData }
+	| { type: 'USER_LEFT', payload: number }
+	| { type: 'MESSAGE_RECEIVED', payload: TWSData }
+	| { type: 'MESSAGE_SENT', payload: TWSData }
+	| { type: 'MESSAGE_UPDATED', payload: TMessageUpdatePayload }
+
+export interface TAppState {
+	messages: Array<TWSData>,
+	users: Array<TWSData>,
 }
 
-export type ExchangeThunkDispatch = ThunkDispatch<AppState, undefined, Action>

@@ -7,12 +7,13 @@ export type TUserMessageDto = {
 export enum TWSActionType {
 	message = 'message',
 	register = 'register',
-	join = 'join'
+	join = 'join',
+	leave = 'leave',
 }
 
 export type TWSData = {
-	id: string,
+	id: string, // users and its messages will be matched by id
 	type: TWSActionType,
 	value: string,
-	timestamp: number,
+	timestamp: number, // message to be edited will be matched by timestamp and first user
 }
