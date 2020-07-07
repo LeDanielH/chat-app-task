@@ -1,8 +1,7 @@
 import * as React from 'react'
 import styled, { CSSObject } from 'styled-components'
-import { padding, margin, position } from 'polished'
+import { padding, margin } from 'polished'
 
-import { SimpleWrapper } from '@householdjs/elements'
 import {
 	Spacing,
 	multiplyStringValue,
@@ -51,7 +50,7 @@ export const ListItem = styled('li')<TListItemProps>(
 			: {}),
 		...(withBottomSpacing
 			? {
-					marginBottom: Spacing.big
+					marginBottom: Spacing.default
 			  }
 			: {
 					marginBottom: 0
@@ -83,7 +82,8 @@ export const getTypographyProps = ({
 		: {}),
 	...(withBottomSpacing
 		? {
-				marginBottom: Spacing.default
+				marginBottom: Spacing.default,
+				display: 'block'
 		  }
 		: {})
 })
@@ -105,38 +105,6 @@ export const Paragraph = styled('p')<TypographyProps>(
 	})
 )
 
-const pseudoInputStyles: CSSObject = {
-	...position('absolute', null, 0, 0, 0),
-	height: THEME.sizes.borderWidth,
-	width: '100%'
-}
-
-const withBeforeInputStyles: CSSObject = {
-	...pseudoInputStyles,
-	backgroundColor: THEME.colors.border
-}
-
-const withAfterInputStyles: CSSObject = {
-	...pseudoInputStyles,
-	backgroundColor: THEME.colors.loader, // TODO change
-	transform: 'scaleX(0)'
-}
-
-export const InputWrapper = styled(({ children, ...rest }) => (
-	<SimpleWrapper
-		withBefore={withBeforeInputStyles}
-		withAfter={withAfterInputStyles}
-		withTransition={{ transitionProperties: 'transform' }}
-		{...rest}
-	/>
-))({
-	'&:hover, &:focus': {
-		'&:after': {
-			transform: 'scaleX(1)'
-		}
-	}
-})
-
 export interface InputStyledInterface {
 	onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
@@ -151,6 +119,7 @@ export const InputStyled = styled.input.attrs({ type: 'text' })<TInputProps>({
 	fontSize: THEME.typography.fsBody,
 	fontFamily: THEME.typography.ffBody,
 	...padding(0, Spacing.default),
+	boxSizing: 'border-box',
 	width: '100%',
 	...withTransition(['border']),
 	'&:focus, &:hover': {
