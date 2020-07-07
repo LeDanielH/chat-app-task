@@ -8,9 +8,11 @@ import { THEME } from '../../config/theme'
 import { TabParticipants } from './TabParticipants'
 import { TabChat } from './TabChat'
 import { ModalRegisterUser } from '../ModalRegisterUser'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { isRegisteredSelector } from '../../store/selectors'
 import { TAppState } from '../../store/types'
+import { TWSActionEnum, TWSData } from '../../api/types'
+import { messageSent, userJoined, userRegistered } from '../../store/actions'
 
 type TTab = {
 	name: string
@@ -38,13 +40,29 @@ export const Tabs = () => {
 		isRegistered: isRegisteredSelector(state),
 	}))
 
+	const dispatch = useDispatch();
+
 	useEffect(() => {
 		ws.addEventListener(
 			'message',
 			(event: WebSocketMessageEvent) => {
 				try {
-					const data = event.data;
-					console.log(data)
+					// const data: TWSData = event.data;
+					const wsData: TWSData = JSON.parse(event.data);
+					console.log(event)
+
+					switch (wsData.type) {
+						case TWSActionEnum.join:
+							dispatch(userJoined(wsData))
+							break;
+						case TWSActionEnum.register:
+							dispatch(userRegistered(wsData))
+							break;
+						case TWSActionEnum.message:
+							dispatch(messageSent(wsData))
+						default:
+							console.warn(`${wsData.type} not handled`)
+					}
 				} catch (e) {
 					return false;
 				}

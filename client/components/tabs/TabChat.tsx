@@ -5,18 +5,16 @@ import { ScrollContainer } from '../styled'
 import { Spacing } from '@householdjs/utils'
 import { WebSocketForm } from '../WebSocketForm'
 import { THEME } from '../../config/theme'
-import { TWSData, TWSActionType } from '../../api/types'
-import { useDispatch } from 'react-redux'
-import { messageSent } from '../../store/actions'
+import { TWSData, TWSActionEnum } from '../../api/types'
 
 type TTabChatProps = {
 	ws: WebSocket,
 }
 
 export const TabChat = ({ ws }: TTabChatProps) => {
-	const dispatch = useDispatch()
+	// TODO remove, handled in Tabs
 	const onMessageSubmitted = (wsData: TWSData) => {
-		dispatch(messageSent(wsData))
+		console.info(wsData);
 	}
 
 	return (
@@ -25,7 +23,7 @@ export const TabChat = ({ ws }: TTabChatProps) => {
 				<MessagesList />
 				<Spacer right={THEME.sizes.tabChatRightSpacingCompensation}>
 					<WebSocketForm
-						wsType={TWSActionType.message}
+						wsType={TWSActionEnum.message}
 						placeholder="enter your message"
 						successCallback={onMessageSubmitted}
 						ws={ws}
