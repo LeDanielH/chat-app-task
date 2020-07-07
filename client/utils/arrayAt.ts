@@ -6,9 +6,8 @@ export function removeAt<T>(arr: T[], index: number): T[] {
 	return [...arr.slice(0, index), ...arr.slice(index + 1)];
 }
 
-export function updateAt<T>(arr: T[], valuesToUpdate: { [key: string]: any }, index: number): T[] {
-	const objectToUpdate = arr[index];
+export function updateAt<T>(arr: T[], updatedObject: T, index: number): T[] {
 	const arrayStart = arr.slice(0, index);
 	const arrayEnd = arr.slice(index + 1);
-	return [...arrayStart, { ...objectToUpdate, ...valuesToUpdate }, ...arrayEnd];
+	return [...arrayStart, updatedObject, ...arrayEnd];
 }
