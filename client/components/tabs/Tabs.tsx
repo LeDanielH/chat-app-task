@@ -7,7 +7,7 @@ import { TABS } from './Tabs.constants'
 import { THEME } from '../../config/theme'
 import { TabParticipants } from './TabParticipants'
 import { TabChat } from './TabChat'
-// import { ModalEnterUserName } from '../ModalEnterUserName'
+import { ModalRegisterUser } from '../ModalRegisterUser'
 
 type TTab = {
 	name: string
@@ -29,15 +29,14 @@ const tabs: Array<TTab> = [
 ]
 
 export const Tabs = () => {
-	const [selected, select] = useState(0)
-	// const [username, setUsername] = useState<string>('')
+	const [selected, select] = useState<number>(0)
+	const [isRegistered, setIsRegistered] = useState<boolean>(false)
 
 	const selectFactory = (index: number) => () => {
 		if (index !== selected) {
 			select(index)
 		}
 	}
-	// const isMissingUsername = username.length === 0
 
 	return (
 		<>
@@ -67,10 +66,10 @@ export const Tabs = () => {
 					{tabs[selected].tabContent}
 				</SimpleWrapper>
 			</SimpleWrapper>
-			{/*<ModalEnterUserName*/}
-			{/*	onSubmitCallback={setUsername}*/}
-			{/*	isVisible={isMissingUsername}*/}
-			{/*/>*/}
+			<ModalRegisterUser
+				onSubmitCallback={setIsRegistered}
+				isVisible={!isRegistered}
+			/>
 		</>
 	)
 }
