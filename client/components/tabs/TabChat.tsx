@@ -5,7 +5,7 @@ import { ScrollContainer } from '../styled'
 import { Spacing } from '@householdjs/utils'
 import { WebSocketForm } from '../WebSocketForm'
 import { THEME } from '../../config/theme'
-import { TWSData } from '../../api/types'
+import { TWSData, TWSActionType } from '../../api/types'
 
 export const TabChat = () => {
 	const onMessageSubmitted = (wsData: TWSData) => {
@@ -17,7 +17,7 @@ export const TabChat = () => {
 				<MessagesList />
 				<Spacer right={THEME.sizes.tabChatRightSpacingCompensation}>
 					<WebSocketForm
-						wsType="message"
+						wsType={TWSActionType.message}
 						placeholder="enter your message"
 						successCallback={onMessageSubmitted}
 					/>

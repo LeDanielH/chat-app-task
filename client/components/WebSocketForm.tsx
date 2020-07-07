@@ -1,6 +1,7 @@
 import React, { FormEvent, useEffect, useState, useRef } from 'react'
 import { Heading, InputStyled } from './styled'
 import { TWSData } from '../api/types'
+import { getTime } from 'date-fns'
 
 type TWebSocketForm = {
 	wsType: TWSData['type'],
@@ -56,9 +57,12 @@ export const WebSocketForm = ({
 	const onSubmit = (e: FormEvent<HTMLFormElement>) => {
 		if (value.length > 0) {
 			const valueTrimmed = value.trim()
+			const timestamp = getTime(Date.now())
 			const wsData: TWSData = {
+				id: `${timestamp}`,
 				type: wsType,
 				value: valueTrimmed,
+				timestamp,
 			}
 			if (ws.current) {
 				tryToSendValue(ws.current, wsData);

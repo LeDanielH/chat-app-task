@@ -4,9 +4,15 @@ export type TUserMessageDto = {
 	message: string
 }
 
+export enum TWSActionType {
+	message = 'message',
+	register = 'register',
+	join = 'join'
+}
+
 export type TWSData = {
 	id: string,
-	type: 'register' | 'message' | 'join'
+	type: TWSActionType,
 	value: string,
 	timestamp: number,
 }
