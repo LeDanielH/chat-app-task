@@ -1,21 +1,25 @@
 import React from 'react'
 import { List, ListItem } from './styled'
-import { DUMMY_POSTS } from '../dummyData'
 import { UserMessage } from './UserMessage'
-import { TUserMessageDto } from '../api/types'
+import { useSelector } from 'react-redux'
+import { TAppState } from '../store/types'
+import { messagesSelector, TMessagesSelectorReturn } from '../store/selectors'
 
 export const MessagesList = () => {
+	const { messages } = useSelector((state: TAppState) => ({
+		messages: messagesSelector(state)
+	}))
 	return (
 		<List>
-			{DUMMY_POSTS.map((post: TUserMessageDto) => (
+			{messages.map((post: TMessagesSelectorReturn) => (
 				<ListItem
-					key={`${post.name}-${post.timestamp}`}
+					key={`${post.username}-${post.timestamp}`}
 					withBottomSpacing
 				>
 					<UserMessage
-						name={post.name}
+						name={post.username}
 						timestamp={post.timestamp}
-						message={post.message}
+						message={post.value}
 					/>
 				</ListItem>
 			))}
