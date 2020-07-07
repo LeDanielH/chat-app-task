@@ -1,13 +1,12 @@
 import React, { FormEvent, useEffect, useState, useRef } from 'react'
 import { Heading, InputStyled } from './styled'
-import type { TWSData } from '../api/types'
+import { TWSData } from '../api/types'
 
 type TWebSocketForm = {
 	inputName: TWSData['type'],
 	placeholder: string
 	successCallback: (value: string) => void
 	errorCallback?: () => void,
-	dataToSend: WebSocketMessageEvent
 }
 export const WebSocketForm = ({
 	inputName,
