@@ -1,6 +1,7 @@
 import { Dispatch } from 'redux'
 import { TAppState, TAction, TMessageUpdatePayload } from './types'
 import { TWSData } from '../api/types'
+import { YOU } from '../constants'
 
 const _userJoined = (wsData: TWSData): TAction => ({
 	type: 'USER_JOINED',
@@ -22,7 +23,11 @@ export const userRegistered = (wsData: TWSData) => (dispatch: Dispatch<TAction>,
 	if (existingUser) {
 		console.log('user already exists')
 	} else {
-		dispatch(_userRegistered(wsData))
+		const userData: TWSData = {
+			...wsData,
+			value: YOU,
+		}
+		dispatch(_userRegistered(userData))
 	}
 }
 
