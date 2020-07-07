@@ -4,6 +4,7 @@ import React, { ReactNode } from 'react'
 import { THEME } from '../config/theme'
 import { Spacing } from '@householdjs/utils'
 import { margin, padding } from 'polished'
+import { APP_ROOT_ID } from '../constants'
 
 type TModalProps = {
 	children: ReactNode
@@ -37,3 +38,5 @@ export const Modal = ({ children, isVisible }: TModalProps) => {
 		</ReactModal>
 	)
 }
+
+ReactModal.setAppElement(`#${APP_ROOT_ID}`)

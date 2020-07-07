@@ -5,6 +5,7 @@ import { ReduxPersist } from './store/reduxPersist'
 import _throttle from 'lodash/throttle'
 import { Provider } from 'react-redux'
 import { Page } from './components/Page'
+import { APP_ROOT_ID } from './constants'
 
 store.subscribe(
 	_throttle(() => {
@@ -18,4 +19,4 @@ const Root = () => (
 	</Provider>
 )
 
-ReactDOM.render(<Root />, document.getElementById('pexip-chat-app'))
+ReactDOM.render(<Root />, document.getElementById(APP_ROOT_ID))
