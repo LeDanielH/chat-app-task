@@ -2,6 +2,7 @@ import React from 'react'
 import { Modal } from './Modal'
 import { WebSocketForm } from './WebSocketForm'
 import { SimpleWrapper, Image } from '@householdjs/elements'
+import { TWSData } from '../api/types'
 
 type TModalEnterUserName = {
 	isVisible: boolean
@@ -12,8 +13,8 @@ export const ModalRegisterUser = ({
 	onSubmitCallback,
 	isVisible
 }: TModalEnterUserName) => {
-	const handleOnRegistered = (username: string) => {
-		console.log(username)
+	const handleOnRegistered = (wsData: TWSData) => {
+		console.log(wsData.value)
 		onSubmitCallback(true)
 	}
 
@@ -28,7 +29,7 @@ export const ModalRegisterUser = ({
 			</SimpleWrapper>
 
 			<WebSocketForm
-				inputName="register"
+				wsType="register"
 				placeholder="John Doe"
 				successCallback={handleOnRegistered}
 				errorCallback={handleOnRegisterFail}

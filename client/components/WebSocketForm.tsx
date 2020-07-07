@@ -3,13 +3,13 @@ import { Heading, InputStyled } from './styled'
 import { TWSData } from '../api/types'
 
 type TWebSocketForm = {
-	inputName: TWSData['type'],
+	wsType: TWSData['type'],
 	placeholder: string
-	successCallback: (value: string) => void
+	successCallback: (value: TWSData) => void
 	errorCallback?: () => void,
 }
 export const WebSocketForm = ({
-	inputName,
+	wsType,
 	placeholder,
 	successCallback,
 	errorCallback
@@ -40,19 +40,28 @@ export const WebSocketForm = ({
 		setValue(e.target.value)
 	}
 
+	const tryToSendValue = (ws: WebSocket, wsData: TWSData) => {
+
+		try {
+			const wsDataString = JSON.stringify(wsData)
+			ws.send(wsDataString)
+			setValue('')
+			successCallback(wsData)
+		} catch (error) {
+			// TODO add error handling
+			console.log(error) // catch error
+		}
+	}
+
 	const onSubmit = (e: FormEvent<HTMLFormElement>) => {
 		if (value.length > 0) {
 			const valueTrimmed = value.trim()
 			const wsData: TWSData = {
-				type: inputName,
+				type: wsType,
 				value: valueTrimmed,
 			}
-
 			if (ws.current) {
-				const wsDataString = JSON.stringify(wsData)
-				ws.current.send(wsDataString)
-				setValue('')
-				successCallback(valueTrimmed)
+				tryToSendValue(ws.current, wsData);
 			} else {
 				if (errorCallback) {
 					errorCallback()
@@ -72,8 +81,8 @@ export const WebSocketForm = ({
 			</Heading>
 			<InputStyled
 				type="text"
-				name={inputName}
-				id={inputName}
+				name={wsType}
+				id={wsType}
 				onChange={handleOnChange}
 				placeholder={placeholder}
 				value={value}
