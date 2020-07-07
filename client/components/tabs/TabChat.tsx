@@ -9,7 +9,11 @@ import { TWSData, TWSActionType } from '../../api/types'
 import { useDispatch } from 'react-redux'
 import { messageSent } from '../../store/actions'
 
-export const TabChat = () => {
+type TTabChatProps = {
+	ws: WebSocket,
+}
+
+export const TabChat = ({ ws }: TTabChatProps) => {
 	const dispatch = useDispatch()
 	const onMessageSubmitted = (wsData: TWSData) => {
 		dispatch(messageSent(wsData))
@@ -24,6 +28,7 @@ export const TabChat = () => {
 						wsType={TWSActionType.message}
 						placeholder="enter your message"
 						successCallback={onMessageSubmitted}
+						ws={ws}
 					/>
 				</Spacer>
 			</ScrollContainer>
