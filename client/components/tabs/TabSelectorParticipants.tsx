@@ -1,18 +1,15 @@
 import React from 'react'
 import { TabSelectorTitle } from './TabSelectorTitle'
 import { TABS } from './Tabs.constants'
+import { useSelector } from 'react-redux'
+import { TAppState } from '../../store/types'
+import { usersCountSelector } from '../../store/selectors'
 
-type TConnectedProps = {
-	participantCount: number
-}
-
-type TTabSelectorTitleParticipants = TConnectedProps
-
-// TODO connect participantCount to redux
-export const TabSelectorTitleParticipants = ({
-	participantCount
-}: TTabSelectorTitleParticipants) => {
-	const titleWithCount = `${TABS.participants} (${participantCount})`
+export const TabSelectorTitleParticipants = () => {
+	const { usersCount } = useSelector((state: TAppState) => ({
+		usersCount: usersCountSelector(state)
+	}))
+	const titleWithCount = `${TABS.participants} (${usersCount})`
 
 	return <TabSelectorTitle title={titleWithCount} />
 }
