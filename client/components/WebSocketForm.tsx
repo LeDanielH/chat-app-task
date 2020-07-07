@@ -1,4 +1,4 @@
-import React, { FormEvent, useEffect, useState, useRef } from 'react'
+import React, { FormEvent, useState } from 'react'
 import { Heading, InputStyled } from './styled'
 import { TWSData } from '../api/types'
 import { getTime } from 'date-fns'
@@ -8,34 +8,16 @@ type TWebSocketForm = {
 	placeholder: string
 	successCallback: (value: TWSData) => void
 	errorCallback?: () => void,
+	ws: WebSocket,
 }
 export const WebSocketForm = ({
 	wsType,
 	placeholder,
 	successCallback,
-	errorCallback
+	errorCallback,
+	ws,
 }: TWebSocketForm) => {
 	const [value, setValue] = useState<string>('')
-	const ws = useRef<WebSocket>()
-
-	useEffect(() => {
-		ws.current = new WebSocket('ws://localhost:1234')
-		ws.current.addEventListener(
-			'message',
-			(event: WebSocketMessageEvent) => {
-				console.log(event.data)
-			}
-		)
-
-		return () => {
-			if (ws.current) {
-				ws.current.removeEventListener('message', (event: WebSocketMessageEvent) => {
-					console.log(event)
-				})
-				ws.current = undefined
-			}
-		}
-	}, [ws])
 
 	const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setValue(e.target.value)
@@ -70,8 +52,8 @@ export const WebSocketForm = ({
 				value: valueTrimmed,
 				timestamp,
 			}
-			if (ws.current) {
-				tryToSendValue(ws.current, wsData);
+			if (ws) {
+				tryToSendValue(ws, wsData);
 			} else {
 				onSubmitError('websocket is not initialized')
 			}

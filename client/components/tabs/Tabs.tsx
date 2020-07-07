@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from 'react'
+import React, { ReactNode, useEffect, useState } from 'react'
 import { TabSelector } from './TabSelecor'
 import { TabSelectorTitle } from './TabSelectorTitle'
 import { TabSelectorTitleParticipants } from './TabSelectorParticipants'
@@ -8,29 +8,55 @@ import { THEME } from '../../config/theme'
 import { TabParticipants } from './TabParticipants'
 import { TabChat } from './TabChat'
 import { ModalRegisterUser } from '../ModalRegisterUser'
+import { useSelector } from 'react-redux'
+import { isRegisteredSelector } from '../../store/selectors'
+import { TAppState } from '../../store/types'
 
 type TTab = {
 	name: string
 	tabSelector: ReactNode
-	tabContent: ReactNode
+	tabContent: (ws: WebSocket) => ReactNode
 }
 
 const tabs: Array<TTab> = [
 	{
 		name: TABS.participants,
-		tabSelector: <TabSelectorTitleParticipants participantCount={8} />,
-		tabContent: <TabParticipants />
+		tabSelector: <TabSelectorTitleParticipants />,
+		tabContent: (_ws: WebSocket) => <TabParticipants />
 	},
 	{
 		name: TABS.chat,
 		tabSelector: <TabSelectorTitle title={TABS.chat} />,
-		tabContent: <TabChat />
+		tabContent: (ws: WebSocket) => <TabChat ws={ws} />
 	}
 ]
 
 export const Tabs = () => {
 	const [selected, select] = useState<number>(0)
-	const [isRegistered, setIsRegistered] = useState<boolean>(false)
+	const ws = new WebSocket('ws://localhost:1234')
+	const { isRegistered } = useSelector((state: TAppState) => ({
+		isRegistered: isRegisteredSelector(state),
+	}))
+
+	useEffect(() => {
+		ws.addEventListener(
+			'message',
+			(event: WebSocketMessageEvent) => {
+				try {
+					const data = event.data;
+					console.log(data)
+				} catch (e) {
+					return false;
+				}
+			}
+		)
+
+		return () => {
+			ws.removeEventListener('message', (event: WebSocketMessageEvent) => {
+				console.log(event)
+			})
+		}
+	}, [ws])
 
 	const selectFactory = (index: number) => () => {
 		if (index !== selected) {
@@ -63,12 +89,12 @@ export const Tabs = () => {
 					backgroundColor={THEME.colors.tabActive}
 					height="100%"
 				>
-					{tabs[selected].tabContent}
+					{tabs[selected].tabContent(ws)}
 				</SimpleWrapper>
 			</SimpleWrapper>
 			<ModalRegisterUser
-				onSubmitCallback={setIsRegistered}
 				isVisible={!isRegistered}
+				ws={ws}
 			/>
 		</>
 	)
