@@ -6,11 +6,15 @@ import { Spacing } from '@householdjs/utils'
 import { WebSocketForm } from '../WebSocketForm'
 import { THEME } from '../../config/theme'
 import { TWSData, TWSActionType } from '../../api/types'
+import { useDispatch } from 'react-redux'
+import { messageSent } from '../../store/actions'
 
 export const TabChat = () => {
+	const dispatch = useDispatch()
 	const onMessageSubmitted = (wsData: TWSData) => {
-		console.log(wsData)
+		dispatch(messageSent(wsData))
 	}
+
 	return (
 		<Spacer top={Spacing.big} bottom={Spacing.big} left={Spacing.big}>
 			<ScrollContainer>
