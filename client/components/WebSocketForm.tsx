@@ -6,10 +6,11 @@ import { getTime } from 'date-fns'
 type TWebSocketForm = {
 	wsType: TWSData['type']
 	placeholder: string
-	successCallback: (value: TWSData) => void
+	successCallback?: (value: TWSData) => void
 	errorCallback?: () => void
 	ws: WebSocket
 	label?: string
+	isInEditMode?: boolean
 }
 export const WebSocketForm = ({
 	wsType,
@@ -17,7 +18,8 @@ export const WebSocketForm = ({
 	successCallback,
 	errorCallback,
 	ws,
-	label
+	label,
+	isInEditMode
 }: TWebSocketForm) => {
 	const [value, setValue] = useState<string>('')
 
@@ -37,7 +39,9 @@ export const WebSocketForm = ({
 			const wsDataString = JSON.stringify(wsData)
 			ws.send(wsDataString)
 			setValue('')
-			successCallback(wsData)
+			if (successCallback) {
+				successCallback(wsData)
+			}
 		} catch (error) {
 			onSubmitError(error)
 		}
@@ -78,6 +82,7 @@ export const WebSocketForm = ({
 				onChange={handleOnChange}
 				placeholder={placeholder}
 				value={value}
+				isLikePara={isInEditMode}
 			/>
 		</form>
 	)

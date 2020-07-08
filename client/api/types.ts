@@ -1,11 +1,6 @@
-export type TUserMessageDto = {
-	name: string
-	timestamp: number // ms
-	message: string
-}
-
 export enum TWSActionEnum {
 	message = 'message',
+	messageUpdated = 'messageUpdated',
 	register = 'register',
 	join = 'join',
 	leave = 'leave',

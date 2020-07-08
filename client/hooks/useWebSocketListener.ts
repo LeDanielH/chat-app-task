@@ -3,6 +3,7 @@ import { useEffect } from 'react'
 import { TWSActionEnum, TWSData } from '../api/types'
 import {
 	messageSent,
+	messageUpdated,
 	userJoined,
 	userLeft,
 	userRegistered,
@@ -29,11 +30,15 @@ export const useWebSocketListener = (): WebSocket => {
 					case TWSActionEnum.message:
 						dispatch(messageSent(wsData))
 						break
+					case TWSActionEnum.messageUpdated:
+						dispatch(messageUpdated(wsData))
+						break
 					case TWSActionEnum.online:
 						dispatch(usersOnline(wsData))
 						break
 					case TWSActionEnum.leave:
 						dispatch(userLeft(wsData))
+						break
 					default:
 						console.warn(`${wsData.type} not handled`)
 				}

@@ -1,29 +1,61 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Heading, Paragraph } from './styled'
-import { FlexParent, FlexChild, Spacer } from '@householdjs/elements'
+import { FlexChild, FlexParent, Spacer } from '@householdjs/elements'
 import { THEME } from '../config/theme'
 import { Spacing } from '@householdjs/utils'
-import { TUserMessageDto } from '../api/types'
+import { TWSActionEnum } from '../api/types'
 import { format } from 'date-fns'
+import { useSelector } from 'react-redux'
+import { WebSocketForm } from './WebSocketForm'
+import { TAppState, TMessage } from '../store/types'
+import { canEditMessageSelectorFactory } from '../store/selectors'
 
-export const UserMessage = ({ name, timestamp, message }: TUserMessageDto) => {
+type TUserMessage = TMessage & { ws: WebSocket }
+
+export const UserMessage = ({
+	id,
+	value,
+	timestamp,
+	ws,
+	username
+}: TUserMessage) => {
+	const [isEditing, setIsEditing] = useState<boolean>(false)
+	const { canEditMessage } = useSelector((state: TAppState) => {
+		const canEditMessageSelector = canEditMessageSelectorFactory(id)
+		return {
+			canEditMessage: canEditMessageSelector(state)
+		}
+	})
 	const timePretty = format(timestamp, 'HH:MM')
+	const toggleCanEdit = () => {
+		setIsEditing(!isEditing)
+	}
+
+	const handleMessageOnClick = canEditMessage ? toggleCanEdit : undefined
 
 	return (
 		<Spacer right={THEME.sizes.tabChatRightSpacingCompensation}>
 			<FlexParent fullWidth withBottomSpacing={Spacing.small}>
 				<FlexChild>
 					<Heading color={THEME.colors.heading} disableLineHeight>
-						{name}
+						{username}
 					</Heading>
 				</FlexChild>
-				<FlexChild left>
-					<Paragraph color={THEME.colors.time} disableLineHeight>
-						{timePretty}
-					</Paragraph>
+				<FlexChild left onClick={handleMessageOnClick}>
+					{isEditing ? (
+						<WebSocketForm
+							ws={ws}
+							wsType={TWSActionEnum.messageUpdated}
+							placeholder={value}
+						/>
+					) : (
+						<Paragraph color={THEME.colors.time} disableLineHeight>
+							{timePretty}
+						</Paragraph>
+					)}
 				</FlexChild>
 			</FlexParent>
-			<Paragraph>{message}</Paragraph>
+			<Paragraph>{value}</Paragraph>
 		</Spacer>
 	)
 }

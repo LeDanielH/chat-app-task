@@ -2,6 +2,7 @@ import type { WebSocket } from './deps.ts'
 
 export enum TWSActionEnum {
 	message = 'message',
+	messageUpdated = 'messageUpdated',
 	register = 'register',
 	join = 'join',
 	leave = 'leave',
