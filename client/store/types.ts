@@ -1,7 +1,7 @@
 import { TWSData } from '../api/types'
 
 export type TMessage = TWSData & {
-	username: string,
+	username: string
 }
 
 export type TMessageUpdatePayload = {

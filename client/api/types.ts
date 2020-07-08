@@ -1,5 +1,6 @@
 export enum TWSActionEnum {
 	messageBroadcasted = 'messageBroadcasted',
+	messageRemoved = 'messageRemoved',
 	register = 'register',
 	join = 'join',
 	leave = 'leave',

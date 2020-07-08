@@ -4,7 +4,7 @@ import { removeAt, updateAt } from '../utils/arrayAt'
 const initialState: TAppState = {
 	messages: [],
 	users: [],
-	registeredUserId: '',
+	registeredUserId: ''
 }
 
 export const rootReducer = (
@@ -32,7 +32,7 @@ export const rootReducer = (
 			return {
 				...state,
 				users: [action.payload, ...state.users],
-				registeredUserId: action.payload.id,
+				registeredUserId: action.payload.id
 			}
 		}
 		case `USER_JOINED`: {

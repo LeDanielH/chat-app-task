@@ -14,6 +14,8 @@ export const handleWebSocket = (connections: Array<TConnection>) => async(ws: We
 			} else if(data.type === TWSActionEnum.messageBroadcasted) {
 				console.log('messageBroadcasted')
 				broadCastEvents({ws, event, connections}, true)
+			} else if (TWSActionEnum.messageRemoved) {
+				broadCastEvents({ws, event, connections}, true)
 			} else {
 				broadCastEvents({ws, event, connections})
 			}

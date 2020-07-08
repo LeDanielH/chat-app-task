@@ -1,8 +1,12 @@
 import { Dispatch } from 'redux'
 import { TAction, TAppState, TMessageUpdatePayload, TMessage } from './types'
 import { TWSActionEnum, TWSData } from '../api/types'
-import { MEETING_BOT, UPDATED_AT, YOU } from '../constants'
-import { getMessageWithUsername, getMessageToBeUpdatedIndex, getMessageWithoutTimeUpdated } from './utils'
+import { MEETING_BOT, MESSAGE_REMOVED, UPDATED_AT, YOU } from '../constants'
+import {
+	getMessageWithUsername,
+	getMessageToBeUpdatedIndex,
+	getMessageWithoutTimeUpdated
+} from './utils'
 import { timePretty } from '../utils/timePretty'
 
 const _userJoined = (wsData: TWSData): TAction => ({
@@ -130,17 +134,41 @@ export const messageBroadcasted = (wsData: TWSData) => (
 const _messageUpdated = (
 	updatedMessageData: TMessageUpdatePayload
 ): TAction => {
-	const updatedAt = `${UPDATED_AT} ${timePretty(Date.now())}`;
-	const messageWithoutUpdated = getMessageWithoutTimeUpdated(updatedMessageData.data.value);
-	const value = `${messageWithoutUpdated} ${updatedAt}`;
-	return ({
+	const updatedAt = `${UPDATED_AT} ${timePretty(Date.now())}`
+	const messageWithoutUpdated = getMessageWithoutTimeUpdated(
+		updatedMessageData.data.value
+	)
+	const value = `${messageWithoutUpdated} ${updatedAt}`
+	return {
 		type: 'MESSAGE_UPDATED',
 		payload: {
 			...updatedMessageData,
 			data: {
 				...updatedMessageData.data,
-				value,
+				value
 			}
 		}
+	}
+}
+
+export const messageRemoved = (wsData: TWSData) => (
+	dispatch: Dispatch<TAction>,
+	getState: () => TAppState
+) => {
+	const { messages } = getState()
+	const messageRemovedIndex = messages.findIndex((message: TMessage) => {
+		const isSameUser = message.id === wsData.id
+		const isSameTimeStamp = message.timestamp === wsData.timestamp
+
+		return isSameUser && isSameTimeStamp
 	})
+
+	if (messageRemovedIndex > -1) {
+		dispatch(
+			_messageUpdated({
+				data: { ...wsData, value: MESSAGE_REMOVED },
+				index: messageRemovedIndex
+			})
+		)
+	}
 }

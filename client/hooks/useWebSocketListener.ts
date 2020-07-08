@@ -9,7 +9,6 @@ import {
 	usersOnline
 } from '../store/actions'
 
-
 const ws = new WebSocket('ws://localhost:1234')
 
 export const useWebSocketListener = (): WebSocket => {
@@ -30,6 +29,8 @@ export const useWebSocketListener = (): WebSocket => {
 						break
 					case TWSActionEnum.messageBroadcasted:
 						dispatch(messageBroadcasted(wsData))
+						break
+					case TWSActionEnum.messageRemoved:
 						break
 					case TWSActionEnum.online:
 						dispatch(usersOnline(wsData))

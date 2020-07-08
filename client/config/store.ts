@@ -4,9 +4,7 @@ import thunk, { ThunkMiddleware } from 'redux-thunk'
 import { TAction, TAppState } from '../store/types'
 import { rootReducer } from '../store/reducer'
 
-const middleware = [
-	thunk as ThunkMiddleware<TAppState, TAction>,
-]
+const middleware = [thunk as ThunkMiddleware<TAppState, TAction>]
 
 const composeEnhancers =
 	(process.env.NODE_ENV !== 'production' &&

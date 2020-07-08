@@ -14,20 +14,21 @@ export const getMessageWithUsername = (
 	}
 }
 
-export const getMessageToBeUpdatedIndex = (messages: TAppState['messages'], wsData: TWSData) => {
-	return messages.findIndex(
-		(message: TMessage) => {
-			const isSameUser = message.id === wsData.id
-			const isSameTimestamp = message.timestamp === wsData.timestamp
-			return isSameUser && isSameTimestamp
-		}
-	)
+export const getMessageToBeUpdatedIndex = (
+	messages: TAppState['messages'],
+	wsData: TWSData
+) => {
+	return messages.findIndex((message: TMessage) => {
+		const isSameUser = message.id === wsData.id
+		const isSameTimestamp = message.timestamp === wsData.timestamp
+		return isSameUser && isSameTimestamp
+	})
 }
 
 export const getMessageWithoutTimeUpdated = (value: string): string => {
 	const indexOfUpdated = value.indexOf(UPDATED_AT)
 	const isUpdatedMessage = indexOfUpdated > -1
-	if(isUpdatedMessage) {
+	if (isUpdatedMessage) {
 		return value.substring(0, indexOfUpdated).trim()
 	} else {
 		return value
