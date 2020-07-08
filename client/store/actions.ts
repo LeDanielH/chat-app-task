@@ -1,7 +1,7 @@
 import { Dispatch } from 'redux'
-import { TAppState, TAction, TMessageUpdatePayload } from './types'
-import { TWSData } from '../api/types'
-import { YOU } from '../constants'
+import { TAction, TAppState, TMessageUpdatePayload } from './types'
+import { TWSActionEnum, TWSData } from '../api/types'
+import { MEETING_BOT, YOU } from '../constants'
 
 const _userJoined = (wsData: TWSData): TAction => ({
 	type: 'USER_JOINED',
@@ -13,13 +13,20 @@ export const userJoined = (wsData: TWSData) => (
 	getState: () => TAppState,
 ) => {
 	const { users } = getState();
-	// do not have id yet
+	// do not have id yet - TODO replace by id
 	const existingUser = users.find((user:TWSData) => user.value === wsData.value );
 
 	if(existingUser) {
 		console.warn('user already exists')
 	} else {
 		dispatch(_userJoined(wsData))
+		const mettingBotData: TWSData = {
+			timestamp: Date.now(),
+			value: `${wsData.value} joined the meeting`,
+			type: TWSActionEnum.message,
+			id: `${MEETING_BOT}-${Date.now()}`, // TODO add id
+		}
+		dispatch(_messageSent(mettingBotData))
 	}
 }
 
@@ -83,6 +90,13 @@ export const userLeft = (wsData: TWSData) => (
 
 	if (leavingUserIndex > -1) {
 		dispatch(_userLeft(leavingUserIndex))
+		const mettingBotData: TWSData = {
+			timestamp: Date.now(),
+			value: `${users[leavingUserIndex].value} left the meeting`,
+			type: TWSActionEnum.message,
+			id: `${MEETING_BOT}-${Date.now()}`, // TODO add id
+		}
+		dispatch(_messageSent(mettingBotData))
 	}
 }
 

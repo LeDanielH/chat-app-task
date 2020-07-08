@@ -2,7 +2,7 @@ import { TAppState } from './types'
 import { createSelectorCreator, defaultMemoize, createSelector } from 'reselect'
 import _isEqual from 'lodash/isEqual'
 import { TWSData } from '../api/types'
-import { YOU } from '../constants'
+import { MEETING_BOT, YOU } from '../constants'
 
 export const createDeepEqualSelector = createSelectorCreator(
 	defaultMemoize,
@@ -28,7 +28,10 @@ export const messagesSelector = createDeepEqualSelector(
 				const user = users.find(
 					(user: TWSData) => user.id === message.id
 				)
-				const username = user ? user.value : 'unknown'
+
+				const isMeetingBot = message.id.startsWith(MEETING_BOT);
+
+				const username = user ? user.value : isMeetingBot ? MEETING_BOT : 'unknown'
 				return {
 					...message,
 					username
