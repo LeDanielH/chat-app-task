@@ -70,7 +70,7 @@ export const userRegistered = (wsData: TWSData) => (
 		(user: TWSData) => user.id === wsData.id
 	)
 	if (existingUser) {
-		console.log('user already exists')
+		console.warn('user already exists')
 	} else {
 		const userData: TWSData = {
 			...wsData,
