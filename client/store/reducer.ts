@@ -8,49 +8,48 @@ const initialState: TAppState = {
 
 export const rootReducer = (
 	state: TAppState = initialState,
-	action: TAction,
+	action: TAction
 ): TAppState => {
 	switch (action.type) {
 		case `MESSAGE_SENT`: {
 			return {
 				...state,
-				messages: [
-					...state.messages,
-					action.payload,
-				]
+				messages: [...state.messages, action.payload]
 			}
 		}
 		case `MESSAGE_RECEIVED`: {
 			return {
 				...state,
-				messages: [
-					...state.messages,
-					action.payload,
-				]
+				messages: [...state.messages, action.payload]
 			}
 		}
 		case `MESSAGE_UPDATED`: {
 			return {
 				...state,
-				messages: updateAt(state.messages, action.payload.data, action.payload.index)
+				messages: updateAt(
+					state.messages,
+					action.payload.data,
+					action.payload.index
+				)
 			}
 		}
 		case `USER_REGISTERED`: {
 			return {
 				...state,
-				users: [
-					action.payload,
-					...state.users,
-				]
+				users: [action.payload, ...state.users]
 			}
 		}
 		case `USER_JOINED`: {
 			return {
 				...state,
-				users: [
-					...state.users,
-					action.payload,
-				]
+				users: [...state.users, action.payload]
+			}
+		}
+
+		case 'USERS_ONLINE': {
+			return {
+				...state,
+				users: [...state.users, ...action.payload]
 			}
 		}
 
