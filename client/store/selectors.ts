@@ -16,6 +16,9 @@ export const usersCountSelector = createSelector(
 	(users: TAppState['users']): number => users.length
 )
 
+export const registeredUserIdState = (state: TAppState) =>
+	state.registeredUserId
+
 // just the easiest thing to do at the moment, not the right thing
 export const isRegisteredSelector = createSelector(
 	[usersState],
@@ -23,3 +26,9 @@ export const isRegisteredSelector = createSelector(
 		return users.findIndex((user: TWSData) => user.value === YOU) > -1
 	}
 )
+
+export const canEditMessageSelectorFactory = (messageId: string) =>
+	createSelector(
+		registeredUserIdState,
+		(registeredUserId: string) => messageId === registeredUserId
+	)
