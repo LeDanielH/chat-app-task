@@ -7,7 +7,7 @@ import {
 	getMessageToBeUpdatedIndex,
 	getMessageWithoutTimeUpdated
 } from './utils'
-import { timePretty } from '../utils/timePretty'
+import { getPrettyTime } from '../utils/getPrettyTime'
 
 const _userJoined = (wsData: TWSData): TAction => ({
 	type: 'USER_JOINED',
@@ -134,7 +134,7 @@ export const messageBroadcasted = (wsData: TWSData) => (
 const _messageUpdated = (
 	updatedMessageData: TMessageUpdatePayload
 ): TAction => {
-	const updatedAt = `${UPDATED_AT} ${timePretty(Date.now())}`
+	const updatedAt = `${UPDATED_AT} ${getPrettyTime(Date.now())}`
 	const messageWithoutUpdated = getMessageWithoutTimeUpdated(
 		updatedMessageData.data.value
 	)

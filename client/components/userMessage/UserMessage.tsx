@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux'
 import { WebSocketForm } from '../WebSocketForm'
 import { TAppState, TMessage } from '../../store/types'
 import { canEditMessageSelectorFactory } from '../../store/selectors'
-import { timePretty } from '../../utils/timePretty'
+import { getPrettyTime } from '../../utils/getPrettyTime'
 import { getMessageWithoutTimeUpdated } from '../../store/utils'
 import { IconBin } from '../icons/IconBin'
 
@@ -32,7 +32,7 @@ export const UserMessage = ({
 			canEditMessage: canEditMessageSelector(state)
 		}
 	})
-	const timeFormatted = timePretty(timestamp)
+	const timeFormatted = getPrettyTime(timestamp)
 
 	const toggleCanEdit = () => {
 		setIsEditing(!isEditing)
