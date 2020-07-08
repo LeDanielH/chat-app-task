@@ -51,25 +51,20 @@ export const Tabs = () => {
 		ws.addEventListener('message', (event: WebSocketMessageEvent) => {
 			try {
 				// getting usersOnline as list -> wanted to update store once
-				const wsData: any = JSON.parse(event.data)
-
-				const wsDataItem: TWSData = wsData
-				const wsDataList: TWSData[] = wsData
-
-				console.log(event)
+				const wsData: TWSData = JSON.parse(event.data)
 
 				switch (wsData.type) {
 					case TWSActionEnum.join:
-						dispatch(userJoined(wsDataItem))
+						dispatch(userJoined(wsData))
 						break
 					case TWSActionEnum.register:
-						dispatch(userRegistered(wsDataItem))
+						dispatch(userRegistered(wsData))
 						break
 					case TWSActionEnum.message:
-						dispatch(messageSent(wsDataItem))
+						dispatch(messageSent(wsData))
 						break
 					case TWSActionEnum.online:
-						dispatch(usersOnline(wsDataList))
+						dispatch(usersOnline(wsData))
 						break
 					default:
 						console.warn(`${wsData.type} not handled`)

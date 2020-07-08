@@ -49,7 +49,7 @@ export const rootReducer = (
 		case 'USERS_ONLINE': {
 			return {
 				...state,
-				users: [...state.users, ...action.payload]
+				users: [...state.users, action.payload]
 			}
 		}
 

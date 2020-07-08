@@ -14,12 +14,12 @@ export const userJoined = (wsData: TWSData) => (
 	dispatch(_userJoined(wsData))
 }
 
-const _usersOnline = (wsDataList: Array<TWSData>): TAction => ({
+const _usersOnline = (wsDataList: TWSData): TAction => ({
 	type: 'USERS_ONLINE',
 	payload: wsDataList
 })
 
-export const usersOnline = (wsDataList: Array<TWSData>) => (
+export const usersOnline = (wsDataList: TWSData) => (
 	dispatch: Dispatch<TAction>
 ) => {
 	dispatch(_usersOnline(wsDataList))

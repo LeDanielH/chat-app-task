@@ -4,7 +4,7 @@ export type TMessageUpdatePayload = { data: TWSData; index: number }
 
 export type TAction =
 	| { type: 'USER_JOINED'; payload: TWSData }
-	| { type: 'USERS_ONLINE'; payload: Array<TWSData> }
+	| { type: 'USERS_ONLINE'; payload: TWSData }
 	| { type: 'USER_REGISTERED'; payload: TWSData }
 	| { type: 'USER_LEFT'; payload: number }
 	| { type: 'MESSAGE_RECEIVED'; payload: TWSData }
