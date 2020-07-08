@@ -2,7 +2,7 @@ import {isWebSocketCloseEvent, WebSocket} from './deps.ts'
 import {broadCastEvents} from './broadCastEvents.ts'
 import {TConnection, TWSActionEnum, TWSData} from "./types.ts";
 import {handleRegister} from "./handleRegister.ts";
-import { handleWebSocketClose} from "./handleWebSocketClose.ts";
+import {handleWebSocketClose} from "./handleWebSocketClose.ts";
 
 export const handleWebSocket = (connections: Array<TConnection>) => async(ws: WebSocket) => {
 	for await (const event of ws) {
@@ -11,6 +11,8 @@ export const handleWebSocket = (connections: Array<TConnection>) => async(ws: We
 
 			if(data.type === TWSActionEnum.register) {
 				handleRegister(connections, ws, data)
+			} else if(data.type === TWSActionEnum.message) {
+				broadCastEvents(ws, event, connections)
 			} else {
 				broadCastEvents(ws, event, connections)
 			}
