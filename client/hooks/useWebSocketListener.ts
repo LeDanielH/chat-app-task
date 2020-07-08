@@ -3,6 +3,7 @@ import { useEffect } from 'react'
 import { TWSActionEnum, TWSData } from '../api/types'
 import {
 	messageBroadcasted,
+	messageRemoved,
 	userJoined,
 	userLeft,
 	userRegistered,
@@ -31,6 +32,7 @@ export const useWebSocketListener = (): WebSocket => {
 						dispatch(messageBroadcasted(wsData))
 						break
 					case TWSActionEnum.messageRemoved:
+						dispatch(messageRemoved(wsData))
 						break
 					case TWSActionEnum.online:
 						dispatch(usersOnline(wsData))

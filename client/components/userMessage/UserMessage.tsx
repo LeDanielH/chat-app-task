@@ -1,16 +1,20 @@
 import React, { ReactNode, useState } from 'react'
-import { SimpleWrapper, Spacer } from '@householdjs/elements'
+import { FlexChild, FlexParent, Spacer } from '@householdjs/elements'
 import { THEME } from '../../config/theme'
-import { TWSActionEnum } from '../../api/types'
+import { TWSActionEnum, TWSData } from '../../api/types'
 import { useSelector } from 'react-redux'
 import { WebSocketForm } from '../WebSocketForm'
 import { TAppState, TMessage } from '../../store/types'
 import { canEditMessageSelectorFactory } from '../../store/selectors'
 import { timePretty } from '../../utils/timePretty'
 import { getMessageWithoutTimeUpdated } from '../../store/utils'
+import { IconBin } from '../icons/IconBin'
 
 import { UserMessageContent } from './userMessageContent'
 import { UserMessageHeader } from './UserMessageHeader'
+import { Spacing } from '@householdjs/utils'
+import { IconEdit } from '../icons/IconEdit'
+import { MESSAGE_REMOVED } from '../../constants'
 
 type TUserMessage = TMessage & { ws: WebSocket }
 
@@ -34,6 +38,17 @@ export const UserMessage = ({
 		setIsEditing(!isEditing)
 	}
 
+	const removeMessage = () => {
+		const wsData: TWSData = {
+			id,
+			timestamp,
+			type: TWSActionEnum.messageRemoved,
+			value
+		}
+		const removedMessageString = JSON.stringify(wsData)
+		ws.send(removedMessageString)
+	}
+
 	const renderEditMessageForm = (): ReactNode => {
 		const initialValue = getMessageWithoutTimeUpdated(value)
 
@@ -52,18 +67,53 @@ export const UserMessage = ({
 		)
 	}
 
-	const renderMessageSection = (): ReactNode => {
+	const renderActionIcons = () => {
 		return (
-			<SimpleWrapper
-				onClick={handleMessageOnClick}
-				withPointer={canEditMessage}
-			>
-				<UserMessageContent value={value} />
-			</SimpleWrapper>
+			<FlexChild shrink>
+				<FlexParent>
+					<FlexChild
+						horizontal={Spacing.small}
+						withPointer
+						onClick={removeMessage}
+					>
+						<IconBin />
+					</FlexChild>
+					<FlexChild
+						horizontal={Spacing.small}
+						withPointer
+						onClick={toggleCanEdit}
+					>
+						<IconEdit />
+					</FlexChild>
+				</FlexParent>
+			</FlexChild>
 		)
 	}
 
-	const handleMessageOnClick = canEditMessage ? toggleCanEdit : undefined
+	const renderMessage = () => {
+		return (
+			<FlexChild grow shrink>
+				<UserMessageContent value={value} />
+			</FlexChild>
+		)
+	}
+
+	const renderMessageSection = (): ReactNode => {
+		const isMessageRemoved = value === MESSAGE_REMOVED
+		const canRenderActionIcons =
+			canEditMessage && !isEditing && !isMessageRemoved
+
+		return (
+			<FlexParent
+				alignItems="center"
+				fullWidth
+				justifyContent="space-between"
+			>
+				{renderMessage()}
+				{canRenderActionIcons ? renderActionIcons() : null}
+			</FlexParent>
+		)
+	}
 
 	return (
 		<Spacer right={THEME.sizes.tabChatRightSpacingCompensation}>

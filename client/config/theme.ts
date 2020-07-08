@@ -41,7 +41,8 @@ const SIZES = {
 	participantListItemHeight: getRem(66),
 	// need to use it deeper inside the DOM to keep the scrollbar on the right
 	tabChatRightSpacingCompensation: Spacing.big,
-	maxModalWidth: getRem(320)
+	maxModalWidth: getRem(320),
+	icon: getRem(24)
 }
 
 export const SIZES_UI = {

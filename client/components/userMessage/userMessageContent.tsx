@@ -1,5 +1,5 @@
 import React from 'react'
-import { UPDATED_AT } from '../../constants'
+import { UPDATED_AT, MESSAGE_REMOVED } from '../../constants'
 import { CSSObject } from 'styled-components'
 import { THEME } from '../../config/theme'
 import { Paragraph } from '../styled'
@@ -11,6 +11,15 @@ type TUserMessageProps = {
 export const UserMessageContent = ({ value }: TUserMessageProps) => {
 	const indexOfUpdated = value.indexOf(UPDATED_AT)
 	const isUpdatedMessage = indexOfUpdated > -1
+	const isRemovedMessage = value === MESSAGE_REMOVED
+
+	if (isRemovedMessage) {
+		return (
+			<Paragraph color={THEME.colors.updatedAt}>
+				<em>{value}</em>
+			</Paragraph>
+		)
+	}
 
 	if (isUpdatedMessage) {
 		const message = value.substring(0, indexOfUpdated)

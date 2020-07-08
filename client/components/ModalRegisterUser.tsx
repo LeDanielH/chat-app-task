@@ -19,7 +19,7 @@ export const ModalRegisterUser = ({ isVisible, ws }: TModalEnterUserName) => {
 				wsType={TWSActionEnum.register}
 				placeholder="John Doe"
 				ws={ws}
-				label={'Enter your name'}
+				label={'Enter your name to join'}
 			/>
 		</Modal>
 	)

@@ -151,6 +151,15 @@ const _messageUpdated = (
 	}
 }
 
+const _messageRemoved = (
+	updatedMessageData: TMessageUpdatePayload
+): TAction => {
+	return {
+		type: 'MESSAGE_UPDATED',
+		payload: updatedMessageData
+	}
+}
+
 export const messageRemoved = (wsData: TWSData) => (
 	dispatch: Dispatch<TAction>,
 	getState: () => TAppState
@@ -165,7 +174,7 @@ export const messageRemoved = (wsData: TWSData) => (
 
 	if (messageRemovedIndex > -1) {
 		dispatch(
-			_messageUpdated({
+			_messageRemoved({
 				data: { ...wsData, value: MESSAGE_REMOVED },
 				index: messageRemovedIndex
 			})
