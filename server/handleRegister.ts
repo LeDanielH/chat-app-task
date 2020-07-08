@@ -10,6 +10,8 @@ export function handleRegister(
 ) {
 
 	const timestamp = Date.now();
+
+	/* REGISTER USER */
 	const registeredUserConnection: TConnection = {
 		id: `${timestamp}`, // TODO replace with uuid
 		value: data.value,
@@ -18,7 +20,6 @@ export function handleRegister(
 	}
 
 	connections.push(registeredUserConnection)
-
 
 	const registeredUserData: TWSData = {
 		id: `${timestamp}`, // TODO replace with uuid,
@@ -30,6 +31,7 @@ export function handleRegister(
 	const registeredUserString = JSON.stringify(registeredUserData);
 	ws.send(registeredUserString) // registered
 
+	/* SEND ONLINE USERS */
 	// for the sake of type simplicity and consistent client api, I post once per every connection
 	for (const onlineUser of connections) {
 		const userData: TWSData = {
@@ -44,6 +46,7 @@ export function handleRegister(
 		}
 	}
 
+	/* TRIGGER USER JOINED */
 	const userJoinedData: TWSData = {
 		id: `${timestamp}`, // TODO replace with uuid
 		type: TWSActionEnum.join,

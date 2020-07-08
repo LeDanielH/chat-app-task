@@ -2,7 +2,7 @@ import {isWebSocketCloseEvent, WebSocket} from './deps.ts'
 import {broadCastEvents} from './broadCastEvents.ts'
 import {TConnection, TWSActionEnum, TWSData} from "./types.ts";
 import {handleRegister} from "./handleRegister.ts";
-import { removeAt } from "./utils.ts";
+import { handleWebSocketClose} from "./handleWebSocketClose.ts";
 
 export const handleWebSocket = (connections: Array<TConnection>) => async(ws: WebSocket) => {
 	for await (const event of ws) {
@@ -19,22 +19,7 @@ export const handleWebSocket = (connections: Array<TConnection>) => async(ws: We
 		const isCloseEvent = isWebSocketCloseEvent(event)
 
 		if (isCloseEvent) {
-			const currentConnectionIndex = connections.findIndex((connection : TConnection) => connection.ws === ws);
-
-			if(currentConnectionIndex > -1) {
-				const leaveEvent: TWSData = {
-					timestamp: connections[currentConnectionIndex].timestamp,
-					type: TWSActionEnum.leave,
-					value: connections[currentConnectionIndex].value,
-					id: connections[currentConnectionIndex].id,
-				}
-
-				const leaveEventString = JSON.stringify(leaveEvent);
-
-				broadCastEvents(ws, leaveEventString, connections)
-				connections.splice(currentConnectionIndex, 1)
-			}
-
+			handleWebSocketClose(ws, connections)
 		}
 	}
 }
