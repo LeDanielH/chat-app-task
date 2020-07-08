@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux'
 import { useEffect } from 'react'
 import { TWSActionEnum, TWSData } from '../api/types'
-import { messageSent, userJoined, userRegistered, usersOnline } from '../store/actions'
+import { messageSent, userJoined, userLeft, userRegistered, usersOnline } from '../store/actions'
 
 export const useWebSocketListener = (): WebSocket => {
 	const dispatch = useDispatch()
@@ -12,8 +12,6 @@ export const useWebSocketListener = (): WebSocket => {
 			try {
 				// getting usersOnline as list -> wanted to update store once
 				const wsData: TWSData = JSON.parse(event.data)
-
-				debugger;
 
 				switch (wsData.type) {
 					case TWSActionEnum.join:
@@ -28,6 +26,8 @@ export const useWebSocketListener = (): WebSocket => {
 					case TWSActionEnum.online:
 						dispatch(usersOnline(wsData))
 						break
+					case TWSActionEnum.leave:
+						dispatch(userLeft(wsData))
 					default:
 						console.warn(`${wsData.type} not handled`)
 				}
