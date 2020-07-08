@@ -1,5 +1,5 @@
 import { applyMiddleware, compose, createStore, Store } from 'redux'
-import { ReduxPersist } from '../store/reduxPersist'
+// import { ReduxPersist } from '../store/reduxPersist'
 import promiseMiddleware from 'redux-promise-middleware'
 import thunk, { ThunkMiddleware } from 'redux-thunk'
 import { TAction, TAppState } from '../store/types'
@@ -15,10 +15,10 @@ const composeEnhancers =
 		(window['__REDUX_DEVTOOLS_EXTENSION_COMPOSE__'] as typeof compose)) ||
 	compose
 
-const persistedState = ReduxPersist.loadState()
+// const persistedState = ReduxPersist.loadStateFromSessionStorage()
 //Create Redux store
 export const store: Store<TAppState, TAction> = createStore(
 	rootReducer,
-	persistedState,
+	// persistedState,
 	composeEnhancers(applyMiddleware(...middleware))
 )

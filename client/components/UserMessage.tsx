@@ -6,11 +6,7 @@ import { Spacing } from '@householdjs/utils'
 import { TUserMessageDto } from '../api/types'
 import { format } from 'date-fns'
 
-export const UserMessage = ({
-	name,
-	timestamp,
-	message
-}: TUserMessageDto) => {
+export const UserMessage = ({ name, timestamp, message }: TUserMessageDto) => {
 	const timePretty = format(timestamp, 'HH:MM')
 
 	return (

@@ -28,7 +28,7 @@ export const COLORS_UI = {
 	tabActive: COLORS.white,
 	tabInActive: COLORS.grayLight,
 	backdropModal: transparentize(0.7, COLORS.black),
-	containerBackground: COLORS.white,
+	containerBackground: COLORS.white
 }
 
 const SIZES = {
@@ -40,7 +40,7 @@ const SIZES = {
 	participantListItemHeight: getRem(66),
 	// need to use it deeper inside the DOM to keep the scrollbar on the right
 	tabChatRightSpacingCompensation: Spacing.big,
-	maxModalWidth: getRem(320),
+	maxModalWidth: getRem(320)
 }
 
 export const SIZES_UI = {
@@ -54,7 +54,7 @@ export const SIZES_UI = {
 
 const Z_INDEX = {
 	modal: 2,
-	loader: 3,
+	loader: 3
 }
 
 export const TYPOGRAPHY = {

@@ -20,7 +20,7 @@ export const Modal = ({ children, isVisible }: TModalProps) => {
 					backgroundColor: THEME.colors.backdropModal,
 					display: 'flex',
 					justifyContent: 'center',
-					alignItems: 'center',
+					alignItems: 'center'
 				},
 				content: {
 					backgroundColor: THEME.colors.containerBackground,
@@ -30,7 +30,7 @@ export const Modal = ({ children, isVisible }: TModalProps) => {
 
 					...margin(null, 'auto'),
 					...padding(Spacing.big),
-					border: 0,
+					border: 0
 				}
 			}}
 		>
