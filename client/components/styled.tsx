@@ -109,16 +109,24 @@ export interface InputStyledInterface {
 	onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
 
-type TInputProps = InputStyledInterface & React.HTMLProps<HTMLInputElement>
+type TInputProps = InputStyledInterface & React.HTMLProps<HTMLInputElement> & {
+	isLikePara?: boolean
+}
 
-export const InputStyled = styled.input.attrs({ type: 'text' })<TInputProps>({
+export const InputStyled = styled.input.attrs({ type: 'text' })<TInputProps>(({ isLikePara }: TInputProps) => ({
 	border: `${THEME.sizes.borderWidth} solid ${THEME.colors.windowBackground}`,
 	outline: 0,
-	height: THEME.sizes.inputHeight,
-	lineHeight: THEME.sizes.inputHeight,
+	...isLikePara ? {
+		height: THEME.typography.fsBody,
+		lineHeight: THEME.typography.fsBody,
+		} : {
+		height: THEME.sizes.inputHeight,
+		lineHeight: THEME.sizes.inputHeight,
+		...padding(0, Spacing.default),
+	},
+
 	fontSize: THEME.typography.fsBody,
 	fontFamily: THEME.typography.ffBody,
-	...padding(0, Spacing.default),
 	boxSizing: 'border-box',
 	width: '100%',
 	...withTransition(['border']),
@@ -126,7 +134,7 @@ export const InputStyled = styled.input.attrs({ type: 'text' })<TInputProps>({
 		border: `${THEME.sizes.borderWidth} solid ${THEME.colors.border}`,
 		outline: 0
 	}
-})
+}))
 
 export const ScrollContainer = styled('div')({
 	maxHeight: '100vh',
