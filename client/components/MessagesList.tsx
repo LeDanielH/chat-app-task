@@ -1,6 +1,6 @@
 import React from 'react'
 import { List, ListItem } from './styled'
-import { UserMessage } from './UserMessage'
+import { UserMessage } from './userMessage/UserMessage'
 import { useSelector } from 'react-redux'
 import { TAppState } from '../store/types'
 import { messagesState } from '../store/selectors'
