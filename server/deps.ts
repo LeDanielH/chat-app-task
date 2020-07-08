@@ -5,6 +5,7 @@ export {
 	isWebSocketPingEvent,
 	acceptable,
 } from 'https://deno.land/std/ws/mod.ts'
-export * as dateFns from 'https://deno.land/x/date_fns/index.js';
+export { v4 } from 'https://deno.land/std/uuid/mod.ts';
+
 
 export type { WebSocket, WebSocketMessage } from 'https://deno.land/std/ws/mod.ts';

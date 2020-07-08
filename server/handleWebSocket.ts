@@ -11,7 +11,7 @@ export const handleWebSocket = (connections: Array<TConnection>) => async(ws: We
 
 			if(data.type === TWSActionEnum.register) {
 				handleRegister(connections, ws, data)
-			} else if(data.type === TWSActionEnum.message) {
+			} else if(data.type === TWSActionEnum.messageBroadcasted) {
 				broadCastEvents(ws, event, connections)
 			} else {
 				broadCastEvents(ws, event, connections)

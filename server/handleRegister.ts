@@ -1,7 +1,7 @@
 import {TConnection, TWSData} from "./types.ts";
 import {TWSActionEnum} from "./types.ts";
 import {broadCastEvents} from "./broadCastEvents.ts";
-import {WebSocket} from './deps.ts'
+import {v4, WebSocket} from './deps.ts'
 
 export function handleRegister(
 	connections: Array<TConnection>,
@@ -10,22 +10,21 @@ export function handleRegister(
 ) {
 
 	const timestamp = Date.now();
+	const registeredUserId = v4.generate();
 
 	/* REGISTER USER */
 	const registeredUserConnection: TConnection = {
-		id: `${timestamp}`, // TODO replace with uuid
+		id: registeredUserId,
 		value: data.value,
 		ws,
 		timestamp,
 	}
 
-	connections.push(registeredUserConnection)
-
 	const registeredUserData: TWSData = {
-		id: `${timestamp}`, // TODO replace with uuid,
+		id: registeredUserConnection.id,
 		type: data.type,
-		value: data.value,
-		timestamp,
+		value: registeredUserConnection.value,
+		timestamp: registeredUserConnection.timestamp,
 	}
 
 	const registeredUserString = JSON.stringify(registeredUserData);
@@ -48,10 +47,10 @@ export function handleRegister(
 
 	/* TRIGGER USER JOINED */
 	const userJoinedData: TWSData = {
-		id: `${timestamp}`, // TODO replace with uuid
+		id: registeredUserData.id, // TODO replace with uuid
 		type: TWSActionEnum.join,
-		value: data.value,
-		timestamp,
+		value: registeredUserData.value,
+		timestamp: registeredUserData.timestamp,
 	}
 	const userJoinedEvent = JSON.stringify(userJoinedData);
 	broadCastEvents(ws, userJoinedEvent, connections)
