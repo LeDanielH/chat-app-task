@@ -28,15 +28,17 @@ export const handleWebSocket = (connections: Array<TConnection>) => async(ws: We
 					timestamp,
 				}
 
-				const onlineUsers: Array<TWSData> = connections.map((connection: TConnection) => ({
-					id: connection.id,
-					type: TWSActionEnum.online,
-					value: connection.value,
-					timestamp: connection.timestamp,
-				}))
-
-				const onlineUsersString = JSON.stringify(onlineUsers);
-				ws.send(onlineUsersString)
+				// for the sake of type simplicity and consistent client api, I post once per every connection
+				for (const onlineUser of connections) {
+					const userData: TWSData = {
+						id: onlineUser.id,
+						type: TWSActionEnum.online,
+						value: onlineUser.value,
+						timestamp: onlineUser.timestamp,
+					}
+					const onlineUserString = JSON.stringify(userData);
+					ws.send(onlineUserString)
+				}
 
 				const registeredUserString = JSON.stringify(registeredUserData);
 				ws.send(registeredUserString) // registered
