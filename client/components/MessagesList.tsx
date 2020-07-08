@@ -20,10 +20,7 @@ export const MessagesList = ({ ws }: TMessagesList) => {
 					key={`${post.username}-${post.timestamp}`}
 					withBottomSpacing
 				>
-					<UserMessage
-						{ ...post}
-						ws={ws}
-					/>
+					<UserMessage {...post} ws={ws} />
 				</ListItem>
 			))}
 		</List>

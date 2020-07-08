@@ -6,10 +6,18 @@ export function removeAt<T>(arr: T[], index: number): T[] {
 	return [...arr.slice(0, index), ...arr.slice(index + 1)]
 }
 
-export function updateAt<T>(arr: T[], objectPropertiesToUpdate: Partial<T>, index: number): T[] {
-	const objectToUpdate = arr[index];
+export function updateAt<T>(
+	arr: T[],
+	objectPropertiesToUpdate: Partial<T>,
+	index: number
+): T[] {
+	const objectToUpdate = arr[index]
 
 	const arrayStart = arr.slice(0, index)
 	const arrayEnd = arr.slice(index + 1)
-	return [...arrayStart, {...objectToUpdate, ...objectPropertiesToUpdate }, ...arrayEnd]
+	return [
+		...arrayStart,
+		{ ...objectToUpdate, ...objectPropertiesToUpdate },
+		...arrayEnd
+	]
 }

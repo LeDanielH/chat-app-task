@@ -5,10 +5,13 @@ import { THEME } from '../../config/theme'
 import React from 'react'
 
 type TUserMessageHeader = {
-	username: string,
-	timeFormatted: string,
+	username: string
+	timeFormatted: string
 }
-export const UserMessageHeader = ({username, timeFormatted}: TUserMessageHeader) => {
+export const UserMessageHeader = ({
+	username,
+	timeFormatted
+}: TUserMessageHeader) => {
 	return (
 		<FlexParent fullWidth withBottomSpacing={Spacing.small}>
 			<FlexChild>

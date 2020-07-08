@@ -1,3 +1,3 @@
-import { format } from "date-fns"
+import { format } from 'date-fns'
 
 export const timePretty = (timestamp: number) => format(timestamp, 'HH:MM')

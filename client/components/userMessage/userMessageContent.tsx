@@ -1,4 +1,4 @@
-import React  from 'react'
+import React from 'react'
 import { UPDATED_AT } from '../../constants'
 import { CSSObject } from 'styled-components'
 import { THEME } from '../../config/theme'
@@ -30,5 +30,4 @@ export const UserMessageContent = ({ value }: TUserMessageProps) => {
 	} else {
 		return <Paragraph>{value}</Paragraph>
 	}
-
 }

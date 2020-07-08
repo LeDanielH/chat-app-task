@@ -10,7 +10,6 @@ type TModalEnterUserName = {
 }
 
 export const ModalRegisterUser = ({ isVisible, ws }: TModalEnterUserName) => {
-
 	return (
 		<Modal isVisible={isVisible}>
 			<SimpleWrapper center bottom>

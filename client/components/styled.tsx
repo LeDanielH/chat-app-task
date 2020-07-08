@@ -109,32 +109,37 @@ export interface InputStyledInterface {
 	onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
 
-type TInputProps = InputStyledInterface & React.HTMLProps<HTMLInputElement> & {
-	isLikePara?: boolean
-}
-
-export const InputStyled = styled.input.attrs({ type: 'text' })<TInputProps>(({ isLikePara }: TInputProps) => ({
-	border: `${THEME.sizes.borderWidth} solid ${THEME.colors.windowBackground}`,
-	outline: 0,
-	...isLikePara ? {
-		height: THEME.typography.lhBody,
-		lineHeight: THEME.typography.lhBody,
-		} : {
-		height: THEME.sizes.inputHeight,
-		lineHeight: THEME.sizes.inputHeight,
-		...padding(0, Spacing.default),
-	},
-
-	fontSize: THEME.typography.fsBody,
-	fontFamily: THEME.typography.ffBody,
-	boxSizing: 'border-box',
-	width: '100%',
-	...withTransition(['border']),
-	'&:focus, &:hover': {
-		border: `${THEME.sizes.borderWidth} solid ${THEME.colors.border}`,
-		outline: 0
+type TInputProps = InputStyledInterface &
+	React.HTMLProps<HTMLInputElement> & {
+		isLikePara?: boolean
 	}
-}))
+
+export const InputStyled = styled.input.attrs({ type: 'text' })<TInputProps>(
+	({ isLikePara }: TInputProps) => ({
+		border: `${THEME.sizes.borderWidth} solid ${THEME.colors.windowBackground}`,
+		outline: 0,
+		...(isLikePara
+			? {
+					height: THEME.typography.lhBody,
+					lineHeight: THEME.typography.lhBody
+			  }
+			: {
+					height: THEME.sizes.inputHeight,
+					lineHeight: THEME.sizes.inputHeight,
+					...padding(0, Spacing.default)
+			  }),
+
+		fontSize: THEME.typography.fsBody,
+		fontFamily: THEME.typography.ffBody,
+		boxSizing: 'border-box',
+		width: '100%',
+		...withTransition(['border']),
+		'&:focus, &:hover': {
+			border: `${THEME.sizes.borderWidth} solid ${THEME.colors.border}`,
+			outline: 0
+		}
+	})
+)
 
 export const ScrollContainer = styled('div')({
 	maxHeight: '100vh',
