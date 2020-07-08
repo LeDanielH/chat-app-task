@@ -42,9 +42,9 @@ const webpackConfig = {
     plugins: [
         new HtmlWebpackPlugin({
             template: './client/index.html',
-			...prod ? { inlineSource: '.(js|css)$' } : {}
+			inlineSource: '.(js|css)$',
         }),
-		...prod ? new HtmlWebpackInlineSourcePlugin() : []
+		new HtmlWebpackInlineSourcePlugin(),
     ]
 };
 
