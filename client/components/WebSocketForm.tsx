@@ -2,6 +2,9 @@ import React, { FormEvent, useState } from 'react'
 import { Heading, InputStyled } from './styled'
 import { TWSData } from '../api/types'
 import { getTime } from 'date-fns'
+import { useSelector } from 'react-redux'
+import { TAppState } from '../store/types'
+import { registeredUserIdState } from '../store/selectors'
 
 type TWebSocketForm = {
 	wsType: TWSData['type']
@@ -26,6 +29,10 @@ export const WebSocketForm = ({
 	const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setValue(e.target.value)
 	}
+
+	const { registeredUserId } = useSelector((state: TAppState) => ({
+		registeredUserId: registeredUserIdState(state)
+	}))
 
 	const onSubmitError = (message: string | ErrorEvent) => {
 		if (errorCallback) {
@@ -52,7 +59,7 @@ export const WebSocketForm = ({
 			const valueTrimmed = value.trim()
 			const timestamp = getTime(Date.now())
 			const wsData: TWSData = {
-				id: `${timestamp}`,
+				id: registeredUserId,
 				type: wsType,
 				value: valueTrimmed,
 				timestamp
