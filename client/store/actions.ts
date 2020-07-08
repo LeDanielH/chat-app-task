@@ -19,9 +19,8 @@ export const userJoined = (wsData: TWSData) => (
 	getState: () => TAppState
 ) => {
 	const { users } = getState()
-	// do not have id yet - TODO replace by id
 	const existingUser = users.find(
-		(user: TWSData) => user.value === wsData.value
+		(user: TWSData) => user.id === wsData.id
 	)
 
 	if (existingUser) {
@@ -30,10 +29,10 @@ export const userJoined = (wsData: TWSData) => (
 		dispatch(_userJoined(wsData))
 		const mettingBotData: TMessage = {
 			username: MEETING_BOT,
-			timestamp: Date.now(),
+			timestamp: wsData.timestamp,
 			value: `${wsData.value} joined the meeting`,
 			type: TWSActionEnum.message,
-			id: `${Date.now()}` // TODO add id
+			id: wsData.id
 		}
 		dispatch(_messageSent(mettingBotData))
 	}
@@ -51,7 +50,7 @@ export const usersOnline = (wsData: TWSData) => (
 	const { users } = getState()
 	// do not have id yet
 	const existingUser = users.find(
-		(user: TWSData) => user.value === wsData.value
+		(user: TWSData) => user.id === wsData.id
 	)
 
 	if (existingUser) {
@@ -62,7 +61,7 @@ export const usersOnline = (wsData: TWSData) => (
 }
 
 const _userRegistered = (wsData: TWSData): TAction => ({
-	type: 'USER_JOINED',
+	type: 'USER_REGISTERED',
 	payload: wsData
 })
 
@@ -106,7 +105,7 @@ export const userLeft = (wsData: TWSData) => (
 			timestamp: Date.now(),
 			value: `${users[leavingUserIndex].value} left the meeting`,
 			type: TWSActionEnum.message,
-			id: `${Date.now()}` // TODO add id
+			id: users[leavingUserIndex].id
 		}
 		dispatch(_messageSent(mettingBotData))
 	}
@@ -148,7 +147,7 @@ const _messageUpdated = (
 	payload: updatedMessageData
 })
 
-export const messageUpdated = (wsData: TMessage) => (
+export const messageUpdated = (wsData: TWSData) => (
 	dispatch: Dispatch<TAction>,
 	getState: () => TAppState
 ) => {

@@ -5,7 +5,7 @@ export type TMessage = TWSData & {
 }
 
 export type TMessageUpdatePayload = {
-	data: TMessage
+	data: TWSData
 	index: number
 }
 
@@ -17,8 +17,10 @@ export type TAction =
 	| { type: 'MESSAGE_RECEIVED'; payload: TMessage }
 	| { type: 'MESSAGE_SENT'; payload: TMessage }
 	| { type: 'MESSAGE_UPDATED'; payload: TMessageUpdatePayload }
+	| { type: 'SET_REGISTERED_USER_ID'; payload: string }
 
 export interface TAppState {
 	messages: Array<TMessage>
 	users: Array<TWSData>
+	registeredUserId: string
 }
