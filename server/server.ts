@@ -1,12 +1,12 @@
 import { acceptable, serve, acceptWebSocket } from './deps.ts'
 import { handleWebSocket } from './handleWebSocket.ts'
 import { TConnection } from './types.ts'
+import { PORT } from "./constants.ts";
 
 const connections = new Array<TConnection>()
 async function main() {
-	const port = Deno.args[0] || '1234'
-	console.log(`websocket server is running on http://localhost:${port}`)
-	for await (const req of serve(`:${port}`)) {
+	console.log(`websocket server is running on http://localhost:${PORT}`)
+	for await (const req of serve(`:${PORT}`)) {
 		const isRequestAcceptable = acceptable(req)
 
 		if (isRequestAcceptable) {
