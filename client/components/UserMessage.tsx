@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Heading, Paragraph } from './styled'
-import { FlexChild, FlexParent, Spacer } from '@householdjs/elements'
+import { FlexChild, FlexParent, SimpleWrapper, Spacer } from '@householdjs/elements'
 import { THEME } from '../config/theme'
 import { Spacing } from '@householdjs/utils'
 import { TWSActionEnum } from '../api/types'
@@ -36,27 +36,32 @@ export const UserMessage = ({
 
 	return (
 		<Spacer right={THEME.sizes.tabChatRightSpacingCompensation}>
-			<FlexParent fullWidth withBottomSpacing={Spacing.small}>
+			<FlexParent
+				fullWidth
+				withBottomSpacing={Spacing.small}
+			>
 				<FlexChild>
 					<Heading color={THEME.colors.heading} disableLineHeight>
 						{username}
 					</Heading>
 				</FlexChild>
-				<FlexChild left onClick={handleMessageOnClick}>
-					{isEditing ? (
-						<WebSocketForm
-							ws={ws}
-							wsType={TWSActionEnum.messageBroadcasted}
-							placeholder={value}
-						/>
-					) : (
-						<Paragraph color={THEME.colors.time} disableLineHeight>
-							{timeFormatted}
-						</Paragraph>
-					)}
+				<FlexChild left>
+					<Paragraph color={THEME.colors.time} disableLineHeight>
+						{timeFormatted}
+					</Paragraph>
 				</FlexChild>
 			</FlexParent>
-			<Paragraph>{value}</Paragraph>
+			{isEditing ? (
+				<WebSocketForm
+					ws={ws}
+					wsType={TWSActionEnum.messageBroadcasted}
+					placeholder={value}
+				/>
+			) : (
+				<SimpleWrapper onClick={handleMessageOnClick} withPointer={canEditMessage}>
+					<Paragraph>{value}</Paragraph>
+				</SimpleWrapper>
+			)}
 		</Spacer>
 	)
 }
