@@ -1,18 +1,24 @@
-import { TAppState } from './types'
+import { TAppState, TMessage } from './types'
 import { TWSData } from '../api/types'
-import { MEETING_BOT } from '../constants'
 
 export const getMessageWithUsername = (
 	users: TAppState['users'],
 	message: TWSData
 ) => {
 	const user = users.find((user: TWSData) => user.id === message.id)
-
-	const isMeetingBot = message.id.startsWith(MEETING_BOT)
-
-	const username = user ? user.value : isMeetingBot ? MEETING_BOT : 'unknown'
+	const username = user ? user.value : 'unknown'
 	return {
 		...message,
 		username
 	}
+}
+
+export const getMessageToBeUpdatedIndex = (messages: TAppState['messages'], wsData: TWSData) => {
+	return messages.findIndex(
+		(message: TMessage) => {
+			const isSameUser = message.id === wsData.id
+			const isSameTimestamp = message.timestamp === wsData.timestamp
+			return isSameUser && isSameTimestamp
+		}
+	)
 }
