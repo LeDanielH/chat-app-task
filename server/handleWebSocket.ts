@@ -2,12 +2,10 @@ import {isWebSocketCloseEvent, WebSocket} from './deps.ts'
 import {broadCastEvents} from './broadCastEvents.ts'
 import {TConnection, TWSActionEnum, TWSData} from "./types.ts";
 import {handleRegister} from "./handleRegister.ts";
+import { removeAt } from "./utils.ts";
 
 export const handleWebSocket = (connections: Array<TConnection>) => async(ws: WebSocket) => {
-	console.log('websocket connection established')
-
 	for await (const event of ws) {
-		const isCloseEvent = isWebSocketCloseEvent(event)
 		if (typeof event === 'string') {
 			const data: TWSData = JSON.parse(event)
 
@@ -18,26 +16,25 @@ export const handleWebSocket = (connections: Array<TConnection>) => async(ws: We
 			}
 		}
 
+		const isCloseEvent = isWebSocketCloseEvent(event)
+
 		if (isCloseEvent) {
-			const currentConnection = connections.find((connection : TConnection) => connection.ws === ws);
+			const currentConnectionIndex = connections.findIndex((connection : TConnection) => connection.ws === ws);
 
-			console.log({currentConnection});
-
-			if(currentConnection) {
+			if(currentConnectionIndex > -1) {
 				const leaveEvent: TWSData = {
-					timestamp: currentConnection.timestamp,
+					timestamp: connections[currentConnectionIndex].timestamp,
 					type: TWSActionEnum.leave,
-					value: currentConnection.value,
-					id: currentConnection.id,
+					value: connections[currentConnectionIndex].value,
+					id: connections[currentConnectionIndex].id,
 				}
 
 				const leaveEventString = JSON.stringify(leaveEvent);
 
 				broadCastEvents(ws, leaveEventString, connections)
-				console.log('websocket connection closed')
+				connections.splice(currentConnectionIndex, 1)
 			}
 
 		}
-		console.log(event)
 	}
 }

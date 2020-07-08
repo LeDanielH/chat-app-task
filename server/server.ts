@@ -23,8 +23,6 @@ async function main() {
 					await req.respond({ status: 400 })
 				})
 		} else {
-			console.log(req.method, req.url)
-
 			const isGet = req.method === 'GET'
 			const isRootUrl = req.url === '/'
 
