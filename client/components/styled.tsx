@@ -4,11 +4,10 @@ import { padding, margin } from 'polished'
 
 import {
 	Spacing,
-	multiplyStringValue,
 	withTransition
 } from '@householdjs/utils'
 
-import { getRem, THEME } from '../config/theme'
+import { THEME } from '../config/theme'
 
 export interface TypographyProps {
 	textAlign?: 'left' | 'center' | 'right'
@@ -16,7 +15,8 @@ export interface TypographyProps {
 	lineHeight?: string
 	fontSize?: string
 	color?: string
-	disableLineHeight?: boolean
+	disableLineHeight?: boolean,
+	letterSpacing?: string,
 }
 
 export const List = styled('ul')({
@@ -62,13 +62,14 @@ export const ListItem = styled('li')<TListItemProps>(
 export const getTypographyProps = ({
 	textAlign,
 	withBottomSpacing,
-	lineHeight = multiplyStringValue(THEME.typography.fsBody, 1.5),
+	lineHeight = THEME.typography.lhBody,
 	color = THEME.colors.text,
 	fontSize = THEME.typography.fsBody,
-	disableLineHeight = false
+	disableLineHeight = false,
+	letterSpacing = THEME.typography.lsBody,
 }: TypographyProps): CSSObject => ({
 	margin: 0,
-	letterSpacing: getRem(1),
+	letterSpacing,
 	fontSize,
 	color,
 	...(disableLineHeight
@@ -134,6 +135,7 @@ export const InputStyled = styled.input.attrs({ type: 'text' })<TInputProps>(
 		fontFamily: THEME.typography.ffBody,
 		boxSizing: 'border-box',
 		width: '100%',
+		letterSpacing: THEME.typography.lsBody,
 		...withTransition(['border']),
 		'&:focus, &:hover': {
 			border: `${THEME.sizes.borderWidth} solid ${THEME.colors.border}`,

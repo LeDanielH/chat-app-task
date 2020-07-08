@@ -19,8 +19,12 @@ export const UserMessageHeader = ({
 					{username}
 				</Heading>
 			</FlexChild>
-			<FlexChild left={Spacing.small}>
-				<Paragraph color={THEME.colors.time} disableLineHeight>
+			<FlexChild left>
+				<Paragraph
+					color={THEME.colors.time}
+					disableLineHeight
+					letterSpacing={THEME.typography.lsTime}
+				>
 					{timeFormatted}
 				</Paragraph>
 			</FlexChild>

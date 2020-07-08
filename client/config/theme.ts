@@ -69,7 +69,9 @@ export const TYPOGRAPHY = {
 	fsHeading: getRem(16),
 	fwMessage: '400',
 	fsPageTitle: getRem(18),
-	fsSmall: getRem(12)
+	fsSmall: getRem(12),
+	lsBody: getRem(1),
+	lsTime: getRem(0.5),
 }
 
 export const TYPOGRAPHY_UI = {
@@ -79,7 +81,7 @@ export const TYPOGRAPHY_UI = {
 	fwMessage: TYPOGRAPHY.fwRegular,
 	fwHeading: TYPOGRAPHY.fwBold,
 	lhBody: multiplyStringValue(TYPOGRAPHY.fsBody, 2),
-	fsUpdatedAt: TYPOGRAPHY.fsSmall
+	fsUpdatedAt: TYPOGRAPHY.fsSmall,
 }
 
 export const THEME = {
