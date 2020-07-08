@@ -28,6 +28,16 @@ export const handleWebSocket = (connections: Array<TConnection>) => async(ws: We
 					timestamp,
 				}
 
+				const onlineUsers: Array<TWSData> = connections.map((connection: TConnection) => ({
+					id: connection.id,
+					type: TWSActionEnum.online,
+					value: connection.value,
+					timestamp: connection.timestamp,
+				}))
+
+				const onlineUsersString = JSON.stringify(onlineUsers);
+				ws.send(onlineUsersString)
+
 				const registeredUserString = JSON.stringify(registeredUserData);
 				ws.send(registeredUserString) // registered
 
