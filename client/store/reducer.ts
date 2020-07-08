@@ -1,21 +1,21 @@
 import { TAction, TAppState, TMessage } from './types'
 import { removeAt, updateAt } from '../utils/arrayAt'
 import { TWSActionEnum, TWSData } from '../api/types'
-import { MEETING_BOT, PORT } from '../constants'
+import { MEETING_BOT, CLIENT_PORT } from '../constants'
 
 const meetingBot: TWSData = {
 	id: MEETING_BOT,
 	value: MEETING_BOT,
 	timestamp: Date.now(),
-	type: TWSActionEnum.online,
+	type: TWSActionEnum.online
 }
 
 const meetingBotMessage: TMessage = {
 	id: meetingBot.id,
-	value: `To add more users, click on http://localhost:${PORT}`,
+	value: `To add more users, click on http://localhost:${CLIENT_PORT}`,
 	timestamp: meetingBot.timestamp,
 	type: TWSActionEnum.messageBroadcasted,
-	username: MEETING_BOT,
+	username: MEETING_BOT
 }
 
 const initialState: TAppState = {

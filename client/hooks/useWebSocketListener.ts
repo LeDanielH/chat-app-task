@@ -9,8 +9,9 @@ import {
 	userRegistered,
 	usersOnline
 } from '../store/actions'
+import { WS_PORT } from '../constants'
 
-const ws = new WebSocket('ws://localhost:1234')
+const ws = new WebSocket(`ws://localhost:${WS_PORT}`)
 
 export const useWebSocketListener = (): WebSocket => {
 	const dispatch = useDispatch()
