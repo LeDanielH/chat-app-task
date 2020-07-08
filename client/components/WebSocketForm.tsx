@@ -1,7 +1,6 @@
 import React, { FormEvent, useState } from 'react'
 import { Heading, InputStyled } from './styled'
 import { TWSData } from '../api/types'
-import { getTime } from 'date-fns'
 import { useSelector } from 'react-redux'
 import { TAppState } from '../store/types'
 import { registeredUserIdState } from '../store/selectors'
@@ -14,6 +13,8 @@ type TWebSocketForm = {
 	ws: WebSocket
 	label?: string
 	isInEditMode?: boolean
+	initialValue?: string
+	extraData?: Partial<TWSData>
 }
 export const WebSocketForm = ({
 	wsType,
@@ -22,9 +23,11 @@ export const WebSocketForm = ({
 	errorCallback,
 	ws,
 	label,
-	isInEditMode
+	isInEditMode,
+	initialValue = '',
+	extraData
 }: TWebSocketForm) => {
-	const [value, setValue] = useState<string>('')
+	const [value, setValue] = useState<string>(initialValue)
 
 	const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setValue(e.target.value)
@@ -57,12 +60,13 @@ export const WebSocketForm = ({
 	const onSubmit = (e: FormEvent<HTMLFormElement>) => {
 		if (value.length > 0) {
 			const valueTrimmed = value.trim()
-			const timestamp = getTime(Date.now())
+			const timestamp = Date.now()
 			const wsData: TWSData = {
 				id: registeredUserId,
 				type: wsType,
 				value: valueTrimmed,
-				timestamp
+				timestamp,
+				...extraData
 			}
 			if (ws) {
 				tryToSendValue(ws, wsData)

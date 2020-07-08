@@ -117,8 +117,8 @@ export const InputStyled = styled.input.attrs({ type: 'text' })<TInputProps>(({ 
 	border: `${THEME.sizes.borderWidth} solid ${THEME.colors.windowBackground}`,
 	outline: 0,
 	...isLikePara ? {
-		height: THEME.typography.fsBody,
-		lineHeight: THEME.typography.fsBody,
+		height: THEME.typography.lhBody,
+		lineHeight: THEME.typography.lhBody,
 		} : {
 		height: THEME.sizes.inputHeight,
 		lineHeight: THEME.sizes.inputHeight,

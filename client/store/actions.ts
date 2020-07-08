@@ -1,13 +1,8 @@
 import { Dispatch } from 'redux'
-import {
-	TAction,
-	TAppState,
-	TMessageUpdatePayload,
-	TMessage
-} from './types'
+import { TAction, TAppState, TMessageUpdatePayload, TMessage } from './types'
 import { TWSActionEnum, TWSData } from '../api/types'
-import { MEETING_BOT, YOU } from '../constants'
-import { getMessageWithUsername, getMessageToBeUpdatedIndex } from './utils'
+import { MEETING_BOT, UPDATED_AT, YOU } from '../constants'
+import { getMessageWithUsername, getMessageToBeUpdatedIndex, getMessageWithoutTimeUpdated } from './utils'
 import { timePretty } from '../utils/timePretty'
 
 const _userJoined = (wsData: TWSData): TAction => ({
@@ -20,9 +15,7 @@ export const userJoined = (wsData: TWSData) => (
 	getState: () => TAppState
 ) => {
 	const { users } = getState()
-	const existingUser = users.find(
-		(user: TWSData) => user.id === wsData.id
-	)
+	const existingUser = users.find((user: TWSData) => user.id === wsData.id)
 
 	if (existingUser) {
 		console.warn('user already exists')
@@ -50,9 +43,7 @@ export const usersOnline = (wsData: TWSData) => (
 ) => {
 	const { users } = getState()
 	// do not have id yet
-	const existingUser = users.find(
-		(user: TWSData) => user.id === wsData.id
-	)
+	const existingUser = users.find((user: TWSData) => user.id === wsData.id)
 
 	if (existingUser) {
 		console.warn('user already exists')
@@ -124,11 +115,13 @@ export const messageBroadcasted = (wsData: TWSData) => (
 	const { users, messages } = getState()
 	const messageWithUsername = getMessageWithUsername(users, wsData)
 	const messageToBeUpdatedIndex = getMessageToBeUpdatedIndex(messages, wsData)
-	if(messageToBeUpdatedIndex > -1) {
-		dispatch(_messageUpdated({
-			data: wsData,
-			index: messageToBeUpdatedIndex
-		}))
+	if (messageToBeUpdatedIndex > -1) {
+		dispatch(
+			_messageUpdated({
+				data: wsData,
+				index: messageToBeUpdatedIndex
+			})
+		)
 	} else {
 		dispatch(_messageBroadcasted(messageWithUsername))
 	}
@@ -136,10 +129,18 @@ export const messageBroadcasted = (wsData: TWSData) => (
 
 const _messageUpdated = (
 	updatedMessageData: TMessageUpdatePayload
-): TAction => ({
-	type: 'MESSAGE_UPDATED',
-	payload: { ...updatedMessageData, data: {
-		...updatedMessageData.data,
-			value: `${updatedMessageData.data.value} <em>(updated at ${timePretty(Date.now())})</em>`
-		} }
-})
+): TAction => {
+	const updatedAt = `${UPDATED_AT} ${timePretty(Date.now())}`;
+	const messageWithoutUpdated = getMessageWithoutTimeUpdated(updatedMessageData.data.value);
+	const value = `${messageWithoutUpdated} ${updatedAt}`;
+	return ({
+		type: 'MESSAGE_UPDATED',
+		payload: {
+			...updatedMessageData,
+			data: {
+				...updatedMessageData.data,
+				value,
+			}
+		}
+	})
+}
