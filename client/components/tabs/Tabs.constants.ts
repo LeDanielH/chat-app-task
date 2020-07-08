@@ -6,6 +6,7 @@ export type TTabCommonProps = {
 
 export type TTabSelectorTitleProps = {
 	title: string
+	centered: boolean
 }
 
 export const TABS = {

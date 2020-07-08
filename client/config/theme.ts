@@ -1,5 +1,5 @@
 import { pxToRem, Spacing, multiplyStringValue } from '@householdjs/utils'
-import { transparentize } from 'polished'
+import { transparentize, lighten } from 'polished'
 
 const BASE_FONT_SIZE = 16
 
@@ -12,10 +12,10 @@ const COLORS = {
 	blueDark: '#001539', // name (title)
 	black: '#010032', // text
 	blue: '#007FF0', // link
-	white: '#ffffff' // messages container
+	white: '#ffffff' // messages container,
 }
 
-export const COLORS_UI = {
+const COLORS_UI = {
 	text: COLORS.black,
 	heading: COLORS.blueDark,
 	link: COLORS.blue,
@@ -29,7 +29,8 @@ export const COLORS_UI = {
 	tabInActive: COLORS.grayLight,
 	backdropModal: transparentize(0.7, COLORS.black),
 	containerBackground: COLORS.white,
-	updatedAt: COLORS.gray
+	updatedAt: COLORS.gray,
+	participantsDesktop: lighten(0.06, COLORS.grayLight)
 }
 
 const SIZES = {
@@ -46,7 +47,7 @@ const SIZES = {
 	containerMinHeight: '50vh'
 }
 
-export const SIZES_UI = {
+const SIZES_UI = {
 	...SIZES,
 	baseSpacing: Spacing.default,
 	spacingTabsContainer: multiplyStringValue(Spacing.default, 2),
@@ -55,12 +56,12 @@ export const SIZES_UI = {
 	spacingInput: Spacing.default
 }
 
-const Z_INDEX = {
+const Z_INDEXES = {
 	modal: 2,
 	loader: 3
 }
 
-export const TYPOGRAPHY = {
+const TYPOGRAPHY = {
 	ffBody: 'sans-serif',
 	fwUserName: '700',
 	fsBody: getRem(15),
@@ -71,24 +72,29 @@ export const TYPOGRAPHY = {
 	fsPageTitle: getRem(18),
 	fsSmall: getRem(12),
 	lsBody: getRem(1),
-	lsTime: getRem(0.5),
+	lsTime: getRem(0.5)
 }
 
-export const TYPOGRAPHY_UI = {
+const MEDIA_QUERIES = {
+	withTabs: '(max-width: 1000px)'
+}
+
+const TYPOGRAPHY_UI = {
 	...TYPOGRAPHY,
 	fsMessage: TYPOGRAPHY.fsBody,
 	fsUserName: TYPOGRAPHY.fsHeading,
 	fwMessage: TYPOGRAPHY.fwRegular,
 	fwHeading: TYPOGRAPHY.fwBold,
 	lhBody: multiplyStringValue(TYPOGRAPHY.fsBody, 2),
-	fsUpdatedAt: TYPOGRAPHY.fsSmall,
+	fsUpdatedAt: TYPOGRAPHY.fsSmall
 }
 
 export const THEME = {
 	colors: COLORS_UI,
 	sizes: SIZES_UI,
 	typography: TYPOGRAPHY_UI,
-	zIndex: Z_INDEX
+	zIndex: Z_INDEXES,
+	mediaQueries: MEDIA_QUERIES
 }
 
 export type ThemeType = typeof THEME

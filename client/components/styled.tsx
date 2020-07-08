@@ -2,10 +2,7 @@ import * as React from 'react'
 import styled, { CSSObject } from 'styled-components'
 import { padding, margin } from 'polished'
 
-import {
-	Spacing,
-	withTransition
-} from '@householdjs/utils'
+import { Spacing, withTransition } from '@householdjs/utils'
 
 import { THEME } from '../config/theme'
 
@@ -15,8 +12,8 @@ export interface TypographyProps {
 	lineHeight?: string
 	fontSize?: string
 	color?: string
-	disableLineHeight?: boolean,
-	letterSpacing?: string,
+	disableLineHeight?: boolean
+	letterSpacing?: string
 }
 
 export const List = styled('ul')({
@@ -66,7 +63,7 @@ export const getTypographyProps = ({
 	color = THEME.colors.text,
 	fontSize = THEME.typography.fsBody,
 	disableLineHeight = false,
-	letterSpacing = THEME.typography.lsBody,
+	letterSpacing = THEME.typography.lsBody
 }: TypographyProps): CSSObject => ({
 	margin: 0,
 	letterSpacing,
@@ -145,6 +142,6 @@ export const InputStyled = styled.input.attrs({ type: 'text' })<TInputProps>(
 )
 
 export const ScrollContainer = styled('div')({
-	maxHeight: '100vh',
+	maxHeight: '80vh',
 	overflow: 'auto'
 })

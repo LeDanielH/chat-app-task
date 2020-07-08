@@ -12,22 +12,28 @@ import { useSelector } from 'react-redux'
 import { isRegisteredSelector } from '../../store/selectors'
 import { TAppState } from '../../store/types'
 import { useWebSocketListener } from '../../hooks/useWebSocketListener'
+import { useMediaQuery } from 'react-responsive'
+import { Spacing } from '@householdjs/utils'
 
 type TTab = {
 	name: string
-	tabSelector: ReactNode
+	tabSelector: (centered: boolean) => ReactNode
 	tabContent: (ws: WebSocket) => ReactNode
 }
 
 const tabs: Array<TTab> = [
 	{
 		name: TABS.participants,
-		tabSelector: <TabSelectorTitleParticipants />,
+		tabSelector: (centered: boolean) => (
+			<TabSelectorTitleParticipants centered={centered} />
+		),
 		tabContent: (_ws: WebSocket) => <TabParticipants />
 	},
 	{
 		name: TABS.chat,
-		tabSelector: <TabSelectorTitle title={TABS.chat} />,
+		tabSelector: (centered: boolean) => (
+			<TabSelectorTitle title={TABS.chat} centered={centered} />
+		),
 		tabContent: (ws: WebSocket) => <TabChat ws={ws} />
 	}
 ]
@@ -37,6 +43,8 @@ export const Tabs = () => {
 	const { isRegistered } = useSelector((state: TAppState) => ({
 		isRegistered: isRegisteredSelector(state)
 	}))
+
+	const withTabs = useMediaQuery({ query: THEME.mediaQueries.withTabs })
 
 	const ws = useWebSocketListener()
 
@@ -48,32 +56,63 @@ export const Tabs = () => {
 
 	return (
 		<>
-			<SimpleWrapper backgroundColor={THEME.colors.containerBackground}>
+			{withTabs ? (
+				<SimpleWrapper
+					backgroundColor={THEME.colors.containerBackground}
+				>
+					<FlexParent>
+						{tabs.map((tab: TTab, index: number) => {
+							const isSelected = selected === index
+							return (
+								<FlexChild
+									onClick={selectFactory(index)}
+									withPointer={!isSelected}
+									key={tab.name}
+									width={'100rem'}
+								>
+									<TabSelector isActive={isSelected}>
+										{tab.tabSelector(true)}
+									</TabSelector>
+								</FlexChild>
+							)
+						})}
+					</FlexParent>
+					<SimpleWrapper
+						isRelative
+						backgroundColor={THEME.colors.tabActive}
+						minHeight={THEME.sizes.containerMinHeight}
+					>
+						{tabs[selected].tabContent(ws)}
+					</SimpleWrapper>
+				</SimpleWrapper>
+			) : (
 				<FlexParent>
-					{tabs.map((tab: TTab, index: number) => {
-						const isSelected = selected === index
+					{tabs.map((tab: TTab) => {
+						const participants = tab.name === TABS.participants
+						const grow = participants ? 1 : 5
+						const backgroundColor = participants
+							? THEME.colors.participantsDesktop
+							: THEME.colors.tabActive
+
 						return (
 							<FlexChild
-								onClick={selectFactory(index)}
-								withPointer={!isSelected}
+								grow={grow}
+								backgroundColor={backgroundColor}
 								key={tab.name}
-								width={'100rem'}
 							>
-								<TabSelector isActive={isSelected}>
-									{tab.tabSelector}
-								</TabSelector>
+								<SimpleWrapper horizontal={Spacing.big}>
+									{tab.tabSelector(false)}
+								</SimpleWrapper>
+								<SimpleWrapper
+									minHeight={THEME.sizes.containerMinHeight}
+								>
+									{tab.tabContent(ws)}
+								</SimpleWrapper>
 							</FlexChild>
 						)
 					})}
 				</FlexParent>
-				<SimpleWrapper
-					isRelative
-					backgroundColor={THEME.colors.tabActive}
-					minHeight={THEME.sizes.containerMinHeight}
-				>
-					{tabs[selected].tabContent(ws)}
-				</SimpleWrapper>
-			</SimpleWrapper>
+			)}
 			<ModalRegisterUser isVisible={!isRegistered} ws={ws} />
 		</>
 	)
