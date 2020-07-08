@@ -5,12 +5,12 @@
   "license": "UNLICENSED",
   "repository": {
     "type": "git",
-    "url": "https://github.com/MewsSystems/sample"
+    "url": "https://github.com/LeDanielH/chat-app-task"
   },
-  "main": "Sources/index.js",
   "scripts": {
-    "start-server": "cd server && deno run --allow-net --allow-read server.ts",
-    "start": "webpack-dev-server",
+    "start": "npm start:client && npm start:server",
+    "start:server": "cd server && deno run --allow-net --allow-read server.ts",
+    "start:client": "webpack-dev-server",
     "build": "webpack -p",
     "prettier": "prettier --write \"./client/**/*.{ts,tsx}\"",
     "typescript": "tsc -p ./tsconfig.json --pretty --noEmit"
@@ -20,18 +20,13 @@
     "@householdjs/types": "^2.0.8-alpha.0",
     "@householdjs/ui": "^2.0.10-alpha.0",
     "@householdjs/utils": "^2.0.9-alpha.0",
-    "chance": "1.1.6",
     "date-fns": "^2.14.0",
-    "dotenv": "^8.2.0",
-    "express": "^4.17.1",
-    "lodash": "^4.17.15",
     "polished": "^3.6.5",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-modal": "^3.11.2",
     "react-redux": "^7.2.0",
     "redux": "^4.0.5",
-    "redux-promise-middleware": "^6.1.2",
     "redux-thunk": "^2.3.0",
     "reselect": "^4.0.0",
     "styled-components": "^5.1.1",
@@ -43,7 +38,6 @@
     "@types/react-dom": "^16.9.8",
     "@types/react-modal": "^3.10.6",
     "@types/react-redux": "^7.1.9",
-    "@types/redux-promise-middleware": "^6.0.0",
     "@types/styled-components": "^5.1.0",
     "awesome-typescript-loader": "^5.2.1",
     "html-webpack-inline-source-plugin": "0.0.10",

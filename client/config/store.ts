@@ -1,13 +1,11 @@
 import { applyMiddleware, compose, createStore, Store } from 'redux'
 // import { ReduxPersist } from '../store/reduxPersist'
-import promiseMiddleware from 'redux-promise-middleware'
 import thunk, { ThunkMiddleware } from 'redux-thunk'
 import { TAction, TAppState } from '../store/types'
 import { rootReducer } from '../store/reducer'
 
 const middleware = [
 	thunk as ThunkMiddleware<TAppState, TAction>,
-	promiseMiddleware
 ]
 
 const composeEnhancers =

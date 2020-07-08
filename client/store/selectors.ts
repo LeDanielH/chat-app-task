@@ -1,13 +1,7 @@
 import { TAppState } from './types'
-import { createSelectorCreator, defaultMemoize, createSelector } from 'reselect'
-import _isEqual from 'lodash/isEqual'
+import { createSelector } from 'reselect'
 import { TWSData } from '../api/types'
 import { YOU } from '../constants'
-
-export const createDeepEqualSelector = createSelectorCreator(
-	defaultMemoize,
-	_isEqual
-)
 
 export const usersState = (state: TAppState) => state.users
 export const messagesState = (state: TAppState) => state.messages
