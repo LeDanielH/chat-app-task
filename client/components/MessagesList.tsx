@@ -6,7 +6,10 @@ import { TAppState } from '../store/types'
 import { messagesState } from '../store/selectors'
 import { TMessage } from '../store/types'
 
-export const MessagesList = () => {
+type TMessagesList = {
+	ws: WebSocket
+}
+export const MessagesList = ({ ws }: TMessagesList) => {
 	const { messages } = useSelector((state: TAppState) => ({
 		messages: messagesState(state)
 	}))
@@ -18,9 +21,8 @@ export const MessagesList = () => {
 					withBottomSpacing
 				>
 					<UserMessage
-						name={post.username}
-						timestamp={post.timestamp}
-						message={post.value}
+						{ ...post}
+						ws={ws}
 					/>
 				</ListItem>
 			))}

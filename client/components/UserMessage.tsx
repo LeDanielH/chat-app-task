@@ -4,11 +4,11 @@ import { FlexChild, FlexParent, Spacer } from '@householdjs/elements'
 import { THEME } from '../config/theme'
 import { Spacing } from '@householdjs/utils'
 import { TWSActionEnum } from '../api/types'
-import { format } from 'date-fns'
 import { useSelector } from 'react-redux'
 import { WebSocketForm } from './WebSocketForm'
 import { TAppState, TMessage } from '../store/types'
 import { canEditMessageSelectorFactory } from '../store/selectors'
+import { timePretty } from '../utils/timePretty'
 
 type TUserMessage = TMessage & { ws: WebSocket }
 
@@ -26,7 +26,8 @@ export const UserMessage = ({
 			canEditMessage: canEditMessageSelector(state)
 		}
 	})
-	const timePretty = format(timestamp, 'HH:MM')
+	const timeFormatted = timePretty(timestamp)
+
 	const toggleCanEdit = () => {
 		setIsEditing(!isEditing)
 	}
@@ -50,7 +51,7 @@ export const UserMessage = ({
 						/>
 					) : (
 						<Paragraph color={THEME.colors.time} disableLineHeight>
-							{timePretty}
+							{timeFormatted}
 						</Paragraph>
 					)}
 				</FlexChild>

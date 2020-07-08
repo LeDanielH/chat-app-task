@@ -20,7 +20,7 @@ export const TabChat = ({ ws }: TTabChatProps) => {
 	return (
 		<Spacer top={Spacing.big} bottom={Spacing.big} left={Spacing.big}>
 			<ScrollContainer>
-				<MessagesList />
+				<MessagesList ws={ws} />
 				<Spacer right={THEME.sizes.tabChatRightSpacingCompensation}>
 					<WebSocketForm
 						wsType={TWSActionEnum.messageBroadcasted}
