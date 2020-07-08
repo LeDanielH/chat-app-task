@@ -9,10 +9,12 @@ import {
 	usersOnline
 } from '../store/actions'
 
+
+const ws = new WebSocket('ws://localhost:1234')
+
 export const useWebSocketListener = (): WebSocket => {
 	const dispatch = useDispatch()
 
-	const ws = new WebSocket('ws://localhost:1234')
 	useEffect(() => {
 		ws.addEventListener('message', (event: WebSocketMessageEvent) => {
 			try {
