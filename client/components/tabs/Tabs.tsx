@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect, useState } from 'react'
+import React, { ReactNode, useState } from 'react'
 import { TabSelector } from './TabSelecor'
 import { TabSelectorTitle } from './TabSelectorTitle'
 import { TabSelectorTitleParticipants } from './TabSelectorParticipants'
@@ -8,16 +8,10 @@ import { THEME } from '../../config/theme'
 import { TabParticipants } from './TabParticipants'
 import { TabChat } from './TabChat'
 import { ModalRegisterUser } from '../ModalRegisterUser'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { isRegisteredSelector } from '../../store/selectors'
 import { TAppState } from '../../store/types'
-import { TWSActionEnum, TWSData } from '../../api/types'
-import {
-	messageSent,
-	userJoined,
-	userRegistered,
-	usersOnline
-} from '../../store/actions'
+import { useWebSocketListener } from '../../hooks/useWebSocketListener'
 
 type TTab = {
 	name: string
@@ -44,45 +38,7 @@ export const Tabs = () => {
 		isRegistered: isRegisteredSelector(state)
 	}))
 
-	const dispatch = useDispatch()
-
-	const ws = new WebSocket('ws://localhost:1234')
-	useEffect(() => {
-		ws.addEventListener('message', (event: WebSocketMessageEvent) => {
-			try {
-				// getting usersOnline as list -> wanted to update store once
-				const wsData: TWSData = JSON.parse(event.data)
-
-				switch (wsData.type) {
-					case TWSActionEnum.join:
-						dispatch(userJoined(wsData))
-						break
-					case TWSActionEnum.register:
-						dispatch(userRegistered(wsData))
-						break
-					case TWSActionEnum.message:
-						dispatch(messageSent(wsData))
-						break
-					case TWSActionEnum.online:
-						dispatch(usersOnline(wsData))
-						break
-					default:
-						console.warn(`${wsData.type} not handled`)
-				}
-			} catch (e) {
-				return false
-			}
-		})
-
-		return () => {
-			ws.removeEventListener(
-				'message',
-				(event: WebSocketMessageEvent) => {
-					console.log(event)
-				}
-			)
-		}
-	}, [ws])
+	const ws = useWebSocketListener();
 
 	const selectFactory = (index: number) => () => {
 		if (index !== selected) {
