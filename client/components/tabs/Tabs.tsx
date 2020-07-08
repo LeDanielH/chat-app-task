@@ -38,7 +38,7 @@ export const Tabs = () => {
 		isRegistered: isRegisteredSelector(state)
 	}))
 
-	const ws = useWebSocketListener();
+	const ws = useWebSocketListener()
 
 	const selectFactory = (index: number) => () => {
 		if (index !== selected) {

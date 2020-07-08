@@ -1,7 +1,13 @@
 import { Dispatch } from 'redux'
-import { TAction, TAppState, TMessageUpdatePayload } from './types'
+import {
+	TAction,
+	TAppState,
+	TMessageUpdatePayload,
+	TMessage
+} from './types'
 import { TWSActionEnum, TWSData } from '../api/types'
 import { MEETING_BOT, YOU } from '../constants'
+import { getMessageWithUsername } from './utils'
 
 const _userJoined = (wsData: TWSData): TAction => ({
 	type: 'USER_JOINED',
@@ -10,21 +16,24 @@ const _userJoined = (wsData: TWSData): TAction => ({
 
 export const userJoined = (wsData: TWSData) => (
 	dispatch: Dispatch<TAction>,
-	getState: () => TAppState,
+	getState: () => TAppState
 ) => {
-	const { users } = getState();
+	const { users } = getState()
 	// do not have id yet - TODO replace by id
-	const existingUser = users.find((user:TWSData) => user.value === wsData.value );
+	const existingUser = users.find(
+		(user: TWSData) => user.value === wsData.value
+	)
 
-	if(existingUser) {
+	if (existingUser) {
 		console.warn('user already exists')
 	} else {
 		dispatch(_userJoined(wsData))
-		const mettingBotData: TWSData = {
+		const mettingBotData: TMessage = {
+			username: MEETING_BOT,
 			timestamp: Date.now(),
 			value: `${wsData.value} joined the meeting`,
 			type: TWSActionEnum.message,
-			id: `${MEETING_BOT}-${Date.now()}`, // TODO add id
+			id: `${Date.now()}` // TODO add id
 		}
 		dispatch(_messageSent(mettingBotData))
 	}
@@ -37,13 +46,15 @@ const _usersOnline = (wsDataList: TWSData): TAction => ({
 
 export const usersOnline = (wsData: TWSData) => (
 	dispatch: Dispatch<TAction>,
-	getState: () => TAppState,
+	getState: () => TAppState
 ) => {
-	const { users } = getState();
+	const { users } = getState()
 	// do not have id yet
-	const existingUser = users.find((user:TWSData) => user.value === wsData.value );
+	const existingUser = users.find(
+		(user: TWSData) => user.value === wsData.value
+	)
 
-	if(existingUser) {
+	if (existingUser) {
 		console.warn('user already exists')
 	} else {
 		dispatch(_usersOnline(wsData))
@@ -90,53 +101,65 @@ export const userLeft = (wsData: TWSData) => (
 
 	if (leavingUserIndex > -1) {
 		dispatch(_userLeft(leavingUserIndex))
-		const mettingBotData: TWSData = {
+		const mettingBotData: TMessage = {
+			username: MEETING_BOT,
 			timestamp: Date.now(),
 			value: `${users[leavingUserIndex].value} left the meeting`,
 			type: TWSActionEnum.message,
-			id: `${MEETING_BOT}-${Date.now()}`, // TODO add id
+			id: `${Date.now()}` // TODO add id
 		}
 		dispatch(_messageSent(mettingBotData))
 	}
 }
 
-const _messageReceived = (wsData: TWSData): TAction => ({
+const _messageReceived = (wsData: TMessage): TAction => ({
 	type: 'MESSAGE_RECEIVED',
 	payload: wsData
 })
 
 export const messageReceived = (wsData: TWSData) => (
-	dispatch: Dispatch<TAction>
+	dispatch: Dispatch<TAction>,
+	getState: () => TAppState
 ) => {
-	dispatch(_messageReceived(wsData))
+	const { users } = getState()
+	const messageWithUsername = getMessageWithUsername(users, wsData)
+	dispatch(_messageReceived(messageWithUsername))
 }
 
-const _messageSent = (wsData: TWSData): TAction => ({
+const _messageSent = (messageWithUsername: TMessage): TAction => ({
 	type: 'MESSAGE_SENT',
-	payload: wsData
+	payload: messageWithUsername
 })
 
 export const messageSent = (wsData: TWSData) => (
-	dispatch: Dispatch<TAction>
+	dispatch: Dispatch<TAction>,
+	getState: () => TAppState
 ) => {
-	dispatch(_messageSent(wsData))
+	const { users } = getState()
+	const messageWithUsername = getMessageWithUsername(users, wsData)
+
+	dispatch(_messageSent(messageWithUsername))
 }
 
-const _messageUpdated = (wsData: TMessageUpdatePayload): TAction => ({
+const _messageUpdated = (
+	updatedMessageData: TMessageUpdatePayload
+): TAction => ({
 	type: 'MESSAGE_UPDATED',
-	payload: wsData
+	payload: updatedMessageData
 })
 
-export const messageUpdated = (wsData: TWSData) => (
+export const messageUpdated = (wsData: TMessage) => (
 	dispatch: Dispatch<TAction>,
 	getState: () => TAppState
 ) => {
 	const { messages } = getState()
-	const messageToBeUpdatedIndex = messages.findIndex((message: TWSData) => {
-		const isSameUser = message.id === wsData.id
-		const isSameTimestamp = message.timestamp === wsData.timestamp
-		return isSameUser && isSameTimestamp
-	})
+	const messageToBeUpdatedIndex = messages.findIndex(
+		(message: TMessage) => {
+			const isSameUser = message.id === wsData.id
+			const isSameTimestamp = message.timestamp === wsData.timestamp
+			return isSameUser && isSameTimestamp
+		}
+	)
 
 	if (messageToBeUpdatedIndex > -1) {
 		dispatch(

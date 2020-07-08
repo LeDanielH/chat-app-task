@@ -1,7 +1,13 @@
 import { useDispatch } from 'react-redux'
 import { useEffect } from 'react'
 import { TWSActionEnum, TWSData } from '../api/types'
-import { messageSent, userJoined, userLeft, userRegistered, usersOnline } from '../store/actions'
+import {
+	messageSent,
+	userJoined,
+	userLeft,
+	userRegistered,
+	usersOnline
+} from '../store/actions'
 
 export const useWebSocketListener = (): WebSocket => {
 	const dispatch = useDispatch()
@@ -46,5 +52,5 @@ export const useWebSocketListener = (): WebSocket => {
 		}
 	}, [ws])
 
-	return ws;
+	return ws
 }
