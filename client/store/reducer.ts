@@ -48,7 +48,7 @@ export const rootReducer = (
 		case `USER_REGISTERED`: {
 			return {
 				...state,
-				users: [action.payload, ...state.users],
+				users: [...state.users, action.payload],
 				registeredUserId: action.payload.id
 			}
 		}
