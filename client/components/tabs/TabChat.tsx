@@ -8,13 +8,13 @@ import { THEME } from '../../config/theme'
 import { TWSData, TWSActionEnum } from '../../api/types'
 
 type TTabChatProps = {
-	ws: WebSocket,
+	ws: WebSocket
 }
 
 export const TabChat = ({ ws }: TTabChatProps) => {
 	// TODO remove, handled in Tabs
 	const onMessageSubmitted = (wsData: TWSData) => {
-		console.info(wsData);
+		console.info(wsData)
 	}
 
 	return (

@@ -12,7 +12,12 @@ import { useDispatch, useSelector } from 'react-redux'
 import { isRegisteredSelector } from '../../store/selectors'
 import { TAppState } from '../../store/types'
 import { TWSActionEnum, TWSData } from '../../api/types'
-import { messageSent, userJoined, userRegistered } from '../../store/actions'
+import {
+	messageSent,
+	userJoined,
+	userRegistered,
+	usersOnline
+} from '../../store/actions'
 
 type TTab = {
 	name: string
@@ -35,44 +40,52 @@ const tabs: Array<TTab> = [
 
 export const Tabs = () => {
 	const [selected, select] = useState<number>(0)
-	const ws = new WebSocket('ws://localhost:1234')
 	const { isRegistered } = useSelector((state: TAppState) => ({
-		isRegistered: isRegisteredSelector(state),
+		isRegistered: isRegisteredSelector(state)
 	}))
 
-	const dispatch = useDispatch();
+	const dispatch = useDispatch()
 
+	const ws = new WebSocket('ws://localhost:1234')
 	useEffect(() => {
-		ws.addEventListener(
-			'message',
-			(event: WebSocketMessageEvent) => {
-				try {
-					// const data: TWSData = event.data;
-					const wsData: TWSData = JSON.parse(event.data);
-					console.log(event)
+		ws.addEventListener('message', (event: WebSocketMessageEvent) => {
+			try {
+				// getting usersOnline as list -> wanted to update store once
+				const wsData: any = JSON.parse(event.data)
 
-					switch (wsData.type) {
-						case TWSActionEnum.join:
-							dispatch(userJoined(wsData))
-							break;
-						case TWSActionEnum.register:
-							dispatch(userRegistered(wsData))
-							break;
-						case TWSActionEnum.message:
-							dispatch(messageSent(wsData))
-						default:
-							console.warn(`${wsData.type} not handled`)
-					}
-				} catch (e) {
-					return false;
+				const wsDataItem: TWSData = wsData
+				const wsDataList: TWSData[] = wsData
+
+				console.log(event)
+
+				switch (wsData.type) {
+					case TWSActionEnum.join:
+						dispatch(userJoined(wsDataItem))
+						break
+					case TWSActionEnum.register:
+						dispatch(userRegistered(wsDataItem))
+						break
+					case TWSActionEnum.message:
+						dispatch(messageSent(wsDataItem))
+						break
+					case TWSActionEnum.online:
+						dispatch(usersOnline(wsDataList))
+						break
+					default:
+						console.warn(`${wsData.type} not handled`)
 				}
+			} catch (e) {
+				return false
 			}
-		)
+		})
 
 		return () => {
-			ws.removeEventListener('message', (event: WebSocketMessageEvent) => {
-				console.log(event)
-			})
+			ws.removeEventListener(
+				'message',
+				(event: WebSocketMessageEvent) => {
+					console.log(event)
+				}
+			)
 		}
 	}, [ws])
 
@@ -110,10 +123,7 @@ export const Tabs = () => {
 					{tabs[selected].tabContent(ws)}
 				</SimpleWrapper>
 			</SimpleWrapper>
-			<ModalRegisterUser
-				isVisible={!isRegistered}
-				ws={ws}
-			/>
+			<ModalRegisterUser isVisible={!isRegistered} ws={ws} />
 		</>
 	)
 }
