@@ -5,18 +5,13 @@ import { ScrollContainer } from '../styled'
 import { Spacing } from '@householdjs/utils'
 import { WebSocketForm } from '../WebSocketForm'
 import { THEME } from '../../config/theme'
-import { TWSData, TWSActionEnum } from '../../api/types'
+import { TWSActionEnum } from '../../api/types'
 
 type TTabChatProps = {
 	ws: WebSocket
 }
 
 export const TabChat = ({ ws }: TTabChatProps) => {
-	// TODO remove, handled in Tabs
-	const onMessageSubmitted = (wsData: TWSData) => {
-		console.info(wsData)
-	}
-
 	return (
 		<Spacer top={Spacing.big} bottom={Spacing.big} left={Spacing.big}>
 			<ScrollContainer>
@@ -25,7 +20,6 @@ export const TabChat = ({ ws }: TTabChatProps) => {
 					<WebSocketForm
 						wsType={TWSActionEnum.messageBroadcasted}
 						placeholder="enter your message"
-						successCallback={onMessageSubmitted}
 						ws={ws}
 					/>
 				</Spacer>
