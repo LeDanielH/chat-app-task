@@ -23,7 +23,7 @@ export const TabChat = ({ ws }: TTabChatProps) => {
 				<MessagesList />
 				<Spacer right={THEME.sizes.tabChatRightSpacingCompensation}>
 					<WebSocketForm
-						wsType={TWSActionEnum.message}
+						wsType={TWSActionEnum.messageBroadcasted}
 						placeholder="enter your message"
 						successCallback={onMessageSubmitted}
 						ws={ws}

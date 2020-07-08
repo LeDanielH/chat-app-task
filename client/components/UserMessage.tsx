@@ -45,7 +45,7 @@ export const UserMessage = ({
 					{isEditing ? (
 						<WebSocketForm
 							ws={ws}
-							wsType={TWSActionEnum.messageUpdated}
+							wsType={TWSActionEnum.messageBroadcasted}
 							placeholder={value}
 						/>
 					) : (

@@ -2,8 +2,7 @@ import { useDispatch } from 'react-redux'
 import { useEffect } from 'react'
 import { TWSActionEnum, TWSData } from '../api/types'
 import {
-	messageSent,
-	messageUpdated,
+	messageBroadcasted,
 	userJoined,
 	userLeft,
 	userRegistered,
@@ -27,11 +26,8 @@ export const useWebSocketListener = (): WebSocket => {
 					case TWSActionEnum.register:
 						dispatch(userRegistered(wsData))
 						break
-					case TWSActionEnum.message:
-						dispatch(messageSent(wsData))
-						break
-					case TWSActionEnum.messageUpdated:
-						dispatch(messageUpdated(wsData))
+					case TWSActionEnum.messageBroadcasted:
+						dispatch(messageBroadcasted(wsData))
 						break
 					case TWSActionEnum.online:
 						dispatch(usersOnline(wsData))

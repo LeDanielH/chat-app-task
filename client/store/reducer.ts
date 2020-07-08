@@ -12,13 +12,7 @@ export const rootReducer = (
 	action: TAction
 ): TAppState => {
 	switch (action.type) {
-		case `MESSAGE_SENT`: {
-			return {
-				...state,
-				messages: [...state.messages, action.payload]
-			}
-		}
-		case `MESSAGE_RECEIVED`: {
+		case `MESSAGE_BROADCASTED`: {
 			return {
 				...state,
 				messages: [...state.messages, action.payload]

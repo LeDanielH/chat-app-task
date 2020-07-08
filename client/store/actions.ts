@@ -7,7 +7,8 @@ import {
 } from './types'
 import { TWSActionEnum, TWSData } from '../api/types'
 import { MEETING_BOT, YOU } from '../constants'
-import { getMessageWithUsername } from './utils'
+import { getMessageWithUsername, getMessageToBeUpdatedIndex } from './utils'
+import { timePretty } from '../utils/timePretty'
 
 const _userJoined = (wsData: TWSData): TAction => ({
 	type: 'USER_JOINED',
@@ -31,10 +32,10 @@ export const userJoined = (wsData: TWSData) => (
 			username: MEETING_BOT,
 			timestamp: wsData.timestamp,
 			value: `${wsData.value} joined the meeting`,
-			type: TWSActionEnum.message,
+			type: TWSActionEnum.messageBroadcasted,
 			id: wsData.id
 		}
-		dispatch(_messageSent(mettingBotData))
+		dispatch(_messageBroadcasted(mettingBotData))
 	}
 }
 
@@ -104,70 +105,41 @@ export const userLeft = (wsData: TWSData) => (
 			username: MEETING_BOT,
 			timestamp: Date.now(),
 			value: `${users[leavingUserIndex].value} left the meeting`,
-			type: TWSActionEnum.message,
+			type: TWSActionEnum.messageBroadcasted,
 			id: users[leavingUserIndex].id
 		}
-		dispatch(_messageSent(mettingBotData))
+		dispatch(_messageBroadcasted(mettingBotData))
 	}
 }
 
-const _messageReceived = (wsData: TMessage): TAction => ({
-	type: 'MESSAGE_RECEIVED',
-	payload: wsData
-})
-
-export const messageReceived = (wsData: TWSData) => (
-	dispatch: Dispatch<TAction>,
-	getState: () => TAppState
-) => {
-	const { users } = getState()
-	const messageWithUsername = getMessageWithUsername(users, wsData)
-	dispatch(_messageReceived(messageWithUsername))
-}
-
-const _messageSent = (messageWithUsername: TMessage): TAction => ({
-	type: 'MESSAGE_SENT',
+const _messageBroadcasted = (messageWithUsername: TMessage): TAction => ({
+	type: 'MESSAGE_BROADCASTED',
 	payload: messageWithUsername
 })
 
-export const messageSent = (wsData: TWSData) => (
+export const messageBroadcasted = (wsData: TWSData) => (
 	dispatch: Dispatch<TAction>,
 	getState: () => TAppState
 ) => {
-	const { users } = getState()
+	const { users, messages } = getState()
 	const messageWithUsername = getMessageWithUsername(users, wsData)
-
-	dispatch(_messageSent(messageWithUsername))
+	const messageToBeUpdatedIndex = getMessageToBeUpdatedIndex(messages, wsData)
+	if(messageToBeUpdatedIndex > -1) {
+		dispatch(_messageUpdated({
+			data: wsData,
+			index: messageToBeUpdatedIndex
+		}))
+	} else {
+		dispatch(_messageBroadcasted(messageWithUsername))
+	}
 }
 
 const _messageUpdated = (
 	updatedMessageData: TMessageUpdatePayload
 ): TAction => ({
 	type: 'MESSAGE_UPDATED',
-	payload: updatedMessageData
+	payload: { ...updatedMessageData, data: {
+		...updatedMessageData.data,
+			value: `${updatedMessageData.data.value} <em>(updated at ${timePretty(Date.now())})</em>`
+		} }
 })
-
-export const messageUpdated = (wsData: TWSData) => (
-	dispatch: Dispatch<TAction>,
-	getState: () => TAppState
-) => {
-	const { messages } = getState()
-	const messageToBeUpdatedIndex = messages.findIndex(
-		(message: TMessage) => {
-			const isSameUser = message.id === wsData.id
-			const isSameTimestamp = message.timestamp === wsData.timestamp
-			return isSameUser && isSameTimestamp
-		}
-	)
-
-	if (messageToBeUpdatedIndex > -1) {
-		dispatch(
-			_messageUpdated({
-				index: messageToBeUpdatedIndex,
-				data: wsData
-			})
-		)
-	} else {
-		console.error('could not find the message to be updated')
-	}
-}
