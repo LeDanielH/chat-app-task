@@ -42,7 +42,8 @@ const SIZES = {
 	// need to use it deeper inside the DOM to keep the scrollbar on the right
 	tabChatRightSpacingCompensation: Spacing.big,
 	maxModalWidth: getRem(320),
-	icon: getRem(24)
+	iconSvg: 24, // at the moment svg accepts only numbers
+	containerMinHeight: '50vh'
 }
 
 export const SIZES_UI = {

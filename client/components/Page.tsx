@@ -1,7 +1,7 @@
 import React from 'react'
 import { Paragraph } from './styled'
 import { Tabs } from './tabs/Tabs'
-import { SimpleWrapper, Spacer } from '@householdjs/elements'
+import { Spacer, SimpleWrapper } from '@householdjs/elements'
 import { THEME } from '../config/theme'
 import { Spacing } from '@householdjs/utils'
 

@@ -48,7 +48,7 @@ export const Tabs = () => {
 
 	return (
 		<>
-			<SimpleWrapper height="100%">
+			<SimpleWrapper backgroundColor={THEME.colors.containerBackground}>
 				<FlexParent>
 					{tabs.map((tab: TTab, index: number) => {
 						const isSelected = selected === index
@@ -69,7 +69,7 @@ export const Tabs = () => {
 				<SimpleWrapper
 					isRelative
 					backgroundColor={THEME.colors.tabActive}
-					height="100%"
+					minHeight={THEME.sizes.containerMinHeight}
 				>
 					{tabs[selected].tabContent(ws)}
 				</SimpleWrapper>

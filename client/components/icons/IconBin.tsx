@@ -10,7 +10,7 @@ type TIconEdit = {
 const VIEW_BOX_SIZE = 24 // do not edit, extracted from original svg
 
 export const IconBin = ({
-	size = THEME.sizes.icon,
+	size = THEME.sizes.iconSvg,
 	color = THEME.colors.text
 }: TIconEdit) => (
 	<Svg viewBoxSize={VIEW_BOX_SIZE} size={size}>
