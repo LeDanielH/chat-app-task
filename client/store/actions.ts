@@ -9,9 +9,18 @@ const _userJoined = (wsData: TWSData): TAction => ({
 })
 
 export const userJoined = (wsData: TWSData) => (
-	dispatch: Dispatch<TAction>
+	dispatch: Dispatch<TAction>,
+	getState: () => TAppState,
 ) => {
-	dispatch(_userJoined(wsData))
+	const { users } = getState();
+	// do not have id yet
+	const existingUser = users.find((user:TWSData) => user.value === wsData.value );
+
+	if(existingUser) {
+		console.warn('user already exists')
+	} else {
+		dispatch(_userJoined(wsData))
+	}
 }
 
 const _usersOnline = (wsDataList: TWSData): TAction => ({
@@ -19,10 +28,19 @@ const _usersOnline = (wsDataList: TWSData): TAction => ({
 	payload: wsDataList
 })
 
-export const usersOnline = (wsDataList: TWSData) => (
-	dispatch: Dispatch<TAction>
+export const usersOnline = (wsData: TWSData) => (
+	dispatch: Dispatch<TAction>,
+	getState: () => TAppState,
 ) => {
-	dispatch(_usersOnline(wsDataList))
+	const { users } = getState();
+	// do not have id yet
+	const existingUser = users.find((user:TWSData) => user.value === wsData.value );
+
+	if(existingUser) {
+		console.warn('user already exists')
+	} else {
+		dispatch(_usersOnline(wsData))
+	}
 }
 
 const _userRegistered = (wsData: TWSData): TAction => ({
