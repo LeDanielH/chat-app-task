@@ -27,6 +27,8 @@ export function handleRegister(
 		timestamp: registeredUserConnection.timestamp,
 	}
 
+	connections.push(registeredUserConnection);
+
 	const registeredUserString = JSON.stringify(registeredUserData);
 	ws.send(registeredUserString) // registered
 
@@ -41,6 +43,7 @@ export function handleRegister(
 		}
 		const onlineUserString = JSON.stringify(userData);
 		if(registeredUserData.id !== onlineUser.id) {
+			console.log({onlineUserData: userData});
 			ws.send(onlineUserString)
 		}
 	}
@@ -52,6 +55,7 @@ export function handleRegister(
 		value: registeredUserData.value,
 		timestamp: registeredUserData.timestamp,
 	}
+	console.log({userJoinedData});
 	const userJoinedEvent = JSON.stringify(userJoinedData);
-	broadCastEvents(ws, userJoinedEvent, connections)
+	broadCastEvents({ws, event: userJoinedEvent, connections});
 }

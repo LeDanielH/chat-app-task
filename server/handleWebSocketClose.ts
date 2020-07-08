@@ -15,7 +15,7 @@ export function handleWebSocketClose(ws: WebSocket, connections: TConnection[]) 
 
 		const leaveEventString = JSON.stringify(leaveEvent);
 
-		broadCastEvents(ws, leaveEventString, connections)
+		broadCastEvents({ws, event: leaveEventString, connections})
 		connections.splice(currentConnectionIndex, 1)
 	}
 
