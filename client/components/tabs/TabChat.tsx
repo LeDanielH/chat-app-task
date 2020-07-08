@@ -6,14 +6,17 @@ import { Spacing } from '@householdjs/utils'
 import { WebSocketForm } from '../WebSocketForm'
 import { THEME } from '../../config/theme'
 import { TWSActionEnum } from '../../api/types'
+import { useMediaQuery } from 'react-responsive'
 
 type TTabChatProps = {
 	ws: WebSocket
 }
 
 export const TabChat = ({ ws }: TTabChatProps) => {
+	const isPhone = useMediaQuery({ query: THEME.mediaQueries.isPhone });
+	const spacing = isPhone ? Spacing.default : Spacing.big;
 	return (
-		<Spacer top={Spacing.big} bottom={Spacing.big} left={Spacing.big}>
+		<Spacer top={spacing} bottom={spacing} left={spacing}>
 			<ScrollContainer>
 				<MessagesList ws={ws} />
 				<Spacer right={THEME.sizes.tabChatRightSpacingCompensation}>

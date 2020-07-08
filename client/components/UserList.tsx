@@ -7,11 +7,16 @@ import { useSelector } from 'react-redux'
 import { TAppState } from '../store/types'
 import { usersState } from '../store/selectors'
 import { TWSData } from '../api/types'
+import { useMediaQuery } from 'react-responsive'
 
 export const UserList = () => {
 	const { users } = useSelector((state: TAppState) => ({
 		users: usersState(state)
 	}))
+
+	const isPhone = useMediaQuery({ query: THEME.mediaQueries.isPhone });
+	const spacing = isPhone ? Spacing.default : Spacing.big;
+
 	return (
 		<List>
 			{users.map((participant: TWSData) => (
@@ -20,7 +25,7 @@ export const UserList = () => {
 					withBorderBottom
 					height={THEME.sizes.participantListItemHeight}
 				>
-					<Spacer horizontal={Spacing.big}>
+					<Spacer horizontal={spacing}>
 						<Paragraph disableLineHeight>
 							{participant.value}
 						</Paragraph>

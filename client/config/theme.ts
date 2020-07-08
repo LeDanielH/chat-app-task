@@ -44,7 +44,7 @@ const SIZES = {
 	tabChatRightSpacingCompensation: Spacing.big,
 	maxModalWidth: getRem(320),
 	iconSvg: 24, // at the moment svg accepts only numbers
-	containerMinHeight: '50vh'
+	containerMinHeight: '75vh'
 }
 
 const SIZES_UI = {
@@ -76,7 +76,8 @@ const TYPOGRAPHY = {
 }
 
 const MEDIA_QUERIES = {
-	withTabs: '(max-width: 1000px)'
+	withTabs: '(max-width: 1000px)',
+	isPhone: `(max-width: 500px)`,
 }
 
 const TYPOGRAPHY_UI = {

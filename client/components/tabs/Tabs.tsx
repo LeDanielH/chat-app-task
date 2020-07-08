@@ -45,7 +45,6 @@ export const Tabs = () => {
 	}))
 
 	const withTabs = useMediaQuery({ query: THEME.mediaQueries.withTabs })
-
 	const ws = useWebSocketListener()
 
 	const selectFactory = (index: number) => () => {
