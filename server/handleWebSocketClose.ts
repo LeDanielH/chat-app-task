@@ -1,22 +1,26 @@
-import {TConnection, TWSActionEnum, TWSData} from "./types.ts";
-import {broadCastEvents} from "./broadCastEvents.ts";
-import { WebSocket } from "./deps.ts";
+import { TConnection, TWSActionEnum, TWSData } from './types.ts'
+import { broadCastEvents } from './broadCastEvents.ts'
+import { WebSocket } from './deps.ts'
 
-export function handleWebSocketClose(ws: WebSocket, connections: TConnection[]) {
-	const currentConnectionIndex = connections.findIndex((connection : TConnection) => connection.ws === ws);
+export function handleWebSocketClose(
+	ws: WebSocket,
+	connections: TConnection[]
+) {
+	const currentConnectionIndex = connections.findIndex(
+		(connection: TConnection) => connection.ws === ws
+	)
 
-	if(currentConnectionIndex > -1) {
+	if (currentConnectionIndex > -1) {
 		const leaveEvent: TWSData = {
 			timestamp: connections[currentConnectionIndex].timestamp,
 			type: TWSActionEnum.leave,
 			value: connections[currentConnectionIndex].value,
-			id: connections[currentConnectionIndex].id,
+			id: connections[currentConnectionIndex].id
 		}
 
-		const leaveEventString = JSON.stringify(leaveEvent);
+		const leaveEventString = JSON.stringify(leaveEvent)
 
-		broadCastEvents({ws, event: leaveEventString, connections})
+		broadCastEvents({ ws, event: leaveEventString, connections })
 		connections.splice(currentConnectionIndex, 1)
 	}
-
 }

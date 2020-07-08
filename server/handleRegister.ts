@@ -1,35 +1,34 @@
-import {TConnection, TWSData} from "./types.ts";
-import {TWSActionEnum} from "./types.ts";
-import {broadCastEvents} from "./broadCastEvents.ts";
-import {v4, WebSocket} from './deps.ts'
+import { TConnection, TWSData } from './types.ts'
+import { TWSActionEnum } from './types.ts'
+import { broadCastEvents } from './broadCastEvents.ts'
+import { v4, WebSocket } from './deps.ts'
 
 export function handleRegister(
 	connections: Array<TConnection>,
 	ws: WebSocket,
 	data: TWSData
 ) {
-
-	const timestamp = Date.now();
-	const registeredUserId = v4.generate();
+	const timestamp = Date.now()
+	const registeredUserId = v4.generate()
 
 	/* REGISTER USER */
 	const registeredUserConnection: TConnection = {
 		id: registeredUserId,
 		value: data.value,
 		ws,
-		timestamp,
+		timestamp
 	}
 
 	const registeredUserData: TWSData = {
 		id: registeredUserConnection.id,
 		type: data.type,
 		value: registeredUserConnection.value,
-		timestamp: registeredUserConnection.timestamp,
+		timestamp: registeredUserConnection.timestamp
 	}
 
-	connections.push(registeredUserConnection);
+	connections.push(registeredUserConnection)
 
-	const registeredUserString = JSON.stringify(registeredUserData);
+	const registeredUserString = JSON.stringify(registeredUserData)
 	ws.send(registeredUserString) // registered
 
 	/* SEND ONLINE USERS */
@@ -39,11 +38,11 @@ export function handleRegister(
 			id: onlineUser.id,
 			type: TWSActionEnum.online,
 			value: onlineUser.value,
-			timestamp: onlineUser.timestamp,
+			timestamp: onlineUser.timestamp
 		}
-		const onlineUserString = JSON.stringify(userData);
-		if(registeredUserData.id !== onlineUser.id) {
-			console.log({onlineUserData: userData});
+		const onlineUserString = JSON.stringify(userData)
+		if (registeredUserData.id !== onlineUser.id) {
+			console.log({ onlineUserData: userData })
 			ws.send(onlineUserString)
 		}
 	}
@@ -53,9 +52,9 @@ export function handleRegister(
 		id: registeredUserData.id, // TODO replace with uuid
 		type: TWSActionEnum.join,
 		value: registeredUserData.value,
-		timestamp: registeredUserData.timestamp,
+		timestamp: registeredUserData.timestamp
 	}
-	console.log({userJoinedData});
-	const userJoinedEvent = JSON.stringify(userJoinedData);
-	broadCastEvents({ws, event: userJoinedEvent, connections});
+	console.log({ userJoinedData })
+	const userJoinedEvent = JSON.stringify(userJoinedData)
+	broadCastEvents({ ws, event: userJoinedEvent, connections })
 }

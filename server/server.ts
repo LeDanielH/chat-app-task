@@ -1,6 +1,6 @@
 import { acceptable, serve, acceptWebSocket } from './deps.ts'
 import { handleWebSocket } from './handleWebSocket.ts'
-import { TConnection } from "./types.ts";
+import { TConnection } from './types.ts'
 
 const connections = new Array<TConnection>()
 async function main() {
@@ -38,7 +38,7 @@ async function main() {
 			} else {
 				req.respond({
 					body: 'Page not found',
-					status: 404,
+					status: 404
 				})
 			}
 		}

@@ -6,20 +6,19 @@ export enum TWSActionEnum {
 	join = 'join',
 	leave = 'leave',
 	online = 'online',
-	messageRemoved = 'messageRemoved',
+	messageRemoved = 'messageRemoved'
 }
 
 export type TWSData = {
-	id: string, // users and its messages will be matched by id
-	type: TWSActionEnum,
-	value: string,
-	timestamp: number,
+	id: string // users and its messages will be matched by id
+	type: TWSActionEnum
+	value: string
+	timestamp: number
 }
 
 export type TConnection = {
-	id: string,
-	value: TWSData['value'],
-	ws: WebSocket,
-	timestamp: TWSData['timestamp'],
+	id: string
+	value: TWSData['value']
+	ws: WebSocket
+	timestamp: TWSData['timestamp']
 }
-
