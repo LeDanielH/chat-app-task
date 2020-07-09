@@ -15,7 +15,6 @@ export function broadCastEvents(
 		if (toAll) {
 			connection.ws.send(event)
 		} else if (connection.ws != ws) {
-			console.log({ event })
 			connection.ws.send(event)
 		}
 	}

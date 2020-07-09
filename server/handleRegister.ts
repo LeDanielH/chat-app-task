@@ -42,19 +42,17 @@ export function handleRegister(
 		}
 		const onlineUserString = JSON.stringify(userData)
 		if (registeredUserData.id !== onlineUser.id) {
-			console.log({ onlineUserData: userData })
 			ws.send(onlineUserString)
 		}
 	}
 
 	/* TRIGGER USER JOINED */
 	const userJoinedData: TWSData = {
-		id: registeredUserData.id, // TODO replace with uuid
+		id: registeredUserData.id,
 		type: TWSActionEnum.join,
 		value: registeredUserData.value,
 		timestamp: registeredUserData.timestamp
 	}
-	console.log({ userJoinedData })
 	const userJoinedEvent = JSON.stringify(userJoinedData)
 	broadCastEvents({ ws, event: userJoinedEvent, connections })
 }
