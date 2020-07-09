@@ -6,13 +6,13 @@ const BASE_FONT_SIZE = 16
 export const getRem = (px: number) => pxToRem(px, BASE_FONT_SIZE)
 
 const COLORS = {
-	gray: '#9095A0', // time
-	grayLight: '#ECECEC', // background
-	beige: '#A0A0A0', // slider
-	blueDark: '#001539', // name (title)
-	black: '#010032', // text
-	blue: '#007FF0', // link
-	white: '#ffffff' // messages container,
+	gray: '#9095A0',
+	grayLight: '#ECECEC',
+	beige: '#A0A0A0',
+	blueDark: '#001539',
+	black: '#010032',
+	blue: '#007FF0',
+	white: '#ffffff'
 }
 
 const COLORS_UI = {

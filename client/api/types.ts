@@ -11,5 +11,5 @@ export type TWSData = {
 	id: string // users and its messages will be matched by id
 	type: TWSActionEnum
 	value: string
-	timestamp: number // message to be edited will be matched by timestamp and first user
+	timestamp: number
 }

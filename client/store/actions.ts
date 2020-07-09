@@ -46,7 +46,6 @@ export const usersOnline = (wsData: TWSData) => (
 	getState: () => TAppState
 ) => {
 	const { users } = getState()
-	// do not have id yet
 	const existingUser = users.find((user: TWSData) => user.id === wsData.id)
 
 	if (existingUser) {
