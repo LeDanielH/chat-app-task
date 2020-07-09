@@ -1,4 +1,4 @@
-import React from 'react'
+import React  from 'react'
 import { Modal } from './Modal'
 import { Form } from './Form'
 import { Image, SimpleWrapper } from '@householdjs/elements'
@@ -6,10 +6,9 @@ import { TWSActionEnum } from '../api/types'
 
 type TModalEnterUserName = {
 	isVisible: boolean
-	ws: WebSocket
 }
 
-export const ModalRegisterUser = ({ isVisible, ws }: TModalEnterUserName) => {
+export const ModalRegisterUser = ({ isVisible }: TModalEnterUserName) => {
 	return (
 		<Modal isVisible={isVisible}>
 			<SimpleWrapper center bottom>
@@ -18,7 +17,6 @@ export const ModalRegisterUser = ({ isVisible, ws }: TModalEnterUserName) => {
 			<Form
 				wsType={TWSActionEnum.register}
 				placeholder="John Doe"
-				ws={ws}
 				label={'Enter your name to join'}
 			/>
 		</Modal>

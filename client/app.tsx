@@ -6,6 +6,7 @@ import { store } from './config/store'
 import { Provider } from 'react-redux'
 import { Page } from './components/Page'
 import { APP_ROOT_ID } from './constants'
+import { WebSocketProvider } from './components/wsContext'
 
 // store.subscribe(
 // 	_throttle(() => {
@@ -19,7 +20,9 @@ import { APP_ROOT_ID } from './constants'
 
 const Root = () => (
 	<Provider store={store}>
-		<Page />
+		<WebSocketProvider>
+			<Page />
+		</WebSocketProvider>
 	</Provider>
 )
 

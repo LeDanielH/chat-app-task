@@ -9,17 +9,8 @@ import {
 	userRegistered,
 	usersOnline
 } from '../store/actions'
-import { WS_PORT } from '../constants'
 
-const ws = new WebSocket(`ws://localhost:${WS_PORT}`)
-
-ws.onerror = function (_e): void {
-	alert(
-		`Trying to initialize websocket, but the dev server is not available. Please run "npm run start:server" and refresh the page"`
-	)
-}
-
-export const useWebSocketListener = (): WebSocket => {
+export const useWebSocket = (ws: WebSocket): WebSocket => {
 	const dispatch = useDispatch()
 
 	useEffect(() => {

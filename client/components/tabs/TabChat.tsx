@@ -8,22 +8,18 @@ import { THEME } from '../../config/theme'
 import { TWSActionEnum } from '../../api/types'
 import { useMediaQuery } from 'react-responsive'
 
-type TTabChatProps = {
-	ws: WebSocket
-}
 
-export const TabChat = ({ ws }: TTabChatProps) => {
+export const TabChat = () => {
 	const isPhone = useMediaQuery({ query: THEME.mediaQueries.isPhone })
 	const spacing = isPhone ? Spacing.default : Spacing.big
 	return (
 		<Spacer top={spacing} bottom={spacing} left={spacing}>
 			<ScrollContainer>
-				<MessagesList ws={ws} />
+				<MessagesList />
 				<Spacer right={THEME.sizes.tabChatRightSpacingCompensation}>
 					<Form
 						wsType={TWSActionEnum.messageBroadcasted}
 						placeholder="enter your message"
-						ws={ws}
 					/>
 				</Spacer>
 			</ScrollContainer>

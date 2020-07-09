@@ -11,14 +11,13 @@ import { ModalRegisterUser } from '../ModalRegisterUser'
 import { useSelector } from 'react-redux'
 import { isRegisteredSelector } from '../../store/selectors'
 import { TAppState } from '../../store/types'
-import { useWebSocketListener } from '../../hooks/useWebSocketListener'
 import { useMediaQuery } from 'react-responsive'
 import { Spacing } from '@householdjs/utils'
 
 type TTab = {
 	name: string
 	tabSelector: (centered: boolean) => ReactNode
-	tabContent: (ws: WebSocket) => ReactNode
+	tabContent: ReactNode
 }
 
 const tabs: Array<TTab> = [
@@ -27,14 +26,14 @@ const tabs: Array<TTab> = [
 		tabSelector: (centered: boolean) => (
 			<TabSelectorTitleParticipants centered={centered} />
 		),
-		tabContent: (_ws: WebSocket) => <TabParticipants />
+		tabContent: <TabParticipants />
 	},
 	{
 		name: TABS.chat,
 		tabSelector: (centered: boolean) => (
 			<TabSelectorTitle title={TABS.chat} centered={centered} />
 		),
-		tabContent: (ws: WebSocket) => <TabChat ws={ws} />
+		tabContent: <TabChat />
 	}
 ]
 
@@ -45,7 +44,6 @@ export const Tabs = () => {
 	}))
 
 	const withTabs = useMediaQuery({ query: THEME.mediaQueries.withTabs })
-	const ws = useWebSocketListener()
 
 	const selectFactory = (index: number) => () => {
 		if (index !== selected) {
@@ -81,7 +79,7 @@ export const Tabs = () => {
 						backgroundColor={THEME.colors.tabActive}
 						minHeight={THEME.sizes.containerMinHeight}
 					>
-						{tabs[selected].tabContent(ws)}
+						{tabs[selected].tabContent}
 					</SimpleWrapper>
 				</SimpleWrapper>
 			) : (
@@ -105,14 +103,14 @@ export const Tabs = () => {
 								<SimpleWrapper
 									minHeight={THEME.sizes.containerMinHeight}
 								>
-									{tab.tabContent(ws)}
+									{tab.tabContent}
 								</SimpleWrapper>
 							</FlexChild>
 						)
 					})}
 				</FlexParent>
 			)}
-			<ModalRegisterUser isVisible={!isRegistered} ws={ws} />
+			<ModalRegisterUser isVisible={!isRegistered} />
 		</>
 	)
 }

@@ -1,16 +1,16 @@
-import React, { FormEvent, useState } from 'react'
+import React, { FormEvent, useContext, useState } from 'react'
 import { Heading, InputStyled } from './styled'
 import { TWSData } from '../api/types'
 import { useSelector } from 'react-redux'
 import { TAppState } from '../store/types'
 import { registeredUserIdState } from '../store/selectors'
+import { WebSocketContext } from './wsContext'
 
 type TForm = {
 	wsType: TWSData['type']
 	placeholder: string
 	successCallback?: (value: TWSData) => void
 	errorCallback?: () => void
-	ws: WebSocket
 	label?: string
 	isInEditMode?: boolean
 	initialValue?: string
@@ -21,12 +21,12 @@ export const Form = ({
 	placeholder,
 	successCallback,
 	errorCallback,
-	ws,
 	label,
 	isInEditMode,
 	initialValue = '',
 	extraData
 }: TForm) => {
+	const ws = useContext(WebSocketContext)
 	const [value, setValue] = useState<string>(initialValue)
 
 	const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {

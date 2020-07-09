@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from 'react'
+import React, { ReactNode, useContext, useState } from 'react'
 import { FlexChild, FlexParent, Spacer } from '@householdjs/elements'
 import { THEME } from '../../config/theme'
 import { TWSActionEnum, TWSData } from '../../api/types'
@@ -15,16 +15,16 @@ import { UserMessageHeader } from './UserMessageHeader'
 import { Spacing } from '@householdjs/utils'
 import { IconEdit } from '../icons/IconEdit'
 import { MESSAGE_REMOVED } from '../../constants'
-
-type TUserMessage = TMessage & { ws: WebSocket }
+import { WebSocketContext } from '../wsContext'
 
 export const UserMessage = ({
 	id,
 	value,
 	timestamp,
-	ws,
 	username
-}: TUserMessage) => {
+}: TMessage) => {
+	const ws = useContext(WebSocketContext)
+
 	const [isEditing, setIsEditing] = useState<boolean>(false)
 	const { canEditMessage } = useSelector((state: TAppState) => {
 		const canEditMessageSelector = canEditMessageSelectorFactory(id)
@@ -54,7 +54,6 @@ export const UserMessage = ({
 
 		return (
 			<Form
-				ws={ws}
 				wsType={TWSActionEnum.messageBroadcasted}
 				placeholder={initialValue}
 				initialValue={initialValue}
