@@ -7,8 +7,8 @@ import { Spacing } from '@householdjs/utils'
 import { useMediaQuery } from 'react-responsive'
 
 export const Page = () => {
-	const isPhone = useMediaQuery({ query: THEME.mediaQueries.isPhone });
-	const spacing = isPhone ? Spacing.default : Spacing.big;
+	const isPhone = useMediaQuery({ query: THEME.mediaQueries.isPhone })
+	const spacing = isPhone ? Spacing.default : Spacing.big
 	return (
 		<SimpleWrapper
 			backgroundColor={THEME.colors.windowBackground}

@@ -5,4 +5,3 @@ export const UPDATED_AT = 'Updated at'
 export const MESSAGE_REMOVED = 'Message removed by user'
 export const WS_PORT = 1234
 export const CLIENT_PORT = process.env.PORT
-

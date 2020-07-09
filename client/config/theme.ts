@@ -77,7 +77,7 @@ const TYPOGRAPHY = {
 
 const MEDIA_QUERIES = {
 	withTabs: '(max-width: 1000px)',
-	isPhone: `(max-width: 500px)`,
+	isPhone: `(max-width: 500px)`
 }
 
 const TYPOGRAPHY_UI = {

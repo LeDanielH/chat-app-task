@@ -1,6 +1,6 @@
 import React from 'react'
 import { Modal } from './Modal'
-import { WebSocketForm } from './WebSocketForm'
+import { Form } from './Form'
 import { Image, SimpleWrapper } from '@householdjs/elements'
 import { TWSActionEnum } from '../api/types'
 
@@ -15,7 +15,7 @@ export const ModalRegisterUser = ({ isVisible, ws }: TModalEnterUserName) => {
 			<SimpleWrapper center bottom>
 				<Image src="https://toughbyte.s3.amazonaws.com/uploads/client/logo/40/pexip_logo.png" />
 			</SimpleWrapper>
-			<WebSocketForm
+			<Form
 				wsType={TWSActionEnum.register}
 				placeholder="John Doe"
 				ws={ws}

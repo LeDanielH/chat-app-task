@@ -3,7 +3,7 @@ import { FlexChild, FlexParent, Spacer } from '@householdjs/elements'
 import { THEME } from '../../config/theme'
 import { TWSActionEnum, TWSData } from '../../api/types'
 import { useSelector } from 'react-redux'
-import { WebSocketForm } from '../WebSocketForm'
+import { Form } from '../Form'
 import { TAppState, TMessage } from '../../store/types'
 import { canEditMessageSelectorFactory } from '../../store/selectors'
 import { getPrettyTime } from '../../utils/getPrettyTime'
@@ -53,7 +53,7 @@ export const UserMessage = ({
 		const initialValue = getMessageWithoutTimeUpdated(value)
 
 		return (
-			<WebSocketForm
+			<Form
 				ws={ws}
 				wsType={TWSActionEnum.messageBroadcasted}
 				placeholder={initialValue}

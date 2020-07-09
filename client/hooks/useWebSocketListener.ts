@@ -19,7 +19,6 @@ export const useWebSocketListener = (): WebSocket => {
 	useEffect(() => {
 		ws.addEventListener('message', (event: WebSocketMessageEvent) => {
 			try {
-				// getting usersOnline as list -> wanted to update store once
 				const wsData: TWSData = JSON.parse(event.data)
 
 				switch (wsData.type) {

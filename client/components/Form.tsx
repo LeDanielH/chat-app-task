@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux'
 import { TAppState } from '../store/types'
 import { registeredUserIdState } from '../store/selectors'
 
-type TWebSocketForm = {
+type TForm = {
 	wsType: TWSData['type']
 	placeholder: string
 	successCallback?: (value: TWSData) => void
@@ -16,7 +16,7 @@ type TWebSocketForm = {
 	initialValue?: string
 	extraData?: Partial<TWSData>
 }
-export const WebSocketForm = ({
+export const Form = ({
 	wsType,
 	placeholder,
 	successCallback,
@@ -26,7 +26,7 @@ export const WebSocketForm = ({
 	isInEditMode,
 	initialValue = '',
 	extraData
-}: TWebSocketForm) => {
+}: TForm) => {
 	const [value, setValue] = useState<string>(initialValue)
 
 	const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {

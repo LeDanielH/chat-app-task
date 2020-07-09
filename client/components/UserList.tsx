@@ -14,8 +14,8 @@ export const UserList = () => {
 		users: usersState(state)
 	}))
 
-	const isPhone = useMediaQuery({ query: THEME.mediaQueries.isPhone });
-	const spacing = isPhone ? Spacing.default : Spacing.big;
+	const isPhone = useMediaQuery({ query: THEME.mediaQueries.isPhone })
+	const spacing = isPhone ? Spacing.default : Spacing.big
 
 	return (
 		<List>
