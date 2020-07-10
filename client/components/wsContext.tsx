@@ -1,28 +1,45 @@
-import React, { createContext, ReactNode } from 'react'
-import { useWebSocket } from '../hooks/useWebSocket'
+import React, { createContext, ReactNode, useRef, useState } from 'react'
+import { useWebSocketMessageListener } from '../hooks/useWebSocketMessageListener'
 import { WS_PORT } from '../constants'
 
-const webSocket = new WebSocket(`ws://localhost:${WS_PORT}`)
-
-webSocket.onerror = function (_e): void {
-	alert(
-		`Trying to initialize websocket, but the dev server is not available. Please run "npm run start:server" and refresh the page"`
-	)
+type TWsContext = {
+	ws?: WebSocket
+	isWsEnabled: boolean
 }
-
-const WebSocketContext = createContext(webSocket)
+const WebSocketContext = createContext<TWsContext>({
+	ws: undefined,
+	isWsEnabled: false
+})
 
 export { WebSocketContext }
 
 type TWebScoketProvider = {
-	children: ReactNode,
+	children: ReactNode
 }
 
 export const WebSocketProvider = ({ children }: TWebScoketProvider) => {
-	const ws = useWebSocket(webSocket)
+	const webSocket = new WebSocket(`ws://localhost:${WS_PORT}`)
+	const [isWsEnabled, toggleWs] = useState<boolean>(true)
+
+	const webSocketRef = useRef(webSocket)
+
+	webSocketRef.current.onerror = function (_e: Event) {
+		toggleWs(false)
+	}
+
+	webSocketRef.current.onclose = function () {
+		toggleWs(false)
+	}
+
+	const ws = useWebSocketMessageListener(webSocketRef.current)
 
 	return (
-		<WebSocketContext.Provider value={ws}>
+		<WebSocketContext.Provider
+			value={{
+				ws,
+				isWsEnabled
+			}}
+		>
 			{children}
 		</WebSocketContext.Provider>
 	)
