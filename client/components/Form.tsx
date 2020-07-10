@@ -1,10 +1,16 @@
 import React, { FormEvent, useContext, useState } from 'react'
 import { Heading, InputStyled } from './styled'
-import { TWSData } from '../api/types'
+import { TWSActionEnum, TWSData } from '../api/types'
 import { useSelector } from 'react-redux'
 import { TAppState } from '../store/types'
 import { registeredUserIdState } from '../store/selectors'
 import { WebSocketContext } from './wsContext'
+import {
+	CANNOT_BE_EMPTY,
+	SERVER_NOT_AVAILABLE,
+	UNABLE_TO_REGISTER,
+	UNABLE_TO_SEMD
+} from '../constants'
 
 type TForm = {
 	wsType: TWSData['type']
@@ -26,10 +32,10 @@ export const Form = ({
 	initialValue = '',
 	extraData
 }: TForm) => {
-	const ws = useContext(WebSocketContext)
+	const { ws, isWsEnabled } = useContext(WebSocketContext)
 	const [value, setValue] = useState<string>(initialValue)
 
-	const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+	const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
 		setValue(e.target.value)
 	}
 
@@ -37,44 +43,53 @@ export const Form = ({
 		registeredUserId: registeredUserIdState(state)
 	}))
 
-	const onSubmitError = (message: string | ErrorEvent) => {
+	const getErrorMessage = (): string => {
+		if (wsType === TWSActionEnum.messageBroadcasted) {
+			return UNABLE_TO_SEMD
+		} else if (wsType === TWSActionEnum.register) {
+			return UNABLE_TO_REGISTER
+		} else {
+			return SERVER_NOT_AVAILABLE
+		}
+	}
+
+	const onSubmitError = (): void => {
+		let message = getErrorMessage()
+
+		alert(message)
+
 		if (errorCallback) {
 			errorCallback()
 		}
-		console.error(message)
 	}
 
-	const tryToSendValue = (ws: WebSocket, wsData: TWSData) => {
-		try {
-			const wsDataString = JSON.stringify(wsData)
-			ws.send(wsDataString)
-			setValue('')
-			if (successCallback) {
-				successCallback(wsData)
-			}
-		} catch (error) {
-			onSubmitError(error)
+	const getWsData = (): TWSData => {
+		const valueTrimmed = value.trim()
+		const timestamp = Date.now()
+		return {
+			id: registeredUserId,
+			type: wsType,
+			value: valueTrimmed,
+			timestamp,
+			...extraData
 		}
 	}
 
 	const onSubmit = (e: FormEvent<HTMLFormElement>) => {
 		if (value.length > 0) {
-			const valueTrimmed = value.trim()
-			const timestamp = Date.now()
-			const wsData: TWSData = {
-				id: registeredUserId,
-				type: wsType,
-				value: valueTrimmed,
-				timestamp,
-				...extraData
-			}
-			if (ws) {
-				tryToSendValue(ws, wsData)
+			if (ws && isWsEnabled) {
+				const wsData = getWsData()
+				const wsDataString = JSON.stringify(wsData)
+				ws.send(wsDataString)
+				setValue('')
+				if (successCallback) {
+					successCallback(wsData)
+				}
 			} else {
-				onSubmitError('websocket is not initialized')
+				onSubmitError()
 			}
 		} else {
-			alert('input cannot be empty')
+			alert(CANNOT_BE_EMPTY)
 		}
 		e.preventDefault()
 	}
@@ -87,7 +102,6 @@ export const Form = ({
 				</Heading>
 			) : null}
 			<InputStyled
-				type="text"
 				name={wsType}
 				id={wsType}
 				onChange={handleOnChange}

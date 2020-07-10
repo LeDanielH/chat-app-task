@@ -1,4 +1,4 @@
-import React  from 'react'
+import React from 'react'
 import { Modal } from './Modal'
 import { Form } from './Form'
 import { Image, SimpleWrapper } from '@householdjs/elements'
