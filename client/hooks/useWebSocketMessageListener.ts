@@ -10,7 +10,7 @@ import {
 	usersOnline
 } from '../store/actions'
 
-export const useWebSocket = (ws: WebSocket): WebSocket => {
+export const useWebSocketMessageListener = (ws: WebSocket): WebSocket => {
 	const dispatch = useDispatch()
 
 	useEffect(() => {
