@@ -14,16 +14,11 @@ import { UserMessageContent } from './userMessageContent'
 import { UserMessageHeader } from './UserMessageHeader'
 import { Spacing } from '@householdjs/utils'
 import { IconEdit } from '../icons/IconEdit'
-import { MESSAGE_REMOVED } from '../../constants'
+import { MESSAGE_REMOVED, UNABLE_TO_REMOVE } from '../../constants'
 import { WebSocketContext } from '../wsContext'
 
-export const UserMessage = ({
-	id,
-	value,
-	timestamp,
-	username
-}: TMessage) => {
-	const ws = useContext(WebSocketContext)
+export const UserMessage = ({ id, value, timestamp, username }: TMessage) => {
+	const { ws, isWsEnabled } = useContext(WebSocketContext)
 
 	const [isEditing, setIsEditing] = useState<boolean>(false)
 	const { canEditMessage } = useSelector((state: TAppState) => {
@@ -46,7 +41,11 @@ export const UserMessage = ({
 			value
 		}
 		const removedMessageString = JSON.stringify(wsData)
-		ws.send(removedMessageString)
+		if (ws && isWsEnabled) {
+			ws.send(removedMessageString)
+		} else {
+			alert(UNABLE_TO_REMOVE)
+		}
 	}
 
 	const renderEditMessageForm = (): ReactNode => {

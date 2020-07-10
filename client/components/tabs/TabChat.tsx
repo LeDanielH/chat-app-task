@@ -8,7 +8,6 @@ import { THEME } from '../../config/theme'
 import { TWSActionEnum } from '../../api/types'
 import { useMediaQuery } from 'react-responsive'
 
-
 export const TabChat = () => {
 	const isPhone = useMediaQuery({ query: THEME.mediaQueries.isPhone })
 	const spacing = isPhone ? Spacing.default : Spacing.big
