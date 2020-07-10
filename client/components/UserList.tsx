@@ -1,6 +1,6 @@
 import React from 'react'
 import { List, ListItem, Paragraph } from './styled'
-import { Spacer } from '@householdjs/elements'
+import { SimpleWrapper } from '@householdjs/elements'
 import { THEME } from '../config/theme'
 import { Spacing } from '@householdjs/utils'
 import { useSelector } from 'react-redux'
@@ -24,12 +24,17 @@ export const UserList = () => {
 					key={participant.id}
 					withBorderBottom
 					height={THEME.sizes.participantListItemHeight}
+					withHoverEffect={!isPhone}
 				>
-					<Spacer horizontal={spacing}>
+					<SimpleWrapper
+						horizontal={spacing}
+						isRelative={!isPhone}
+						zIndex={THEME.zIndex.user}
+					>
 						<Paragraph disableLineHeight>
 							{participant.value}
 						</Paragraph>
-					</Spacer>
+					</SimpleWrapper>
 				</ListItem>
 			))}
 		</List>

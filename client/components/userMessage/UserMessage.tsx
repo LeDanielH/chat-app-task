@@ -16,6 +16,7 @@ import { Spacing } from '@householdjs/utils'
 import { IconEdit } from '../icons/IconEdit'
 import { MESSAGE_REMOVED, UNABLE_TO_REMOVE } from '../../constants'
 import { WebSocketContext } from '../wsContext'
+import { Scaler } from '../styled'
 
 export const UserMessage = ({ id, value, timestamp, username }: TMessage) => {
 	const { ws, isWsEnabled } = useContext(WebSocketContext)
@@ -74,14 +75,18 @@ export const UserMessage = ({ id, value, timestamp, username }: TMessage) => {
 						withPointer
 						onClick={removeMessage}
 					>
-						<IconBin />
+						<Scaler>
+							<IconBin />
+						</Scaler>
 					</FlexChild>
 					<FlexChild
 						horizontal={Spacing.small}
 						withPointer
 						onClick={toggleCanEdit}
 					>
-						<IconEdit />
+						<Scaler>
+							<IconEdit />
+						</Scaler>
 					</FlexChild>
 				</FlexParent>
 			</FlexChild>

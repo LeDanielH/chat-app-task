@@ -30,7 +30,7 @@ const COLORS_UI = {
 	backdropModal: transparentize(0.7, COLORS.black),
 	containerBackground: COLORS.white,
 	updatedAt: COLORS.gray,
-	participantsDesktop: lighten(0.06, COLORS.grayLight)
+	participantsDesktop: lighten(0.05, COLORS.grayLight)
 }
 
 const SIZES = {
@@ -58,7 +58,8 @@ const SIZES_UI = {
 
 const Z_INDEXES = {
 	modal: 2,
-	loader: 3
+	loader: 3,
+	user: 1 // for hover effect
 }
 
 const TYPOGRAPHY = {
