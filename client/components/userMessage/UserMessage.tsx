@@ -6,19 +6,23 @@ import { useSelector } from 'react-redux'
 import { Form } from '../Form'
 import { TAppState, TMessage } from '../../store/types'
 import { canEditMessageSelectorFactory } from '../../store/selectors'
-import { getPrettyTime } from '../../utils/getPrettyTime'
 import { getMessageWithoutTimeUpdated } from '../../store/utils'
 import { IconBin } from '../icons/IconBin'
 
 import { UserMessageContent } from './userMessageContent'
 import { UserMessageHeader } from './UserMessageHeader'
-import { Spacing } from '@householdjs/utils'
 import { IconEdit } from '../icons/IconEdit'
 import { MESSAGE_REMOVED, UNABLE_TO_REMOVE } from '../../constants'
 import { WebSocketContext } from '../wsContext'
-import { Scaler } from '../styled'
+import { ActionIcon } from './UserMessagActionIcon'
 
-export const UserMessage = ({ id, value, timestamp, username }: TMessage) => {
+export const UserMessage = ({
+	id,
+	value,
+	timestamp,
+	username,
+	updated
+}: TMessage) => {
 	const { ws, isWsEnabled } = useContext(WebSocketContext)
 
 	const [isEditing, setIsEditing] = useState<boolean>(false)
@@ -28,7 +32,6 @@ export const UserMessage = ({ id, value, timestamp, username }: TMessage) => {
 			canEditMessage: canEditMessageSelector(state)
 		}
 	})
-	const timeFormatted = getPrettyTime(timestamp)
 
 	const toggleCanEdit = () => {
 		setIsEditing(!isEditing)
@@ -54,7 +57,7 @@ export const UserMessage = ({ id, value, timestamp, username }: TMessage) => {
 
 		return (
 			<Form
-				wsType={TWSActionEnum.messageBroadcasted}
+				wsType={TWSActionEnum.messageUpdated}
 				placeholder={initialValue}
 				initialValue={initialValue}
 				extraData={{
@@ -70,38 +73,18 @@ export const UserMessage = ({ id, value, timestamp, username }: TMessage) => {
 		return (
 			<FlexChild shrink>
 				<FlexParent>
-					<FlexChild
-						horizontal={Spacing.small}
-						withPointer
-						onClick={removeMessage}
-					>
-						<Scaler>
-							<IconBin />
-						</Scaler>
-					</FlexChild>
-					<FlexChild
-						horizontal={Spacing.small}
-						withPointer
-						onClick={toggleCanEdit}
-					>
-						<Scaler>
-							<IconEdit />
-						</Scaler>
-					</FlexChild>
+					<ActionIcon onClick={removeMessage}>
+						<IconBin />
+					</ActionIcon>
+					<ActionIcon onClick={toggleCanEdit}>
+						<IconEdit />
+					</ActionIcon>
 				</FlexParent>
 			</FlexChild>
 		)
 	}
 
-	const renderMessage = () => {
-		return (
-			<FlexChild grow shrink>
-				<UserMessageContent value={value} />
-			</FlexChild>
-		)
-	}
-
-	const renderMessageSection = (): ReactNode => {
+	const renderMessage = (): ReactNode => {
 		const isMessageRemoved = value === MESSAGE_REMOVED
 		const canRenderActionIcons =
 			canEditMessage && !isEditing && !isMessageRemoved
@@ -112,7 +95,9 @@ export const UserMessage = ({ id, value, timestamp, username }: TMessage) => {
 				fullWidth
 				justifyContent="space-between"
 			>
-				{renderMessage()}
+				<FlexChild grow shrink>
+					<UserMessageContent value={value} updatedAt={updated} />
+				</FlexChild>
 				{canRenderActionIcons ? renderActionIcons() : null}
 			</FlexParent>
 		)
@@ -120,11 +105,8 @@ export const UserMessage = ({ id, value, timestamp, username }: TMessage) => {
 
 	return (
 		<Spacer right={THEME.sizes.tabChatRightSpacingCompensation}>
-			<UserMessageHeader
-				timeFormatted={timeFormatted}
-				username={username}
-			/>
-			{isEditing ? renderEditMessageForm() : renderMessageSection()}
+			<UserMessageHeader timestamp={timestamp} username={username} />
+			{isEditing ? renderEditMessageForm() : renderMessage()}
 		</Spacer>
 	)
 }

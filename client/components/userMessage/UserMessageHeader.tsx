@@ -1,17 +1,21 @@
+import React from 'react'
 import { Spacing } from '@householdjs/utils'
 import { FlexChild, FlexParent } from '@householdjs/elements'
 import { Heading, Paragraph } from '../styled'
 import { THEME } from '../../config/theme'
-import React from 'react'
+import { getPrettyDateTime } from '../../utils/getPretty'
 
 type TUserMessageHeader = {
 	username: string
-	timeFormatted: string
+	timestamp: number
 }
+
 export const UserMessageHeader = ({
 	username,
-	timeFormatted
+	timestamp
 }: TUserMessageHeader) => {
+	const prettyDateTime = getPrettyDateTime(timestamp);
+
 	return (
 		<FlexParent fullWidth withBottomSpacing={Spacing.small}>
 			<FlexChild>
@@ -25,7 +29,7 @@ export const UserMessageHeader = ({
 					disableLineHeight
 					letterSpacing={THEME.typography.lsTime}
 				>
-					{timeFormatted}
+					{prettyDateTime}
 				</Paragraph>
 			</FlexChild>
 		</FlexParent>

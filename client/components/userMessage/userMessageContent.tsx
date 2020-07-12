@@ -1,15 +1,17 @@
 import React from 'react'
-import { UPDATED_AT, MESSAGE_REMOVED } from '../../constants'
+import { MESSAGE_REMOVED, UPDATED_AT } from '../../constants'
 import { CSSObject } from 'styled-components'
 import { THEME } from '../../config/theme'
 import { Paragraph } from '../styled'
 import { WithLink } from '../WithLink'
+import { getPrettyTime } from '../../utils/getPretty'
 
 type TUserMessageProps = {
 	value: string
+	updatedAt?: number
 }
 
-export const UserMessageContent = ({ value }: TUserMessageProps) => {
+export const UserMessageContent = ({ value, updatedAt }: TUserMessageProps) => {
 	const isRemovedMessage = value === MESSAGE_REMOVED
 
 	if (isRemovedMessage) {
@@ -20,12 +22,8 @@ export const UserMessageContent = ({ value }: TUserMessageProps) => {
 		)
 	}
 
-	const indexOfUpdated = value.indexOf(UPDATED_AT)
-	const isUpdatedMessage = indexOfUpdated > -1
-
-	if (isUpdatedMessage) {
-		const message = value.substring(0, indexOfUpdated)
-		const updatedAt = value.substring(message.length, value.length)
+	if (updatedAt) {
+		const dateTimePretty = getPrettyTime(updatedAt)
 		const emStyles: CSSObject = {
 			color: THEME.colors.updatedAt,
 			fontSize: THEME.typography.fsUpdatedAt
@@ -33,9 +31,9 @@ export const UserMessageContent = ({ value }: TUserMessageProps) => {
 
 		return (
 			<Paragraph>
-				<WithLink>{message}</WithLink>
+				<WithLink>{value}</WithLink>
 				{'  '}
-				<em style={emStyles}>{updatedAt}</em>
+				<em style={emStyles}>({`${UPDATED_AT} ${dateTimePretty}`})</em>
 			</Paragraph>
 		)
 	} else {
