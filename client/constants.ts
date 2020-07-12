@@ -3,6 +3,7 @@ export const YOU = 'You'
 export const MEETING_BOT = 'Meeting Bot'
 export const UPDATED_AT = 'Updated at'
 export const MESSAGE_REMOVED = 'Message removed by user'
+export const LEFT_THE_MEETING = 'left the meeting'
 export const WS_PORT = 1234
 export const CLIENT_PORT = process.env.PORT
 

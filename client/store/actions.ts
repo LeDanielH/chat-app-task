@@ -1,13 +1,13 @@
 import { Dispatch } from 'redux'
 import { TAction, TAppState, TMessageUpdatePayload, TMessage } from './types'
 import { TWSActionEnum, TWSData } from '../api/types'
-import { MEETING_BOT, MESSAGE_REMOVED, UPDATED_AT, YOU } from '../constants'
 import {
-	getMessageWithUsername,
-	getMessageToBeUpdatedIndex,
-	getMessageWithoutTimeUpdated
-} from './utils'
-import { getPrettyTime } from '../utils/getPrettyTime'
+	LEFT_THE_MEETING,
+	MEETING_BOT,
+	MESSAGE_REMOVED,
+	YOU
+} from '../constants'
+import { getMessageWithUsername, getMessageToBeUpdatedIndex } from './utils'
 
 const _userJoined = (wsData: TWSData): TAction => ({
 	type: 'USER_JOINED',
@@ -98,7 +98,7 @@ export const userLeft = (wsData: TWSData) => (
 		const mettingBotData: TMessage = {
 			username: MEETING_BOT,
 			timestamp: Date.now(),
-			value: `${users[leavingUserIndex].value} left the meeting`,
+			value: `${users[leavingUserIndex].value} ${LEFT_THE_MEETING}`,
 			type: TWSActionEnum.messageBroadcasted,
 			id: users[leavingUserIndex].id
 		}
@@ -115,8 +115,16 @@ export const messageBroadcasted = (wsData: TWSData) => (
 	dispatch: Dispatch<TAction>,
 	getState: () => TAppState
 ) => {
-	const { users, messages } = getState()
+	const { users } = getState()
 	const messageWithUsername = getMessageWithUsername(users, wsData)
+	dispatch(_messageBroadcasted(messageWithUsername))
+}
+
+export const messageUpdated = (wsData: TWSData) => (
+	dispatch: Dispatch<TAction>,
+	getState: () => TAppState
+) => {
+	const { messages } = getState()
 	const messageToBeUpdatedIndex = getMessageToBeUpdatedIndex(messages, wsData)
 	if (messageToBeUpdatedIndex > -1) {
 		dispatch(
@@ -125,32 +133,10 @@ export const messageBroadcasted = (wsData: TWSData) => (
 				index: messageToBeUpdatedIndex
 			})
 		)
-	} else {
-		dispatch(_messageBroadcasted(messageWithUsername))
 	}
 }
 
 const _messageUpdated = (
-	updatedMessageData: TMessageUpdatePayload
-): TAction => {
-	const updatedAt = `${UPDATED_AT} ${getPrettyTime(Date.now())}`
-	const messageWithoutUpdated = getMessageWithoutTimeUpdated(
-		updatedMessageData.data.value
-	)
-	const value = `${messageWithoutUpdated} ${updatedAt}`
-	return {
-		type: 'MESSAGE_UPDATED',
-		payload: {
-			...updatedMessageData,
-			data: {
-				...updatedMessageData.data,
-				value
-			}
-		}
-	}
-}
-
-const _messageRemoved = (
 	updatedMessageData: TMessageUpdatePayload
 ): TAction => {
 	return {
@@ -173,7 +159,7 @@ export const messageRemoved = (wsData: TWSData) => (
 
 	if (messageRemovedIndex > -1) {
 		dispatch(
-			_messageRemoved({
+			_messageUpdated({
 				data: { ...wsData, value: MESSAGE_REMOVED },
 				index: messageRemovedIndex
 			})

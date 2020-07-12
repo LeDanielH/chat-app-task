@@ -7,7 +7,8 @@ import {
 	userJoined,
 	userLeft,
 	userRegistered,
-	usersOnline
+	usersOnline,
+	messageUpdated
 } from '../store/actions'
 
 export const useWebSocketMessageListener = (ws: WebSocket): WebSocket => {
@@ -36,6 +37,9 @@ export const useWebSocketMessageListener = (ws: WebSocket): WebSocket => {
 						break
 					case TWSActionEnum.leave:
 						dispatch(userLeft(wsData))
+						break
+					case TWSActionEnum.messageUpdated:
+						dispatch(messageUpdated(wsData))
 						break
 					default:
 						console.warn(`${wsData.type} not handled`)

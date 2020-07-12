@@ -1,10 +1,11 @@
 export enum TWSActionEnum {
 	messageBroadcasted = 'messageBroadcasted',
-	messageRemoved = 'messageRemoved',
 	register = 'register',
 	join = 'join',
 	leave = 'leave',
-	online = 'online'
+	online = 'online',
+	messageRemoved = 'messageRemoved',
+	messageUpdated = 'messageUpdated',
 }
 
 export type TWSData = {
@@ -12,4 +13,5 @@ export type TWSData = {
 	type: TWSActionEnum
 	value: string
 	timestamp: number
+	updated?: number
 }
