@@ -6,7 +6,8 @@ export enum TWSActionEnum {
 	join = 'join',
 	leave = 'leave',
 	online = 'online',
-	messageRemoved = 'messageRemoved'
+	messageRemoved = 'messageRemoved',
+	messageUpdated = 'messageUpdated',
 }
 
 export type TWSData = {
@@ -14,6 +15,7 @@ export type TWSData = {
 	type: TWSActionEnum
 	value: string
 	timestamp: number
+	updated?: number
 }
 
 export type TConnection = {
