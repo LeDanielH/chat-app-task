@@ -14,7 +14,7 @@ export const MessagesList = () => {
 		<List>
 			{messages.map((post: TMessage) => (
 				<ListItem
-					key={`${post.username}-${post.timestamp}`}
+					key={`${post.id}-${post.timestamp}`}
 					withBottomSpacing
 				>
 					<UserMessage {...post} />

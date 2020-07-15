@@ -30,7 +30,7 @@ export const userJoined = (wsData: TWSData) => (
 			timestamp: wsData.timestamp,
 			value: `${wsData.value} joined the meeting`,
 			type: TWSActionEnum.messageBroadcasted,
-			id: wsData.id
+			id: MEETING_BOT
 		}
 		dispatch(_messageBroadcasted(mettingBotData))
 	}
