@@ -14,7 +14,7 @@ export const UserMessageHeader = ({
 	username,
 	timestamp
 }: TUserMessageHeader) => {
-	const prettyDateTime = getPrettyDateTime(timestamp);
+	const prettyDateTime = getPrettyDateTime(timestamp)
 
 	return (
 		<FlexParent fullWidth withBottomSpacing={Spacing.small}>

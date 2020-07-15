@@ -4,11 +4,11 @@ import { Spacing } from '@householdjs/utils'
 import { Scaler } from '../styled'
 
 type TActionIcon = {
-	children: ReactNode,
+	children: ReactNode
 	onClick: () => void
 }
 
-export const ActionIcon = ({children, onClick}: TActionIcon ) => {
+export const ActionIcon = ({ children, onClick }: TActionIcon) => {
 	return (
 		<FlexChild horizontal={Spacing.small} withPointer onClick={onClick}>
 			<Scaler>{children}</Scaler>

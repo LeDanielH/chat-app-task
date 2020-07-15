@@ -5,7 +5,7 @@ export enum TWSActionEnum {
 	leave = 'leave',
 	online = 'online',
 	messageRemoved = 'messageRemoved',
-	messageUpdated = 'messageUpdated',
+	messageUpdated = 'messageUpdated'
 }
 
 export type TWSData = {

@@ -6,7 +6,6 @@ import { useSelector } from 'react-redux'
 import { Form } from '../Form'
 import { TAppState, TMessage } from '../../store/types'
 import { canEditMessageSelectorFactory } from '../../store/selectors'
-import { getMessageWithoutTimeUpdated } from '../../store/utils'
 import { IconBin } from '../icons/IconBin'
 
 import { UserMessageContent } from './userMessageContent'
@@ -53,13 +52,11 @@ export const UserMessage = ({
 	}
 
 	const renderEditMessageForm = (): ReactNode => {
-		const initialValue = getMessageWithoutTimeUpdated(value)
-
 		return (
 			<Form
 				wsType={TWSActionEnum.messageUpdated}
-				placeholder={initialValue}
-				initialValue={initialValue}
+				placeholder={value}
+				initialValue={value}
 				extraData={{
 					timestamp
 				}}

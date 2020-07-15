@@ -10,7 +10,7 @@ export function handleUpdate(
 	const timestamp = Date.now()
 	const messageToUpdate: TWSData = {
 		...data,
-		updated: timestamp,
+		updated: timestamp
 	}
 
 	const messageToUpdateString = JSON.stringify(messageToUpdate)

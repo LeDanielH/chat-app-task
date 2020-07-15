@@ -3,7 +3,7 @@ import { broadCastEvents } from './broadCastEvents.ts'
 import { TConnection, TWSActionEnum, TWSData } from './types.ts'
 import { handleRegister } from './handleRegister.ts'
 import { handleWebSocketClose } from './handleWebSocketClose.ts'
-import { handleUpdate } from "./handleUpdate.ts";
+import { handleUpdate } from './handleUpdate.ts'
 
 export const handleWebSocket = (connections: Array<TConnection>) => async (
 	ws: WebSocket
@@ -18,13 +18,13 @@ export const handleWebSocket = (connections: Array<TConnection>) => async (
 					break
 				case TWSActionEnum.messageBroadcasted:
 					broadCastEvents({ ws, event, connections }, true)
-					break;
+					break
 				case TWSActionEnum.messageRemoved:
 					broadCastEvents({ ws, event, connections }, true)
-					break;
+					break
 				case TWSActionEnum.messageUpdated:
 					handleUpdate(connections, ws, data)
-					break;
+					break
 				default:
 					broadCastEvents({ ws, event, connections })
 			}
