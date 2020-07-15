@@ -100,7 +100,7 @@ export const userLeft = (wsData: TWSData) => (
 			timestamp: Date.now(),
 			value: `${users[leavingUserIndex].value} ${LEFT_THE_MEETING}`,
 			type: TWSActionEnum.messageBroadcasted,
-			id: users[leavingUserIndex].id
+			id: MEETING_BOT
 		}
 		dispatch(_messageBroadcasted(mettingBotData))
 	}
