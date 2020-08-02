@@ -1,9 +1,9 @@
 import React, { ReactNode, useContext, useState } from 'react'
 import { FlexChild, FlexParent, Spacer } from '@householdjs/elements'
 import { THEME } from '../../config/theme'
-import { TWSActionEnum, TWSData } from '../../api/types'
+import { TWSActionEnum, TWSData } from '../../api/generated/types-common'
 import { useSelector } from 'react-redux'
-import { Form } from '../Form'
+import { ChatInput } from '../ChatInput'
 import { TAppState, TMessage } from '../../store/types'
 import { canEditMessageSelectorFactory } from '../../store/selectors'
 import { IconBin } from '../icons/IconBin'
@@ -53,7 +53,7 @@ export const UserMessage = ({
 
 	const renderEditMessageForm = (): ReactNode => {
 		return (
-			<Form
+			<ChatInput
 				wsType={TWSActionEnum.messageUpdated}
 				placeholder={value}
 				initialValue={value}
@@ -101,7 +101,7 @@ export const UserMessage = ({
 	}
 
 	return (
-		<Spacer right={THEME.sizes.tabChatRightSpacingCompensation}>
+		<Spacer sRight={THEME.sizes.tabChatRightSpacingCompensation}>
 			<UserMessageHeader timestamp={timestamp} username={username} />
 			{isEditing ? renderEditMessageForm() : renderMessage()}
 		</Spacer>

@@ -13,9 +13,9 @@ export const Page = () => {
 		<SimpleWrapper
 			backgroundColor={THEME.colors.windowBackground}
 			minHeight="100vh"
-			horizontal={spacing}
+			sHorizontal={spacing}
 		>
-			<Spacer all={Spacing.big}>
+			<Spacer sAll={Spacing.big}>
 				<Paragraph
 					textAlign="center"
 					fontSize={THEME.typography.fsPageTitle}

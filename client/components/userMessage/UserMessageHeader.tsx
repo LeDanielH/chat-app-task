@@ -17,13 +17,13 @@ export const UserMessageHeader = ({
 	const prettyDateTime = getPrettyDateTime(timestamp)
 
 	return (
-		<FlexParent fullWidth withBottomSpacing={Spacing.small}>
+		<FlexParent fullWidth withBottomMargin={Spacing.small}>
 			<FlexChild>
 				<Heading color={THEME.colors.heading} disableLineHeight>
 					{username}
 				</Heading>
 			</FlexChild>
-			<FlexChild left>
+			<FlexChild sLeft>
 				<Paragraph
 					color={THEME.colors.time}
 					disableLineHeight

@@ -97,7 +97,7 @@ export const Tabs = () => {
 								backgroundColor={backgroundColor}
 								key={tab.name}
 							>
-								<SimpleWrapper horizontal={Spacing.big}>
+								<SimpleWrapper sHorizontal={Spacing.big}>
 									{tab.tabSelector(false)}
 								</SimpleWrapper>
 								<SimpleWrapper

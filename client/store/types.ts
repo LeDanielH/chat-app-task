@@ -1,4 +1,4 @@
-import { TWSData } from '../api/types'
+import { TWSData } from '../api/generated/types-common'
 
 export type TMessage = TWSData & {
 	username: string

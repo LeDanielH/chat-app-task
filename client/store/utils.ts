@@ -1,5 +1,5 @@
 import { TAppState, TMessage } from './types'
-import { TWSData } from '../api/types'
+import { TWSData } from '../api/generated/types-common'
 
 export const getMessageWithUsername = (
 	users: TAppState['users'],

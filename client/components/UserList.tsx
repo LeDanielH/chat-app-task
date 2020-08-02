@@ -6,7 +6,7 @@ import { Spacing } from '@householdjs/utils'
 import { useSelector } from 'react-redux'
 import { TAppState } from '../store/types'
 import { usersState } from '../store/selectors'
-import { TWSData } from '../api/types'
+import { TWSData } from '../api/generated/types-common'
 import { useMediaQuery } from 'react-responsive'
 
 export const UserList = () => {
@@ -27,7 +27,7 @@ export const UserList = () => {
 					withHoverEffect={!isPhone}
 				>
 					<SimpleWrapper
-						horizontal={spacing}
+						sHorizontal={spacing}
 						isRelative={!isPhone}
 						zIndex={THEME.zIndex.user}
 					>

@@ -1,8 +1,9 @@
 import React from 'react'
 import { Modal } from './Modal'
-import { Form } from './Form'
+import { ChatInput } from './ChatInput'
 import { Image, SimpleWrapper } from '@householdjs/elements'
-import { TWSActionEnum } from '../api/types'
+import { TWSActionEnum } from '../api/generated/types-common'
+import { UNABLE_TO_REGISTER } from '../constants'
 
 type TModalEnterUserName = {
 	isVisible: boolean
@@ -11,13 +12,14 @@ type TModalEnterUserName = {
 export const ModalRegisterUser = ({ isVisible }: TModalEnterUserName) => {
 	return (
 		<Modal isVisible={isVisible}>
-			<SimpleWrapper center bottom>
+			<SimpleWrapper center sBottom>
 				<Image src="https://toughbyte.s3.amazonaws.com/uploads/client/logo/40/pexip_logo.png" />
 			</SimpleWrapper>
-			<Form
+			<ChatInput
 				wsType={TWSActionEnum.register}
 				placeholder="John Doe"
 				label={'Enter your name to join'}
+				errorMessage={UNABLE_TO_REGISTER}
 			/>
 		</Modal>
 	)

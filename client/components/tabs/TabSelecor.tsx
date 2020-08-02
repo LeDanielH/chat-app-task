@@ -18,7 +18,7 @@ export const TabSelector = ({ isActive, children }: TTabSelecorProps) => {
 			withTransition={{
 				transitionProperties: TAB_PROPS_TO_ANIMATE
 			}}
-			horizontal
+			sHorizontal
 		>
 			{children}
 		</SimpleWrapper>

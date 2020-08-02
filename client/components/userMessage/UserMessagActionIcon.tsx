@@ -10,7 +10,7 @@ type TActionIcon = {
 
 export const ActionIcon = ({ children, onClick }: TActionIcon) => {
 	return (
-		<FlexChild horizontal={Spacing.small} withPointer onClick={onClick}>
+		<FlexChild sHorizontal={Spacing.small} withPointer onClick={onClick}>
 			<Scaler>{children}</Scaler>
 		</FlexChild>
 	)

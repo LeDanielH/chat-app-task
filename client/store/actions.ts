@@ -1,6 +1,6 @@
 import { Dispatch } from 'redux'
 import { TAction, TAppState, TMessageUpdatePayload, TMessage } from './types'
-import { TWSActionEnum, TWSData } from '../api/types'
+import { TWSActionEnum, TWSData } from '../api/generated/types-common'
 import {
 	LEFT_THE_MEETING,
 	MEETING_BOT,

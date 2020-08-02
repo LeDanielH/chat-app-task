@@ -132,14 +132,14 @@ export interface InputStyledInterface {
 
 type TInputProps = InputStyledInterface &
 	React.HTMLProps<HTMLInputElement> & {
-		isLikePara?: boolean
+		withParagraphStyles?: boolean
 	}
 
 export const InputStyled = styled.input.attrs({ type: 'text' })<TInputProps>(
-	({ isLikePara }: TInputProps) => ({
+	({ withParagraphStyles }: TInputProps) => ({
 		border: `${THEME.sizes.borderWidth} solid ${THEME.colors.windowBackground}`,
 		outline: 0,
-		...(isLikePara
+		...(withParagraphStyles
 			? {
 					height: THEME.typography.lhBody,
 					lineHeight: THEME.typography.lhBody

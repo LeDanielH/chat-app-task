@@ -1,6 +1,6 @@
 import { TAction, TAppState, TMessage } from './types'
 import { removeAt, updateAt } from '../utils/arrayAt'
-import { TWSActionEnum, TWSData } from '../api/types'
+import { TWSActionEnum, TWSData } from '../api/generated/types-common'
 import { MEETING_BOT, CLIENT_PORT } from '../constants'
 
 const meetingBot: TWSData = {

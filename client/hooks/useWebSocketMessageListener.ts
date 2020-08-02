@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux'
 import { useEffect } from 'react'
-import { TWSActionEnum, TWSData } from '../api/types'
+import { TWSActionEnum, TWSData } from '../api/generated/types-common'
 import {
 	messageBroadcasted,
 	messageRemoved,
