@@ -1,16 +1,12 @@
 import React, { FormEvent, useContext, useState } from 'react'
-import { Heading, InputStyled } from './styled'
-import { TWSActionEnum, TWSData } from '../api/types'
+import { TWSData } from '../api/generated/types-common'
 import { useSelector } from 'react-redux'
 import { TAppState } from '../store/types'
 import { registeredUserIdState } from '../store/selectors'
 import { WebSocketContext } from './wsContext'
-import {
-	CANNOT_BE_EMPTY,
-	SERVER_NOT_AVAILABLE,
-	UNABLE_TO_REGISTER,
-	UNABLE_TO_SEMD
-} from '../constants'
+import { Form } from './forms/Form'
+import { InputText } from './forms/InputText'
+import { CANNOT_BE_EMPTY, SERVER_NOT_AVAILABLE } from '../constants'
 
 type TForm = {
 	wsType: TWSData['type']
@@ -21,8 +17,9 @@ type TForm = {
 	isInEditMode?: boolean
 	initialValue?: string
 	extraData?: Partial<TWSData>
+	errorMessage?: string
 }
-export const Form = ({
+export const ChatInput = ({
 	wsType,
 	placeholder,
 	successCallback,
@@ -30,7 +27,8 @@ export const Form = ({
 	label,
 	isInEditMode,
 	initialValue = '',
-	extraData
+	extraData,
+	errorMessage = SERVER_NOT_AVAILABLE
 }: TForm) => {
 	const { ws, isWsEnabled } = useContext(WebSocketContext)
 	const [value, setValue] = useState<string>(initialValue)
@@ -43,20 +41,8 @@ export const Form = ({
 		registeredUserId: registeredUserIdState(state)
 	}))
 
-	const getErrorMessage = (): string => {
-		if (wsType === TWSActionEnum.messageBroadcasted) {
-			return UNABLE_TO_SEMD
-		} else if (wsType === TWSActionEnum.register) {
-			return UNABLE_TO_REGISTER
-		} else {
-			return SERVER_NOT_AVAILABLE
-		}
-	}
-
 	const onSubmitError = (): void => {
-		let message = getErrorMessage()
-
-		alert(message)
+		alert(errorMessage)
 
 		if (errorCallback) {
 			errorCallback()
@@ -95,20 +81,15 @@ export const Form = ({
 	}
 
 	return (
-		<form onSubmit={onSubmit}>
-			{label ? (
-				<Heading as="label" withBottomSpacing>
-					{label}
-				</Heading>
-			) : null}
-			<InputStyled
-				name={wsType}
-				id={wsType}
+		<Form onSubmit={onSubmit}>
+			<InputText
+				label={label}
 				onChange={handleOnChange}
-				placeholder={placeholder}
 				value={value}
-				isLikePara={isInEditMode}
+				id={wsType}
+				placeholder={placeholder}
+				isInEditMode={isInEditMode}
 			/>
-		</form>
+		</Form>
 	)
 }
