@@ -1,5 +1,5 @@
 import { WebSocket, WebSocketMessage } from './deps.ts'
-import { TConnection } from './types.ts'
+import { TConnection } from './types/types-deno.ts'
 
 type TBroadCastEventParams = {
 	ws: WebSocket

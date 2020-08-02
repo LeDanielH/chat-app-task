@@ -1,6 +1,6 @@
 import { acceptable, serve, acceptWebSocket } from './deps.ts'
 import { handleWebSocket } from './handleWebSocket.ts'
-import { TConnection } from './types.ts'
+import { TConnection } from './types/types-deno.ts'
 import { PORT } from './constants.ts'
 
 const connections = new Array<TConnection>()

@@ -1,4 +1,5 @@
-import { TConnection, TWSData } from './types.ts'
+import { TWSData } from './types/types-common.ts'
+import { TConnection } from './types/types-deno.ts'
 import { broadCastEvents } from './broadCastEvents.ts'
 import { WebSocket } from './deps.ts'
 

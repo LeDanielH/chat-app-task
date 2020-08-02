@@ -1,5 +1,5 @@
-import { TConnection, TWSData } from './types.ts'
-import { TWSActionEnum } from './types.ts'
+import { TWSActionEnum, TWSData } from './types/types-common.ts'
+import { TConnection } from './types/types-deno.ts'
 import { broadCastEvents } from './broadCastEvents.ts'
 import { v4, WebSocket } from './deps.ts'
 

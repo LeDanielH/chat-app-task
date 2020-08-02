@@ -1,5 +1,3 @@
-import type { WebSocket } from './deps.ts'
-
 export enum TWSActionEnum {
 	messageBroadcasted = 'messageBroadcasted',
 	register = 'register',
@@ -16,11 +14,4 @@ export type TWSData = {
 	value: string
 	timestamp: number
 	updated?: number
-}
-
-export type TConnection = {
-	id: string
-	value: TWSData['value']
-	ws: WebSocket
-	timestamp: TWSData['timestamp']
 }

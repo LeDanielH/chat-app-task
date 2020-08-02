@@ -1,6 +1,7 @@
 import { isWebSocketCloseEvent, WebSocket } from './deps.ts'
 import { broadCastEvents } from './broadCastEvents.ts'
-import { TConnection, TWSActionEnum, TWSData } from './types.ts'
+import { TWSActionEnum, TWSData } from './types/types-common.ts'
+import { TConnection } from './types/types-deno.ts'
 import { handleRegister } from './handleRegister.ts'
 import { handleWebSocketClose } from './handleWebSocketClose.ts'
 import { handleUpdate } from './handleUpdate.ts'
