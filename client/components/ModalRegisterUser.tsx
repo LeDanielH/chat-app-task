@@ -4,14 +4,17 @@ import { ChatInput } from './ChatInput'
 import { Image, SimpleWrapper } from '@householdjs/elements'
 import { TWSActionEnum } from '../api/generated/types-common'
 import { UNABLE_TO_REGISTER } from '../constants'
+import { useSelector } from 'react-redux'
+import { TAppState } from '../store/types'
+import { isRegisteredSelector } from '../store/selectors'
 
-type TModalEnterUserName = {
-	isVisible: boolean
-}
+export const ModalRegisterUser = () => {
+	const { isRegistered } = useSelector((state: TAppState) => ({
+		isRegistered: isRegisteredSelector(state)
+	}))
 
-export const ModalRegisterUser = ({ isVisible }: TModalEnterUserName) => {
 	return (
-		<Modal isVisible={isVisible}>
+		<Modal isVisible={!isRegistered}>
 			<SimpleWrapper center sBottom>
 				<Image src="https://toughbyte.s3.amazonaws.com/uploads/client/logo/40/pexip_logo.png" />
 			</SimpleWrapper>

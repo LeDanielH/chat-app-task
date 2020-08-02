@@ -1,5 +1,4 @@
 import React from 'react'
-import { List, ListItem, Paragraph } from './styled'
 import { SimpleWrapper } from '@householdjs/elements'
 import { THEME } from '../config/theme'
 import { Spacing } from '@householdjs/utils'
@@ -8,6 +7,9 @@ import { TAppState } from '../store/types'
 import { usersState } from '../store/selectors'
 import { TWSData } from '../api/generated/types-common'
 import { useMediaQuery } from 'react-responsive'
+import { List } from './styled/List'
+import { ListItem } from './styled/ListItem'
+import { Paragraph } from './styled/Paragraph'
 
 export const UserList = () => {
 	const { users } = useSelector((state: TAppState) => ({

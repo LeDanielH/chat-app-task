@@ -1,7 +1,8 @@
 import React, { ReactNode } from 'react'
 import { SimpleWrapper } from '@householdjs/elements'
 import { THEME } from '../../config/theme'
-import { TAB_PROPS_TO_ANIMATE, TTabCommonProps } from './Tabs.constants'
+import { TAB_PROPS_TO_ANIMATE } from './Tabs.constants'
+import { TTabCommonProps } from './Tabs.types'
 
 type TTabSelecorProps = TTabCommonProps & {
 	children: ReactNode

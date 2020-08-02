@@ -1,10 +1,9 @@
 import React from 'react'
-import { Paragraph } from './styled'
-import { Tabs } from './tabs/Tabs'
-import { Spacer, SimpleWrapper } from '@householdjs/elements'
+import { SimpleWrapper } from '@householdjs/elements'
 import { THEME } from '../config/theme'
 import { Spacing } from '@householdjs/utils'
 import { useMediaQuery } from 'react-responsive'
+import { ChatAppLayout } from './ChatAppLayout'
 
 export const Page = () => {
 	const isPhone = useMediaQuery({ query: THEME.mediaQueries.isPhone })
@@ -15,16 +14,7 @@ export const Page = () => {
 			minHeight="100vh"
 			sHorizontal={spacing}
 		>
-			<Spacer sAll={Spacing.big}>
-				<Paragraph
-					textAlign="center"
-					fontSize={THEME.typography.fsPageTitle}
-					disableLineHeight
-				>
-					Status Meeting Standup
-				</Paragraph>
-			</Spacer>
-			<Tabs />
+			<ChatAppLayout />
 		</SimpleWrapper>
 	)
 }

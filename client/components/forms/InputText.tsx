@@ -1,7 +1,7 @@
 import React from 'react'
-import { InputStyled } from '../styled'
 import { Label } from './Label'
 import { TWSData } from '../../api/generated/types-common'
+import { InputStyled } from '../styled/InputStyled'
 
 type TInputText = {
 	id: TWSData['type']

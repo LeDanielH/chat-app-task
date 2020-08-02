@@ -1,9 +1,10 @@
 import React from 'react'
 import { Spacing } from '@householdjs/utils'
 import { FlexChild, FlexParent } from '@householdjs/elements'
-import { Heading, Paragraph } from '../styled'
 import { THEME } from '../../config/theme'
 import { getPrettyDateTime } from '../../utils/getPretty'
+import { Heading } from '../styled/Heading'
+import { Paragraph } from '../styled/Paragraph'
 
 type TUserMessageHeader = {
 	username: string

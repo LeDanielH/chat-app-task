@@ -2,9 +2,9 @@ import React from 'react'
 import { MESSAGE_REMOVED, UPDATED_AT } from '../../constants'
 import { CSSObject } from 'styled-components'
 import { THEME } from '../../config/theme'
-import { Paragraph } from '../styled'
 import { WithLink } from '../WithLink'
 import { getPrettyTime } from '../../utils/getPretty'
+import { Paragraph } from '../styled/Paragraph'
 
 type TUserMessageProps = {
 	value: string

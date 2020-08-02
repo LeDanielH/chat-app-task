@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react'
 import { FlexChild } from '@householdjs/elements'
 import { Spacing } from '@householdjs/utils'
-import { Scaler } from '../styled'
+import { Scaler } from '../styled/Scaler'
 
 type TActionIcon = {
 	children: ReactNode

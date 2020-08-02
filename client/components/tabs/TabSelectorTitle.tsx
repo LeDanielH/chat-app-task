@@ -1,7 +1,7 @@
 import React from 'react'
-import { Paragraph } from '../styled'
-import { TTabSelectorTitleProps } from './Tabs.constants'
+import { TTabSelectorTitleProps } from './Tabs.types'
 import { THEME } from '../../config/theme'
+import { Paragraph } from '../styled/Paragraph'
 
 export const TabSelectorTitle = ({
 	title,
